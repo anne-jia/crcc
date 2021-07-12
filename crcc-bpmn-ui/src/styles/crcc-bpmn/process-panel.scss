@@ -1,0 +1,278 @@
+
+$background:#fff;
+$borderColor : #eee;
+$toggleColor:url(./../assets/bpmn_images/down.png);
+$hoverToggleColor:url(./../assets/bpmn_images/down-blue.png);
+$processPanelWidth:300px;
+.process-panel__container.process-panel{
+    height: 100%;
+    overflow: hidden;
+    width: $processPanelWidth;
+    box-sizing: border-box;
+    padding: 0px;
+    border-left: 1px solid $borderColor;
+    box-shadow: 0 0 8px #ccc;
+    .panel{
+        height:100%;
+    }
+    .bpp-properties-panel{
+        background-color: $background;
+        height:100%;
+        padding: 0 8px;
+        @include scrollBar;
+        overflow: scroll;
+        
+    }
+    .bpp-properties-header{
+        .label{
+            font-size: 14px;
+            font-weight: 500;
+        }
+    }
+
+    .bpp-properties-tab-bar{
+        .scroll-tabs-button{
+            cursor: pointer;
+         }
+        .bpp-properties-tabs-links{
+            li {
+               
+                a{
+                    font-size: 14px;
+                    background:$background; 
+                }
+            }
+        }
+    }
+    .bpp-properties-tabs-container{
+        .bpp-properties-group > .bpp-properties-entry{
+            padding-top: 0px;
+        }
+        .bpp-properties-group{
+         
+            &:hover > .group-toggle{
+                background: $hoverToggleColor no-repeat;
+             
+            }
+            .group-toggle{
+                right: 8px;
+                top: 14px;
+                height: 15px;
+                width: 15px;
+                background: $toggleColor  no-repeat;
+                left: auto;
+            }
+           
+            .group-header{
+                border-bottom: 1px solid $borderColor;
+                padding: 12px 8px 12px 4px;
+                height: 48px;
+                line-height: 48px;
+                box-sizing: border-box;
+                .group-label{
+                    font-weight: 600;
+                    padding: 0px;
+                    font-size: 14px;
+                    line-height: 1.2em;
+                    color: #333;
+                    margin-bottom: 0px;
+                    margin-right: 4px;
+                    
+                }
+            }
+        
+            .bpp-properties-entry{
+                display: flex;
+                justify-content: flex-start;
+                // align-items: center;
+                padding-left: 2px;
+                padding-bottom: 0px;
+                margin-bottom: 0px;
+             
+                label{
+                    line-height: 34px;
+                    font-size: 14px;
+                    color: #606266;
+                    font-weight: normal;
+                    margin-bottom: 0px;
+                    margin-right: 8px;
+                }
+                .bpp-field-wrapper{
+                    flex: 1;
+                    display: flex;
+                    justify-content: flex-start;
+                    position: relative;
+                    .bpp-error-message{
+                        position: absolute;
+                        bottom: 1px;
+                    }
+
+                }
+                .bpp-field-wrapper.bpp-hidden{
+                    display: none;
+                }
+                &:first-of-type{
+                    padding-top: 8px;
+                }
+                &:last-of-type{
+                    border-bottom: 1px solid $borderColor;
+                    margin-bottom: 0px;
+                    padding-bottom: 0px;
+                }
+
+                .bpp-row.bpp-element-list{
+                    flex: 1;
+                    display: flex;
+                    justify-content: flex-start;
+                    flex-direction: column;
+                }
+           
+                
+         
+            }
+
+            .bpp-properties-entry.bpp-textfield,.bpp-properties-entry.bpp-textbox,.bpp-properties-entry.bpp-dropdown{
+                flex-direction: column;
+            }
+            &:last-of-type{
+                .bpp-properties-entry {
+                    border-bottom: 0px;
+                }
+            }
+        }
+        .bpp-properties-group.group-closed {
+            & > div:not(.group-header){
+                display: none;
+            }
+            &:hover > .group-toggle{
+                background: $hoverToggleColor no-repeat;
+                transform: rotateZ(-90deg);
+                
+            }
+            & > .group-toggle{
+                background: $toggleColor no-repeat;
+                transform: rotateZ(-90deg);
+              
+            }
+      
+        }
+        .bpp-properties-group + .bpp-properties-group{
+            border-top: none;
+        }
+      
+    }
+    .bpp-properties-panel button, .bpp-properties-panel input,  .bpp-properties-panel textarea, .bpp-properties-panel [contenteditable] {
+        border-radius: 4px;
+       
+        line-height: 20px;
+      
+    }
+    .bpp-properties-panel input[type='text'], .bpp-properties-panel select, .bpp-properties-panel textarea, .bpp-properties-panel [contenteditable]{
+        border: 1px solid #dcdfe6;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: normal;
+        margin-bottom: 20px;
+        &:focus{
+            border: 1px solid #42A7FF;
+            outline:none !important;
+            box-shadow:  0 0 0 1px #42A7FF,0 0 0 1px #BDE7FF;
+            border-radius: 4px;
+        }
+       
+    }
+    .bpp-textfield {
+        .clear{
+            top: 6px;
+            right: 6px;
+            height: 14px;
+            line-height: 11px;
+            font-size: 12px;
+            border: 1px solid rgb(192, 196, 204);
+            color: rgb(192, 196, 204);
+            border-radius: 50%;
+            width: 14px;
+            padding: 0px;
+            display: none;
+          
+        }
+        &:hover .clear{
+            display: inline-block;
+            
+        };
+        .clear:hover{
+            border-color: #979899;
+            color: #979899;
+        }
+        &:hover .clear.bpp-hidden{
+            display: none;
+        }
+
+    }
+     .bpp-properties-panel input[type='checkbox']{
+        height: auto;
+        line-height: 20px;
+        margin-right: 8px;
+        &:focus{
+            border: none;
+            outline:none !important;
+            box-shadow:  none;
+            border-radius: 4px;
+        }
+    }
+    .bpp-select .action-button.add, .bpp-element-list .action-button.add, .bpp-select .action-button.clear, .bpp-element-list .action-button.clear{
+        top: -26px;
+        border-bottom: 1px solid #cccccc;
+        background: #fff;
+        &:focus{
+            outline:none !important;
+            box-shadow:  none;
+            border-bottom: 1px solid ;
+            border-color: #409EFF;
+            color: #409EFF;
+        }
+    }
+    .bpp-row.bpp-element-list .bpp-field-wrapper{
+        .action-button.add,.action-button.clear{
+            line-height: 14px;
+            padding: 2px 7px;
+            width: auto;
+            &:hover{
+                border-color: #409EFF;
+                color: #409EFF;
+            }
+
+        }
+
+        .action-button.clear{
+            right: 30px;
+        }
+
+    }
+  
+    .bpp-properties-panel button{
+        cursor: pointer;
+    }
+
+    .selectBtn{
+        border: none;
+        position: absolute;
+        top: 1px;
+        background: transparent;
+        right: 1px;
+        font-weight: 700;
+        cursor: pointer;
+        &:focus{
+            border: none;
+            outline:none !important;
+            box-shadow: none;
+        }
+    }
+    .bpp-properties-panel [contenteditable]{
+        min-height: 20px;
+    }
+
+    select {
+        @include scrollBar;
+    }
+}

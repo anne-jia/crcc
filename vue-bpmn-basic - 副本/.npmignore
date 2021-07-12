@@ -1,0 +1,11 @@
+src/*
+tests/*
+yarn.lock
+yarn-error.log
+vue.config.js
+.editorconfig
+.env
+.env.development
+.env.production
+babel.config.js
+postcss.config.js

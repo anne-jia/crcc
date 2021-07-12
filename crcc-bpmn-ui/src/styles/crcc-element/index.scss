@@ -1,0 +1,48 @@
+.crcc-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    .crcc-main {
+        flex: 1;
+       
+    }
+    .crcc-search,
+    .crcc-opcation {
+        border-bottom: 1px solid #dcdfe6;
+        min-height: 49px;
+        line-height: 49px;
+        box-sizing: border-box;
+        padding:0px 8px;
+        .el-form{
+         display: flex;
+         align-items: center;
+         min-height: 48px;
+         justify-content: flex-start;
+         .el-button.el-button--mini{
+            height: 26px;
+            padding: 4px 8px;
+         }
+         .el-button{
+            margin-left: 6px;
+         }
+      }
+      
+      .el-form-item--mini.el-form-item{
+         margin-bottom: 4px;
+      }
+      .el-form-item .el-form-item__label{
+         line-height: 28px;
+      }
+      .el-form-item + .el-form-item{
+         margin-left: 8px;
+      }
+     
+    }
+    .crcc-opcation{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+     
+}

@@ -1,0 +1,85 @@
+{
+    "list": [
+        {
+            "path": "/",
+            "component": "Layout",
+            "isHomePage": false,
+            "name": "invoice",
+            "redirect": "/home",
+            "meta": {
+                "title": "home",
+                "icon": "mat-code-audit",
+                "affix": true,
+                "baseUrl": "http://localhost:8087",
+                "pathName": "/crcc-manage/index.html#/"
+            },
+            "children": [
+                {
+                    "path": "/home",
+                    "component": "home/index",
+                    "name": "home",
+                    "meta": {
+                        "title": "home",
+                        "icon": "0",
+                        "affix": true,
+                        "baseUrl": "http://localhost:8087",
+                        "pathName": "/crcc-manage/index.html#/"
+                    }
+                },
+                {
+                    "path": "/test",
+                    "component": "test/index",
+                    "name": "test",
+                    "meta": {
+                        "baseUrl": "http://localhost:8087",
+                        "pathName": "/crcc-manage/index.html#/",
+                        "title": "测试",
+                        "icon": "0",
+                        "affix": true
+                    }
+                }
+            ]
+        },
+        {
+            "path": "/demo01",
+            "component": "Layout",
+            "isHomePage": false,
+            "name": "invoice",
+            "redirect": "/demo01/home",
+            "meta": {
+                "baseUrl": "http://localhost:8087",
+                 "pathName": "/demo01/index.html#/",
+                "title": "org",
+                "icon": "mat-code-audit",
+                "affix": true
+            },
+            "children": [
+                {
+                    
+                    "path": "/demo01/home",
+                    "component": "home/index",
+                    "name": "home",
+                    "meta": {
+                        "baseUrl": "http://localhost:8087",
+                        "pathName": "/demo01/index.html#/",
+                        "title": "home",
+                        "icon": "0",
+                        "affix": true
+                    }
+                },
+                {
+                    "path": "/demo01/test",
+                    "component": "test/index",
+                    "name": "InvoiceManage",
+                    "meta": {
+                        "baseUrl": "http://localhost:8087",
+                        "pathName": "/demo01/index.html#/",
+                        "title": "测试",
+                        "icon": "0",
+                        "affix": true
+                    }
+                }
+            ]
+        }
+    ]
+}

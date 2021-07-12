@@ -1,0 +1,300 @@
+{
+    "name": "custom",
+    "uri": "http://www.custom.com",
+    "prefix": "custom",
+    "xml": {
+        "tagAlias": "lowerCase"
+    },
+    "associations": [],
+    "types": [
+        {
+            "name": "Participant",
+            "superClass": [
+                "Element"
+            ],
+            "meta": {
+                "allowedIn": [
+                    "bpmn:UserTask"
+                ]
+            },
+            "properties": [
+                {
+                    "name": "validationCond",
+                    "type": "ValidationCondition",
+                    "isMany": true
+                },
+                {
+                    "name": "rangeCond",
+                    "type": "RangeCondition",
+                    "isMany": true
+                },
+                {
+                    "name": "userCond",
+                    "type": "UserCondition",
+                    "isMany": true
+                },
+                {
+                    "name": "name",
+                    "type": "String",
+                    "isAttr": true
+                }
+            ]
+        },
+        {
+            "name": "ValidationCondition",
+            "properties": [
+                {
+                    "name": "condition",
+                    "type": "String",
+                    "isBody": true
+                }
+            ]
+        },
+        {
+            "name": "RangeCondition",
+            "properties": [
+                {
+                    "name": "companyCond",
+                    "type": "CompanyCondition",
+                    "isMany": true
+                },
+                {
+                    "name": "jobCond",
+                    "type": "JobCondition",
+                    "isMany": true
+                }
+            ]
+        },
+        {
+            "name": "CompanyCondition",
+            "properties": [
+                {
+                    "name": "companies",
+                    "type": "SysCompany",
+                    "isMany": true
+                }
+            ]
+        },
+        {
+            "name": "SysCompany",
+            "properties": [
+                {
+                    "name": "id",
+                    "type": "String",
+                    "isAttr": true
+                },
+                {
+                    "name": "name",
+                    "type": "String",
+                    "isAttr": true
+                },
+                {
+                    "name": "isVariable",
+                    "type": "String",
+                    "isAttr": true
+                }
+            ]
+        },
+        {
+            "name": "JobCondition",
+            "properties": [
+                {
+                    "name": "jobs",
+                    "type": "SysJob",
+                    "isMany": true
+                }
+            ]
+        },
+        {
+            "name": "SysJob",
+            "properties": [
+                {
+                    "name": "id",
+                    "type": "String",
+                    "isAttr": true
+                },
+                {
+                    "name": "name",
+                    "type": "String",
+                    "isAttr": true
+                },
+                {
+                    "name": "isVariable",
+                    "type": "Boolean",
+                    "isAttr": true
+                }
+            ]
+        },
+        {
+            "name": "UserCondition",
+            "properties": [
+                {
+                    "name": "users",
+                    "type": "SysUser",
+                    "isMany": true
+                }
+            ]
+        },
+        {
+            "name": "SysUser",
+            "properties": [
+                {
+                    "name": "userCode",
+                    "type": "String",
+                    "isAttr": true
+                },
+                {
+                    "name": "userName",
+                    "type": "String",
+                    "isAttr": true
+                },
+                {
+                    "name": "isVariable",
+                    "type": "Boolean",
+                    "isAttr": true
+                }
+            ]
+        },
+        {
+            "name": "Collectable",
+            "isAbstract": true,
+            "extends": [
+                "bpmn:MultiInstanceLoopCharacteristics"
+            ],
+            "superClass": [
+                "camunda:AsyncCapable"
+            ],
+            "properties": [
+                {
+                    "name": "loopByCandidateUsers",
+                    "isAttr": true,
+                    "type": "Boolean",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "name": "UserAccessible",
+            "isAbstract": true,
+            "extends": [
+                "bpmn:UserTask"
+            ],
+            "properties": [
+                {
+                    "name": "isMustComment",
+                    "isAttr": true,
+                    "type": "Boolean",
+                    "default": true
+                },
+                {
+                    "name": "canUpload",
+                    "isAttr": true,
+                    "type": "Boolean",
+                    "default": true
+                }
+            ]
+        },
+        {
+            "name": "EndValueSettable",
+            "isAbstract": true,
+            "extends": [
+                "bpmn:EndEvent"
+            ],
+            "properties": [
+                {
+                    "name": "endValue",
+                    "isAttr": true,
+                    "type": "String"
+                }
+            ]
+        },
+        {
+            "name": "Messages",
+            "superClass": [
+                "Element"
+            ],
+            "meta": {
+                "allowedIn": [
+                    "bpmn:UserTask"
+                ]
+            },
+            "properties": [
+                {
+                    "name": "sendMessage",
+                    "type": "Boolean",
+                    "isAttr": true
+                },
+                {
+                    "name": "template",
+                    "type": "Template",
+                    "isMany": true
+                },
+                {
+                    "name": "recipients",
+                    "type": "Recipients",
+                    "isMany": true
+                }
+            ]
+        },
+        {
+            "name": "Template",
+            "properties": [
+                {
+                    "name": "enabled",
+                    "type": "Boolean",
+                    "isAttr": true
+                },
+                {
+                    "name": "title",
+                    "type": "Title",
+                    "isMany": true
+                },
+                {
+                    "name": "body",
+                    "type": "Body",
+                    "isMany": true
+                }
+            ]
+        },
+        {
+            "name": "Title",
+            "properties": [
+                {
+                    "name": "value",
+                    "type": "String",
+                    "isBody": true
+                }
+            ]
+        },
+        {
+            "name": "Body",
+            "properties": [
+                {
+                    "name": "value",
+                    "type": "String",
+                    "isBody": true
+                }
+            ]
+        },
+        {
+            "name": "Recipients",
+            "properties": [
+                {
+                    "name": "candidateUsers",
+                    "type": "Boolean",
+                    "isAttr": true
+                },
+                {
+                    "name": "rangeCond",
+                    "type": "RangeCondition",
+                    "isMany": true
+                },
+                {
+                    "name": "userCond",
+                    "type": "UserCondition",
+                    "isMany": true
+                }
+            ]
+        }
+    ]
+}

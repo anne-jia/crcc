@@ -1,0 +1,21 @@
+.djs-palette.open .djs-palette-entries div.entry:hover:after{
+    width: max-content;
+    content: attr(title);
+    vertical-align: text-bottom;
+    position: absolute;
+    right: -10px;
+    overflow: hidden;
+    transform: translateX(100%);
+    font-size: .5em;
+    display: inline-block;
+    text-decoration: inherit;
+    font-variant: normal;
+    text-transform: none;
+    background: #fafafa;
+    box-shadow: 0 0 6px #eee;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 0 16px;
+    border-radius: 4px;
+    z-index: 100;
+}
