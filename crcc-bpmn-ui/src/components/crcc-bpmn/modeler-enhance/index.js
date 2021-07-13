@@ -20,7 +20,6 @@ import messageSettingParserPropertiesProviderModule from "./properties-panel-ext
 import customTranslateModule from './translate'
 import propertiesEventHandlerProviderModule from './properties-event-handler'
 
-
 export default function CustomModeler(options) {
 
     options.moddleExtensions = assign({}, {
@@ -43,6 +42,6 @@ CustomModeler.prototype._modules = [].concat(
         participantParserPropertiesProviderModule,
         messageSettingParserPropertiesProviderModule,
         customTranslateModule,
-        propertiesEventHandlerProviderModule,
+        propertiesEventHandlerProviderModule
     ]
 )

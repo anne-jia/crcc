@@ -33,7 +33,8 @@ import * as filters from './filters' // global filters
 
 import DlgDraggable from 'vue-element-dialog-draggable'
 import draggable from 'vuedraggable'
-import elDragDialog from  '@/directive/el-drag-dialog/index'
+import elDragDialog from '@/directive/el-drag-dialog/index'
+// import WorkflowModeler from '@/vue-bpmn-basic'
 
 import moment from 'moment'
 
@@ -57,6 +58,7 @@ Vue.use(ElementUI, {
 })
 
 Vue.use(DlgDraggable)
+// Vue.use(WorkflowModeler)
 Vue.use(elDragDialog)
 Vue.prototype.$moment = moment
 Vue.prototype.validSpecialChar = function(value) {

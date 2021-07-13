@@ -101,38 +101,46 @@ function parseToMessageCmd(element, extensionElements, bpmnFactory, jsonEntity) 
 
   if (jsonEntity.recipients) {
     // <custom:recipients>
+
     var recipientsElement = createRecipientsElement(messages, bpmnFactory, jsonEntity.recipients.candidateUsers);
     commandArray.push(cmdHelper.addElementsTolist(element, messages, 'recipients', [recipientsElement]));
 
     var recipients = jsonEntity.recipients;
-    if (recipients.sysCompany.length > 0 || recipients.sysJob.length > 0) {
-      // <custom:rangeCondition>
+    if(recipients.sysCompany){
+      if (recipients.sysCompany.length > 0 || recipients.sysJob.length > 0) {
+        // <custom:rangeCondition>
+        var rangeCond = createRangeConditionElement(recipientsElement, bpmnFactory);
+        commandArray.push(cmdHelper.addElementsTolist(element, recipientsElement, 'rangeCond', [rangeCond]));
+  
+        // <custom:companyCondition>
+        if (recipients.sysCompany.length > 0) {
+          var companyCond = createCompanyConditionElement(rangeCond, bpmnFactory);
+          commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'companyCond', [companyCond]));
+  
+          // <custom:sysCompany>
+          var companies = map(recipients.sysCompany, function(company) {
+            return createSysCompanyElement(companyCond, bpmnFactory, company.id, company.name, company.isVariable);
+          });
+          commandArray.push(cmdHelper.addElementsTolist(element, companyCond, 'companies', companies));
+        }
+      }
+    }
+  
+    if (recipients.sysJob.length > 0) {
+      // <custom:jobCondition>
+      debugger;
+
       var rangeCond = createRangeConditionElement(recipientsElement, bpmnFactory);
       commandArray.push(cmdHelper.addElementsTolist(element, recipientsElement, 'rangeCond', [rangeCond]));
 
-      // <custom:companyCondition>
-      if (recipients.sysCompany.length > 0) {
-        var companyCond = createCompanyConditionElement(rangeCond, bpmnFactory);
-        commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'companyCond', [companyCond]));
+      var jobCond = createJobConditionElement(rangeCond, bpmnFactory);
+      commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'jobCond', jobCond));
 
-        // <custom:sysCompany>
-        var companies = map(recipients.sysCompany, function(company) {
-          return createSysCompanyElement(companyCond, bpmnFactory, company.id, company.name, company.isVariable);
-        });
-        commandArray.push(cmdHelper.addElementsTolist(element, companyCond, 'companies', companies));
-      }
-
-      if (recipients.sysJob.length > 0) {
-        // <custom:jobCondition>
-        var jobCond = createJobConditionElement(rangeCond, bpmnFactory);
-        commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'jobCond', jobCond));
-
-        // <custom:sysJob>
-        var jobs = map(recipients.sysJob, function(job) {
-          return createSysJobElement(jobCond, bpmnFactory, job.id, job.name, job.isVariable);
-        });
-        commandArray.push(cmdHelper.addElementsTolist(element, jobCond, 'jobs', jobs));
-      }
+      // <custom:sysJob>
+      var jobs = map(recipients.sysJob, function(job) {
+        return createSysJobElement(jobCond, bpmnFactory, job.id, job.name, job.isVariable);
+      });
+      commandArray.push(cmdHelper.addElementsTolist(element, jobCond, 'jobs', jobs));
     }
 
     if (recipients.sysUser.length > 0) {
@@ -227,8 +235,8 @@ function parseMessageElementToJson(element) {
 function MessageSettingParser(eventBus, bpmnFactory, commandStack) {
   eventBus.on('message-setting.saved', function(e) {
     var element = e.element,
-        jsonEntity = e.setting;
-
+      jsonEntity = e.setting;
+    
     if (jsonEntity) {
       var commands = [];
       var bo = getBusinessObject(element);

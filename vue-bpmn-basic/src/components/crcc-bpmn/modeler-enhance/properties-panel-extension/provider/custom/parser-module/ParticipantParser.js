@@ -173,7 +173,6 @@ function ParticipantParser(eventBus, bpmnFactory, commandStack) {
   eventBus.on('participant.saved', function(e) {
     var element = e.element,
         participantJsons = e.participants;
-
     if (participantJsons) {
       var commands = [];
       var bo = getBusinessObject(element);

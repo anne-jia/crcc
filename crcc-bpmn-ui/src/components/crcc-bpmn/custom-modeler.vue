@@ -135,7 +135,6 @@ export default {
       this.$emit("init-finished", this.bpmnModeler);
       this.initModelListeners();
     },
-
     initModelListeners() {
       const EventBus = this.bpmnModeler.get("eventBus");
       const that = this;
@@ -171,7 +170,6 @@ export default {
         this.defaultZoom = Math.floor(scale * 100) / 100;
       });
     },
-
     /* 创建新的流程图 */
     async createNewDiagram(xml) {
       // 将字符串转换成图显示出来
@@ -183,7 +181,6 @@ export default {
       }
       try {
         let { warnings } = await this.bpmnModeler.importXML(xmlString);
-
         if (this.status == "copy" && this.bpmnModeler._definitions) {
           this.bpmnModeler._definitions.rootElements[0].id = newId;
           this.bpmnModeler._definitions.rootElements[0].name = newName;
@@ -206,7 +203,6 @@ export default {
     publishProcess() {
       this.SaveProcess(this.saveType);
     },
-
     // 下载为bpmn格式,done是个函数，调用的时候传入的
     saveDiagram(done) {
       // 把传入的done再传给bpmn原型的saveXML函数调用
@@ -230,7 +226,6 @@ export default {
         data: data
       };
     },
-
     importLocalFile() {
       const that = this;
       const file = this.$refs.refFile.files[0];
@@ -335,5 +330,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

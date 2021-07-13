@@ -48,14 +48,14 @@ export default {
             searchForm: {
                 keyword: "",
                 exclusionId: '',
-                pageSize: 1,
-                pageNum: 20
+                pageSize: 20,
+                pageNum: 1
             },
             loadingFlowDefinitions: false,
             flowDefinitions: {
                 list: [],
                 pageSize: 20,
-                pageNum: 0,
+                pageNum: 1,
                 total: 0
             },
 
@@ -103,7 +103,7 @@ export default {
         loadHelpFlows(value) {
             this.loadingFlowDefinitions = true
             processPermissionsApi.loadHelpFlows(value).then(res => {
-                this.flowDefinitions = value;
+                this.flowDefinitions = res;
             }).catch(err => this.error(err.message[0])).finally(() => {
                 this.loadingFlowDefinitions = false
             })

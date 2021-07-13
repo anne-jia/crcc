@@ -4,8 +4,8 @@
         <customModeler :key="`process-${reloadIndex}`" v-model="xmlString" v-bind="controlForm" @publish-process='publishProcess' @element-click="elementClick">
             <el-button type="primary" icon="el-icon-back" @click="goBack">返回</el-button>
         </customModeler>
-        <messageSetting ref="messageSetting"></messageSetting>
-        <take-part-in-setting ref="takePartInSetting"></take-part-in-setting>
+        <messageSetting ref="messageSetting" @on-message-save="savedMessage"></messageSetting>
+        <take-part-in-setting ref="takePartInSetting" @on-save-take-part-setting="savedParticipant"></take-part-in-setting>
     </div>
 </template>
 
@@ -99,37 +99,38 @@ export default {
         openMessage() {
             let that = this;
             Vue.$workflowEventBus.$on('message-setting.openning', function (e) {
-            // that.$refs.messageSetting.dialogVisible = true;
+                console.log(e,'meaage')
+                if(that.$refs.messageSetting){
+                    // that.$refs.messageSetting.dialogVisible = true;
+                    that.$refs.messageSetting.showHelp(e);
+                }
 
             })
         },
         //消息设置关闭
-        savedMessage() {
-            let that = this;
-
-            Vue.$workflowEventBus.$on('message-setting.saved', function (e) {
-                console.info(e, 'savedMessage')
-            })
+        savedMessage(result) {
+               if(result){
+                     Vue.$workflowEventBus.$emit("message-setting.saved", result);
+                    console.log(result,'message-result')
+                }
         },
         //参与者设置打开
         openParticipant() {
             let that = this;
             Vue.$workflowEventBus.$on('sys-participant.openning', function (e) {
-                console.log(e,);
                 if(that.$refs.takePartInSetting){
-                that.$refs.takePartInSetting.showDialogVisibel(e);
-
+                    that.$refs.takePartInSetting.showDialogVisibel(e);
                 }
 
             })
         },
        
         //参与者设置关闭
-        savedParticipant() {
-            let that = this;
-            Vue.$workflowEventBus.$on('participant.saved', function (e) {
-                console.info(e)
-            })
+        savedParticipant(result) {
+                
+                if(result){
+                     Vue.$workflowEventBus.$emit("participant.saved", result);
+                }
         }
 
     },

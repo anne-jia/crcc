@@ -93,16 +93,6 @@ export const asyncRoutes = [{
         "icon": "0",
         "affix": true
       }
-    },
-    {
-      "path": "/npmn",
-      "component": () => import('@/views/use-bpmn/index'),
-      "name": "bpmn",
-      "meta": {
-        "title": "流程",
-        "icon": "0",
-        "affix": true
-      }
     }
   ]
 },{

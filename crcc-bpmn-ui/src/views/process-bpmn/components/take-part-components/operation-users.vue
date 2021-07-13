@@ -14,7 +14,7 @@
             </template>
             <template slot="crcc-main">
                 <div>
-                    <el-tree ref="userTree" :expand-on-click-node='false' highlight-current :load="loadNode" :data="usersTreeData" :key="searchTime" :lazy="lazy" show-checkbox node-key="code" :default-expanded-keys="defaultExpandedKeys" :props="defaultProps">
+                    <el-tree ref="userTree" :default-checked-keys="defaultCheckedKeys" @check="checkChange" :check-strictly="true" :expand-on-click-node='false' highlight-current :load="loadNode" :data="usersTreeData" :key="searchTime" :lazy="lazy" show-checkbox node-key="code" :default-expanded-keys="defaultExpandedKeys" :props="defaultProps">
                     </el-tree>
                 </div>
             </template>
@@ -31,7 +31,15 @@
 import processSetting from "@/api/process-setting";
 
 export default {
-    props: {},
+    props: {
+        checkedNodes: {
+            type:Array,
+             default: function () {
+                return []
+            }
+        },
+
+    },
     components: {
 
     },
@@ -44,6 +52,7 @@ export default {
                 keyword: ""
             },
             usersTreeData: [],
+            checkedNodesList: [],
             defaultExpandedKeys: [],
             defaultProps: {
                 children: "children",
@@ -54,14 +63,25 @@ export default {
         }
     },
     computed: {
-
+         defaultCheckedKeys(){
+            let newArr=[]
+            this.checkedNodes.map(item=>{
+                newArr.push(item.code);
+            })
+            return newArr;
+        }
     },
     methods: {
         opened() {},
         submit() {
+            this.$emit('addUsers', [...this.checkedNodesList]);
             this.close();
         },
-      
+        checkChange(data, checkedInfo) {
+            let checked = checkedInfo.checkedNodes
+            this.checkedNodesList = checkedInfo.checkedNodes;
+            this.$emit('checkChange', data, checked)
+        },
            //查询
         handleSearch() {
             let name = this.searchForm.keyword.trim()
@@ -170,7 +190,10 @@ export default {
         }
         },
         close() {
-            this.searchTime =0;
+               this.searchTime ++;
+            if( this.searchTime>9999){
+                this.searchTime=0;
+            }
             this.$refs.form.resetFields();
             this.$refs.form.clearValidate();
             this.dialogVisible = false

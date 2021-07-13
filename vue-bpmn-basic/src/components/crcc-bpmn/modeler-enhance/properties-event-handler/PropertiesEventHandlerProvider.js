@@ -14,12 +14,12 @@ function PropertiesEventHandlerProvider(eventBus) {
     })
 
 // 保存消息设置
-    workflowEventBus.$on('message-setting.saved', function(event) {
-        eventBus.fire('message-setting.saved', event)
+    workflowEventBus.$on('message-setting.saved', function (result) {
+        eventBus.fire('message-setting.saved', { element: result.element, setting: result.setting })
     })
 //保存参与者设置
-    workflowEventBus.$on('participant.saved', function(event) {
-        eventBus.fire('participant.saved', event)
+    workflowEventBus.$on('participant.saved', function(result) {
+        eventBus.fire('participant.saved',  { element: result.element, participants: result.participants })
     })
 
 }
