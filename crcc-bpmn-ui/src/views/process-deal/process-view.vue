@@ -45,9 +45,11 @@
                 padding: 0px 8px 8px 8px;
                 border-bottom: 1px solid #dcdfe6;
                 font-weight: 300;
+                line-height: 36px;
+                padding: 0px 8px;
               "
             >
-              勾选目标任务进行自由流跳转
+              请勾选目标任务进行自由流跳转
             </div>
             <div class="table-box">
               <el-table
@@ -121,6 +123,10 @@ export default {
       fullScreen: false,
       showFlowJump: true,
       showTaskAssign: true,
+      flowNodes: [],
+      instId: "",
+      activeTab: "jump",
+      taskList: []
     };
   },
   computed: {},
@@ -143,6 +149,9 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+  }
+  .el-tabs__header{
+    margin: 0px;
   }
   .el-tabs__content {
     flex: 1;

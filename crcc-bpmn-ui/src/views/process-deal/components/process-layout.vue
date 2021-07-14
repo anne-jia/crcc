@@ -1,8 +1,10 @@
 <template>
   <div class="crcc-layout">
-    <div class="crcc-main scrollBar">
-      <div :class="active ? 'toggle active' : 'toggle'" @click="changeActive">
-        <slot name="main"></slot>
+     
+    <div :class="getClassName">
+      <slot name="main"></slot>
+
+     <div :class="active ? 'toggle active' : 'toggle'" @click="changeActive"  :style="getRight">
         <i
           :class="active ? 'el-icon-d-arrow-right' : 'el-icon-d-arrow-left'"
         ></i>
@@ -30,6 +32,10 @@ export default {
       type: String,
       default: "260px",
     },
+  scroll:{
+      type:Boolean,
+      default:true
+  },
   },
   methods: {
     changeActive() {
@@ -38,7 +44,6 @@ export default {
   },
   computed: {
     getWidth() {
-      console.log(this.width);
       if (this.active) {
         return {
           transform: "translateX(0)",
@@ -51,6 +56,25 @@ export default {
         };
       }
     },
+  getRight(){
+     if (this.active){
+     let right =  (this.width.replace('px','')-0+10)+'px'
+       return {
+         right:right
+       }
+     }else{
+        return {
+         right: '10px'
+       }
+     }
+  },
+    getClassName(){
+            if(this.scroll){
+             return 'crcc-main scrollBar ';
+            }else{
+                return 'crcc-main';
+            }
+        },
   },
   mounted() {},
   updated() {},
@@ -66,13 +90,8 @@ $borderColor: #dcdfe6;
   flex-wrap: nowrap;
   overflow: hidden;
   align-items: center;
-  .crcc-main {
-    border: 1px solid $borderColor;
-    position: relative;
-    height: 100%;
-    flex: 1;
-    overflow: scroll;
-    .toggle {
+  .toggle {
+      background: #fff;
       width: 34px;
       height: 52px;
       border: 1px solid $borderColor;
@@ -80,13 +99,25 @@ $borderColor: #dcdfe6;
       text-align: center;
       line-height: 52px;
       position: absolute;
-      right: 0px;
       top: 50%;
       /* bottom: 0px; */
       transform: translateY(-26px);
       border-radius: 4px;
       border-right: none;
+          z-index: 9999;
+    transition:  0.2s;
+
     }
+  .crcc-main {
+    border: 1px solid $borderColor;
+    // position: relative;
+    height: 100%;
+    flex: 1;
+    overflow: hidden;
+  }
+   .crcc-main.scrollBar{
+    overflow: scroll;
+
   }
   .crcc-aside {
     margin-bottom: 0px;

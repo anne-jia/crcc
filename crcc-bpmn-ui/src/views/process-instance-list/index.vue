@@ -64,7 +64,7 @@ export default {
                 total: 0
             },
             instances: {
-                list: [],
+                list: [1,2],
                 pageSize: 20,
                 pageNum: 0,
                 total: 0

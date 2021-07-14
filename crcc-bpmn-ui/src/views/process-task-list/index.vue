@@ -2,7 +2,7 @@
 <template>
     <crcc-main class="flow-types" :scroll="false" :showSearch="false">
         <template slot="crcc-opcation">
-            <el-button type="primary">刷新</el-button>
+            <el-button type="primary" @click="loadFlowTypes">刷新</el-button>
         </template>
         <template slot="crcc-main">
             <el-row>
@@ -18,8 +18,8 @@
                             </template>
                         </el-table-column>
                             </el-table>
-                            <pagination v-show="processTypesList.total > 0" scrollToElementClassName=".main.scrollBar" :total="processTypesList.total" :pageSize="processTypesList.pageSize" :currentPage="processTypesList.pageNum" @pagination="pageLoader">
-                            </pagination>
+                            <!-- <pagination v-show="processTypesList.total > 0" scrollToElementClassName=".main.scrollBar" :total="processTypesList.total" :pageSize="processTypesList.pageSize" :currentPage="processTypesList.pageNum" @pagination="pageLoader">
+                            </pagination> -->
                         </div>
                     </crcc-card>
                 </el-col>
@@ -44,17 +44,23 @@
                 </el-col>
             </el-row>
         </template>
+        <processView  ref="processView"></processView>
+        <processDeal ref="processDeal"></processDeal>
     </crcc-main>
 </template>
 
 <script>
 import crccCard from "@/components/crcc-main/crcc-card/index.vue";
-
 import procesTasksApi from "@/api/process-task-api";
 import showPopver from '@/directive/show-popver'
+import processView from '../process-deal/process-view.vue'
+import processDeal from '../process-deal/process-deal.vue'
+
 export default {
     components: {
-        crccCard
+        crccCard,
+        processView,
+        processDeal
     },
      directives:{
         showPopver
@@ -127,8 +133,22 @@ export default {
                 });;
         },
         pageLoader() {},
-        showStatus() {},
-        handleTask() {},
+        showStatus(row) {
+            this.$refs.processView.dialogVisible =true
+
+        },
+        handleTask(task) {
+            this.$refs.processDeal.open(  {
+                id: task?._id_||'',
+                name: task?._name_||'',
+                createTime: task?._createTime_||'',
+                procInstId: task?._procInstId_||'',
+                procName: task?._procName_||'',
+                taskDefKey: task?._taskDefKey_||''
+        },
+        this.currentFlowType) 
+
+        },
     },
     mounted() {
         this.loadFlowTypes();

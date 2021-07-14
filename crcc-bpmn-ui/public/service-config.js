@@ -6,4 +6,5 @@
   // win.BASE_URL="http://172.16.96.126:9090/"
   // win.CLIENT_URL = window.BASE_URL + "purchase/purchase-workflow-engine-server/";
   win.CLIENT_URL = window.BASE_URL + "crcc-process/";
+
 })(window);
