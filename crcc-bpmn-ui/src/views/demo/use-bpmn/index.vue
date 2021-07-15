@@ -43,7 +43,6 @@ export default {
         },
         // 获取更改 提交到后台交互
         publishProcess(value) {
-            console.log(value, 'value')
         },
         //消息设置打开
         openMessage() {
@@ -57,7 +56,6 @@ export default {
             let that =this;
 
             Vue.$workflowEventBus.$on('message-setting.saved', function (e) {
-                console.info(e,'savedMessage')
             })
         },
         //参与者设置打开
@@ -72,7 +70,6 @@ export default {
             let that =this;
 
             Vue.$workflowEventBus.$on('participant.saved', function (e) {
-                console.info(e)
             })
         }
 
@@ -82,7 +79,6 @@ export default {
         this.savedMessage();
         this.openParticipant();
         this.savedParticipant();
-        console.log(this, Vue.$workflowEventBus);
     },
 }
 </script>

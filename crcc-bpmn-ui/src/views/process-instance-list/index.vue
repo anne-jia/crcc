@@ -34,7 +34,7 @@
                 </div>
             </crcc-card>
         </el-col>
-        <processView ref="processView"></processView>
+        <processView ref="processView" :id='currentDetailRow.id'></processView>
     </el-row>
 </template>
 
@@ -68,7 +68,10 @@ export default {
                 pageSize: 20,
                 pageNum: 0,
                 total: 0
-            }
+            },
+            currentDetailRow:{
+                id:''
+            },
         }
     },
     computed: {
@@ -107,6 +110,7 @@ export default {
         },
         //查看当前实例详情
         showStatus(row) {
+            this.currentDetailRow =row;
             this.$refs.processView.dialogVisible=true;
         },
         //删除当前实例

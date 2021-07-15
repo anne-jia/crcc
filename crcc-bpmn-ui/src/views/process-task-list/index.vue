@@ -27,7 +27,6 @@
                     <crcc-card v-loading="loadingFlowTable||loadingTypes" :scroll="true" title="流程详情">
                         <div>
                             <el-table ref="flowTable" :data="taskList.list" border stripe highlight-current-row>
-                      
                                 <el-table-column v-for="col in extendCols" v-bind:key="col.field" :prop="col.field" :label="col.label" :width="col.width" :header-align="col.align" :align="col.align" show-overflow-tooltip></el-table-column>
                                 <el-table-column prop="_procName_" label="所属流程" min-width="200" show-overflow-tooltip></el-table-column>
                                 <el-table-column prop="_name_" label="任务名称" min-width="200" show-overflow-tooltip></el-table-column>
@@ -44,7 +43,7 @@
                 </el-col>
             </el-row>
         </template>
-        <processView  ref="processView"></processView>
+        <processView  ref="processView"  :id='currentDetailRow.id'></processView>
         <processDeal ref="processDeal"></processDeal>
     </crcc-main>
 </template>
@@ -81,7 +80,10 @@ export default {
                 pageNum: 0,
                 total: 0
             },
-            extendCols: []
+            extendCols: [],
+            currentDetailRow:{
+                id:''
+            }
         };
     },
     computed: {
@@ -133,7 +135,14 @@ export default {
                 });;
         },
         pageLoader() {},
-        showStatus(row) {
+        showStatus(task) {
+            this.currentDetailRow ={
+                id: task?._procInstId_||'',
+                name: task?._name_||'',
+                createTime: task?._createTime_||'',
+                procName: task?._procName_||'',
+                taskDefKey: task?._taskDefKey_||''
+            };
             this.$refs.processView.dialogVisible =true
 
         },

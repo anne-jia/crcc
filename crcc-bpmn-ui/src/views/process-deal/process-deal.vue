@@ -29,7 +29,7 @@
                                         <el-option v-for="item in processOptions" :key="item.id" :label="item.name" :value="item"></el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="附件" >
+                                <el-form-item v-if="canUpload" label="附件" >
                                     <el-upload :action="uploadUrl" :data="uploadData" :show-file-list="false" :multiple="false" :on-success="onUploadSuccess" :before-upload="onBeforeUpload">
                                         <el-button type="primary" plain >上传</el-button>
                                     </el-upload>
@@ -39,7 +39,19 @@
                             </el-form>
                             <el-collapse v-model="activeFileTab" accordion>
                                 <el-collapse-item v-for="task in flowFiles" v-bind:key="task.id" :title="task.name" :name="task.id">
-                                    <el-row class="file-row" style="padding-left: 12px; padding-right: 10px;" v-for="file in task.files" v-bind:key="file.id">
+                                     <el-table :data="task.files" border stripe  highlight-current-row>
+                                         <el-table-column prop="uploader" label="操作人" header-align="center" align="left" show-overflow-tooltip></el-table-column>
+                                         <el-table-column prop="fileName" label="附件名称" header-align="center" align="left" show-overflow-tooltip></el-table-column>
+                                         
+                                         <el-table-column prop="uploadTime" label="上传时间" align="center" show-overflow-tooltip></el-table-column>
+                                         <el-table-column prop="uploader" label="操作" align="center" show-overflow-tooltip class-name="table-btn-group">
+                                             <template slot-scope="{row}">
+                                                   <el-button type="text" icon="el-icon-download" @click="downloadFile(row.id)"></el-button >
+                                                <el-button type="text" v-if=" row.procTaskDefId == currentTask.taskDefKey" icon="el-icon-delete"  @click="deleteFile(row.id)"></el-button>
+                                             </template>
+                                         </el-table-column>
+                                     </el-table>
+                                    <!-- <el-row class="file-row" style="padding-left: 12px; padding-right: 10px;" v-for="file in task.files" v-bind:key="file.id">
                                         <el-row class="file-upload-info">{{ file.uploader }}, {{ file.uploadTime }}</el-row>
                                         <el-row>
                                             <el-col :span="19">{{ file.fileName }}</el-col>
@@ -48,7 +60,7 @@
                                                 <i v-if="file.procTaskDefId == currentTask.taskDefKey" class="el-icon-delete" style="margin-left: 10px;" @click="deleteFile(file.id)"></i>
                                             </el-col>
                                         </el-row>
-                                    </el-row>
+                                    </el-row> -->
                                 </el-collapse-item>
                             </el-collapse>
 
@@ -62,7 +74,7 @@
                     </el-tab-pane>
                     <el-tab-pane label="记录" name="done">
                         <div class="scrollBar" style="overflow:scroll;height:100%; padding:8px">
-                            <el-table :data="instLog" border>
+                            <el-table :data="instLog" border stripe  highlight-current-row>
                                 <el-table-column type="expand" width="54px" label="详情">
                                     <template slot-scope="{ row }">
                                         <el-form label-position="left" label-width="80px" inline>
@@ -87,9 +99,9 @@
                                         </el-form>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="taskName" label="环节"></el-table-column>
-                                <el-table-column prop="operator" label="处理人" width="85"></el-table-column>
-                                <el-table-column prop="operateTime" label="处理时间" width="150"></el-table-column>
+                                <el-table-column prop="taskName" label="环节" show-overflow-tooltip></el-table-column>
+                                <el-table-column prop="operator" label="处理人" width="85" show-overflow-tooltip></el-table-column>
+                                <el-table-column prop="operateTime" label="处理时间" width="150" show-overflow-tooltip></el-table-column>
                             </el-table>
                         </div>
                     </el-tab-pane>
@@ -198,7 +210,6 @@ export default {
         },
         open(task) {
             if(task){
-                console.log(task);
                 this.currentTask = {...task};
                 this.userMsg = "";
                 this.dialogVisible = true;
@@ -285,6 +296,7 @@ export default {
 
         deleteFile(fileId) {
             procesTasksApi.deleteFile(fileId).then(() => {
+                this.info('删除成功')
                 this.loadFiles();
             });
         },

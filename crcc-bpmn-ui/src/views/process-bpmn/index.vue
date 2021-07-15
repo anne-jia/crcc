@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import customModeler from '@/components/crcc-bpmn/custom-modeler'
+import customModeler from '@/components/crcc-bpmn/custom-modeler/custom-modeler.vue'
 import messageSetting from './components/message-setting.vue'
 import takePartInSetting from './components/take-part-in-setting.vue'
 
@@ -99,7 +99,6 @@ export default {
         openMessage() {
             let that = this;
             Vue.$workflowEventBus.$on('message-setting.openning', function (e) {
-                console.log(e,'meaage')
                 if(that.$refs.messageSetting){
                     // that.$refs.messageSetting.dialogVisible = true;
                     that.$refs.messageSetting.showHelp(e);
@@ -111,7 +110,6 @@ export default {
         savedMessage(result) {
                if(result){
                      Vue.$workflowEventBus.$emit("message-setting.saved", result);
-                    console.log(result,'message-result')
                 }
         },
         //参与者设置打开

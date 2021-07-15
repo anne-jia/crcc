@@ -1,6 +1,6 @@
 <!--  message-setting-->
 <template>
-    <el-dialog @opened="opened" @close="close" append-to-body title="参与者设置" v-el-drag-dialog :visible.sync="dialogVisible" :close-on-click-modal="false" width="880px">
+    <el-dialog @close="close" append-to-body title="参与者设置" v-el-drag-dialog :visible.sync="dialogVisible" :close-on-click-modal="false" width="880px">
         <el-row>
             <el-col :span="6">
                 <crcc-card :scroll="false" title="参与者分组设置">
@@ -165,6 +165,8 @@ export default {
         showDialogVisibel(value) {
             this.modelerElement = value.element;
             this.participants = value.participants;
+            this.opened();
+            // this.currentExpression.sysJob
             this.dialogVisible = true;
         },
         close() {
@@ -211,11 +213,28 @@ export default {
             this.currentExpression.sysJob = checklist;
         },
         addUsers(checklist) {
-            let find = this.currentExpression.sysUser.find(j => j.userCode == this.startUser[0].userCode);
+            let newArr = []
+            let find = this.currentExpression.sysUser.find(j => j.userId == this.startUser[0].userId);
             if (!find) {
-                this.currentExpression.sysUser = checklist;
+                checklist.map(item=>{
+                        newArr.push({
+                            userId:item.id,
+                            userName:item.name,
+                            isVariable:false
+                        })
+                })
+                this.currentExpression.sysUser = newArr;
             } else {
-                this.currentExpression.sysUser = checklist.concat(this.startUser)
+                checklist.map(item=>{
+                    if(item.id!=this.startUser[0].userId){
+                        newArr.push({
+                            userId:item.id,
+                            userName:item.name,
+                            isVariable:false
+                        })
+                    }    
+                })
+                this.currentExpression.sysUser = newArr.concat(this.startUser);
             }
         },
         //打开岗位弹框
@@ -227,13 +246,12 @@ export default {
             this.$refs.operationUsers.dialogVisible = true;
         },
         addStartUser() {
-            if (!this.currentExpression.sysUser.find(j => j.userCode == this.startUser[0].userCode)) {
+            if (!this.currentExpression.sysUser.find(j => j.userId == this.startUser[0].userId)) {
                 this.currentExpression.sysUser = this.currentExpression.sysUser.concat(this.startUser)
             }
         },
         //生成条件的人员设置
         selectConditionVar() {
-           
             this.$refs.variableSelect.open(variable => {
                  if(this.currentExpression.validateCondition){
                         this.currentExpression.validateCondition += "" + variable.exp;  

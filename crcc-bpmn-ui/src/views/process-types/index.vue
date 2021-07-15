@@ -360,7 +360,6 @@ export default {
                 this.baseInfo.typeName = val.trim();
                 this.baseInfo.typeCode = this.baseInfo.typeCode.trim();
                 processTypesApi.isNameUsed(this.baseInfo).then(duplicated => {
-                    console.log(duplicated, this.duplicatedTypeName)
                     this.duplicatedTypeName = duplicated
                     this.$refs.typeForm.validateField('typeName');
                 }).catch(err => {

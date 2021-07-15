@@ -183,7 +183,7 @@ export default {
         },
         //增加人员
         addUsers(checklist) {
-            let find = this.messageSetting.recipients.sysUser.find(j => j.userCode == this.startUser[0].userCode);
+            let find = this.messageSetting.recipients.sysUser.find(j => j.userId == this.startUser[0].userId);
             if (!find) {
                 this.messageSetting.recipients.sysUser = checklist;
             } else {
@@ -192,7 +192,7 @@ export default {
         },
         //设流程启动人收到信息
         addStartUser() {
-            if (!this.messageSetting.recipients.sysUser.find(j => j.userCode == this.startUser[0].userCode)) {
+            if (!this.messageSetting.recipients.sysUser.find(j => j.userId == this.startUser[0].userId)) {
                 this.messageSetting.recipients.sysUser = this.messageSetting.recipients.sysUser.concat(this.startUser)
             }
         },

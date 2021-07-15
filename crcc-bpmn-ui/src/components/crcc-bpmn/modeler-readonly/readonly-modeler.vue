@@ -1,7 +1,7 @@
 <template>
     <div class="crcc-process-palette-container">
         <div class="crcc-control_header">
-            <span class="color-title"><span class="color" :style="getFinishColor"></span>已经过的节点</span>
+            <span class="color-title"><span class="color" :style="getfinishedColor"></span>已经过的节点</span>
             <span class="color-title"><span class="color" :style="getDoingColor"></span>当前节点</span>
             <span class="color-title"><span class="color" :style="getWillColor"></span>未过的节点</span>
 
@@ -17,32 +17,53 @@
 import {
     ModelerViewer
 } from "./index.js";
-// import DefaultEmptyXML from "../modeler-enhance/plugins/defaultEmpty";
-import {
-    xmlStr
-} from "./xmlStr";
+import DefaultEmptyXML from "../modeler-enhance/plugins/defaultEmpty";
 
 export default {
     name: "",
     props: {
         value: String, // xml 字符串
+        status: Array,
         willColor: {
             type: String,
             default: '#cbf0c9'
         },
+        willStrokeColor: {
+            type: String,
+            default: '#606266'
+        },
+
         doingColor: {
             type: String,
             default: '#fbe9d1'
         },
-        finishColor: {
+        doingStrokeColor: {
+            type: String,
+            default: '#ff4949'
+        },
+        finishedColor: {
             type: String,
             default: '#b4e2fc'
+        },
+        finishedStrokeColor: {
+            type: String,
+            default: '#606266'
+        },
+        //#606266
+    },
+    watch: {
+        value: {
+            handler(newValue, oldValue) {
+                this.createNewDiagram(this.value, this.status);
+            },
+            deep: true,
         }
     },
-    components: {},
-    created() {},
+
     mounted() {
         this.init();
+        this.createNewDiagram(this.value, this.status);
+
     },
     data() {
         return {
@@ -58,64 +79,73 @@ export default {
             this.bpmnViewer = new ModelerViewer({
                 container: canvas
             });
-            this.createNewDiagram();
         },
-        async createNewDiagram() {
-            // console.log(xmlStr, 'xmlStr')
+        async createNewDiagram(xml, status) {
+
             try {
-                const result = await this.bpmnViewer.importXML(xmlStr);
+                let newId = this.processId || `Process_${new Date().getTime()}`;
+                let newName = this.processName || `业务流程_${new Date().getTime()}`;
+                let xmlString = xml || DefaultEmptyXML(newId, newName, this.prefix);
+                if (!this.bpmnViewer) {
+                    return;
+                }
+                const result = await this.bpmnViewer.importXML(xmlString);
 
-                var overlays = this.bpmnViewer.get('overlays'),
-                    elementRegistry = this.bpmnViewer.get('elementRegistry');
-                var shape = elementRegistry.get('Activity_069o9xg');
-                var $overlayHtml = $('<div class="highlight-overlay">').css({
-                    fill:this.doingColor,
-                    stroke: null
-                });
-                overlays.add('Activity_069o9xg', {
-                    position: {
-                        top: 0,
-                        left: 0
-                    },
-                     html: $overlayHtml
-                });
-                console.log(overlays,shape);
+                const elementRegistry = this.bpmnViewer.get("elementRegistry");
+                const modeling = this.bpmnViewer.get("modeling");
+                if(status.length>0){
+                      status.map(item => {
+                        switch (item.state) {
+                            case 'finished':
 
-                //     const modeling =   this.bpmnViewer.get('modeling');
+                                modeling.setColor(elementRegistry.get(item.task), {
+                                    fill: this.finishedColor,
+                                    stroke: this.finishedStrokeColor,
 
-                //   modeling.setColor(task, {
-                //         fill: this.doingColor,
-                //         stroke: 'green',
-                //     })
-                const {
-                    warnings
-                } = result;
+                                });
+                                break;
+                            case 'running':
+                                    modeling.setColor(elementRegistry.get(item.task), {
+                                        fill: this.doingColor,
+                                        stroke: this.doingStrokeColor,
+                                    });
+                                    break;
+                            case 'will':
+                                    modeling.setColor(elementRegistry.get(item.task), {
+                                        fill: this.willColor,
+                                        stroke: this.willStrokeColor,
+                                    });
+                                    break;
+                                }
+
+                        }) 
+                }
                 this.bpmnViewer.get("canvas").zoom("fit-viewport");
-            } catch (err) {
-                console.log(err.message, err.warnings);
-            }
-        }
-
-    },
-    // 计算属性
-    computed: {
-        getDoingColor() {
-            return {
-                background: this.doingColor
+                }
+                catch (err) {
+                    this.error(err.message[0])
+                }
             }
         },
-        getWillColor() {
-            return {
-                background: this.willColor
-            }
+        // 计算属性
+        computed: {
+            getDoingColor() {
+                return {
+                    background: this.doingColor
+                }
+            },
+            getWillColor() {
+                return {
+                    background: this.willColor
+                }
+            },
+            getfinishedColor() {
+                return {
+                    background: this.finishedColor
+                }
+            },
         },
-        getFinishColor() {
-            return {
-                background: this.finishColor
-            }
-        },
-    },
-};
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -140,7 +170,10 @@ export default {
         }
     }
 }
-.highlight-overlay{
-     background-color: green;    opacity: 0.4;    pointer-events: none;
+
+.highlight-overlay {
+    background-color: green;
+    opacity: 0.4;
+    pointer-events: none;
 }
 </style>

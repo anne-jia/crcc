@@ -123,7 +123,6 @@ export default {
             });
             this.createNewDiagram();
             Vue.$workflowEventBus.$on('message-setting.openning', function (e) {
-                console.info(e)
             })
         },
         createNewDiagram() {
@@ -153,7 +152,6 @@ export default {
             });
         },
         success() {
-            // console.log('创建成功!')
             this.addBpmnListener();
             this.addEventBusListener();
         },
@@ -166,12 +164,10 @@ export default {
             const eventTypes = ["element.click", "element.changed"];
             eventTypes.forEach(function (eventType) {
                 eventBus.on(eventType, function (e) {
-                    console.log(e);
                     if (!e || e.element.type == "bpmn:Process") return;
                     if (eventType === "element.changed") {
                         // that.elementChanged(e)
                     } else if (eventType === "element.click") {
-                        console.log("点击了element", e.element);
                         var shape = e.element ? elementRegistry.get(e.element.id) : e.shape;
                         if (shape.type === "bpmn:StartEvent") {
                             // modeling.updateProperties(shape, {
@@ -219,7 +215,6 @@ export default {
             // 下载图的具体操作,改变a的属性，className令a标签可点击，href令能下载，download是下载的文件的名字
             console.log(link, name, data);
             let xmlFile = new File([data], "test.bpmn");
-            //   console.log(xmlFile)
             if (data) {
                 link.className = "active";
                 link.href = "data:application/bpmn20-xml;charset=UTF-8," + encodedData;

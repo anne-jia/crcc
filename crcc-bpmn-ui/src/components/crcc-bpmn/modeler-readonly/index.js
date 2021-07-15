@@ -1,27 +1,24 @@
 import inherits from 'inherits'
-// import Viewer from "bpmn-js/lib/Viewer";
 
-import ZoomScrollModule from "diagram-js/lib/navigation/zoomscroll";
-import MoveCanvasModule from "diagram-js/lib/navigation/movecanvas";
 
 import customTranslateModule from '../modeler-enhance/translate'
 
-import Modeler from 'bpmn-js/lib/NavigatedViewer' 
-
+import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer' 
+import ModelingModule from 'bpmn-js/lib/features/modeling'
 export default function ModelerViewer(options) {
-    Modeler.call(this, options)
+    NavigatedViewer.call(this, options)
     this._customElements = []
 }
 
-inherits(ModelerViewer, Modeler)
+inherits(ModelerViewer, NavigatedViewer)
 
 ModelerViewer.prototype._modules = [].concat(
     ModelerViewer.prototype._modules, [
         // 汉化处理
         customTranslateModule,
-        ZoomScrollModule,
-        MoveCanvasModule
+        ModelingModule,
+    
     ]
 )
 
-export { ModelerViewer, Modeler };
+export { ModelerViewer, NavigatedViewer };

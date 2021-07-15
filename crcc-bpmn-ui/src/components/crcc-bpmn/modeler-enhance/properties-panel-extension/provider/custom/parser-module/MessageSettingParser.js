@@ -59,8 +59,8 @@ function createUserConditionElement(parent, bpmnFactory) {
   return createElement('custom:UserCondition', { users: [] }, parent, bpmnFactory);
 }
 
-function createSysUserElement(parent, bpmnFactory, userCode, userName, isVariable) {
-  return createElement('custom:SysUser', { userCode: userCode, userName: userName, isVariable: isVariable }, parent, bpmnFactory);
+function createSysUserElement(parent, bpmnFactory, userId, userName, isVariable) {
+  return createElement('custom:SysUser', { userId: userId, userName: userName, isVariable: isVariable }, parent, bpmnFactory);
 }
 
 function parseToMessageCmd(element, extensionElements, bpmnFactory, jsonEntity) {
@@ -150,7 +150,7 @@ function parseToMessageCmd(element, extensionElements, bpmnFactory, jsonEntity) 
 
       // <custom:sysUser>
       var users = map(recipients.sysUser, function(user) {
-        return createSysUserElement(userCond, bpmnFactory, user.userCode, user.userName, user.isVariable);
+        return createSysUserElement(userCond, bpmnFactory, user.userId, user.userName, user.isVariable);
       });
       commandArray.push(cmdHelper.addElementsTolist(element, userCond, 'users', users));
     }
@@ -222,7 +222,7 @@ function parseMessageElementToJson(element) {
       var users = userCond[0].users;
       mst.recipients.sysUser = [].concat(map(users, function(u) {
         return {
-          userCode: u.userCode,
+          userId: u.userId,
           userName: u.userName,
           isVariable: !!u.isVariable
         };
