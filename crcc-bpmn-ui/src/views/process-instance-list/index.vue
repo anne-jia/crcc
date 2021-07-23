@@ -20,11 +20,12 @@
             <crcc-card title="实例详细列表" v-loading="loadingProcessDetails || loadingTypes" className="process-details" :scroll='true'>
                 <div>
                     <el-table ref="instanceTable" :data="instances.list" border stripe highlight-current-row>
-                        <el-table-column prop="id" label="实例标识" show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="procName" label="名称" show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="startTime" label="发起时间" show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="startUser" label="发起人" show-overflow-tooltip></el-table-column>
-                        <el-table-column label="操作" width="100" header-align="center" align="center" class-name="table-btn-group">
+                        <el-table-column prop="id" label="实例标识" align="left" header-align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="procName" label="名称" align="left" header-align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="startCompanyName" label="发起公司" align="left" header-align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="startUser" label="发起人" align="left" header-align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="startTime" label="发起时间" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column label="操作" width="100"  align="center" class-name="table-btn-group">
                             <template slot-scope="{ row }">
                                 <el-button type="text" @click="showStatus(row)">查看</el-button>
                                 <el-button type="text" @click="deleteInst(row)">删除</el-button>
@@ -58,13 +59,13 @@ export default {
             loadingTypes:false,
             loadingProcessDetails:false,
             procTypes: {
-                list: [1,2],
+                list: [],
                 pageSize: 20,
                 pageNum: 0,
                 total: 0
             },
             instances: {
-                list: [1,2],
+                list: [],
                 pageSize: 20,
                 pageNum: 0,
                 total: 0

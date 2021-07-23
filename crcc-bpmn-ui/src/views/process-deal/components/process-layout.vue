@@ -4,13 +4,14 @@
     <div :class="getClassName">
       <slot name="main"></slot>
 
-     <div :class="active ? 'toggle active' : 'toggle'" @click="changeActive"  :style="getRight">
+     <div v-if="showAside" :class="active ? 'toggle active' : 'toggle'" @click="changeActive"  :style="getRight">
         <i
           :class="active ? 'el-icon-d-arrow-right' : 'el-icon-d-arrow-left'"
         ></i>
       </div>
     </div>
     <div
+      v-if="showAside"
       :class="active ? 'crcc-aside show' : 'crcc-aside hide'"
       :style="getWidth"
       ref="aside"
@@ -31,6 +32,10 @@ export default {
     width: {
       type: String,
       default: "260px",
+    },
+    showAside:{
+      type:Boolean,
+      default:true,
     },
   scroll:{
       type:Boolean,

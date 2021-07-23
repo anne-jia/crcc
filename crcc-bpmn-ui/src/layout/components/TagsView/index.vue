@@ -1,22 +1,34 @@
 <template>
   <div id="tags-view-container" class="tags-view-container">
     <crcc-tabs />
-    <!-- <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
+    <!-- <scroll-pane
+      ref="scrollPane"
+      class="tags-view-wrapper"
+      @scroll="handleScroll"
+    >
       <router-link
         v-for="tag in visitedViews"
         ref="tag"
         :key="tag.path"
-        :class="isActive(tag)?'active':''"
+        :class="isActive(tag) ? 'active' : ''"
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
         tag="div"
         class="tags-view-item"
-        @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
-        @contextmenu.prevent.native="openMenu(tag,$event)"
+        @click.middle.native="!isAffix(tag) ? closeSelectedTag(tag) : ''"
+        @contextmenu.prevent.native="openMenu(tag, $event)"
       >
-        <i v-show="tag.title==='首页'" class="el-icon-s-home" style="margin-right:4px"> </i>
+        <i
+          v-show="tag.title === '首页'"
+          class="el-icon-s-home"
+          style="margin-right: 4px"
+        />
 
         <span class="tab-title"> {{ tag.title }}</span>
-        <i class="el-icon-circle-close" v-show="tag.title!=='首页'"   @click.prevent.stop="closeSelectedTag(tag)"></i>
+        <i
+          v-show="tag.title !== '首页'"
+          class="el-icon-circle-close"
+          @click.prevent.stop="closeSelectedTag(tag)"
+        />
       </router-link>
     </scroll-pane> -->
     <!-- <el-tag   effect="plain" type="info" @click="returnBack">返回</el-tag> -->
@@ -213,7 +225,7 @@ export default {
 <style lang="scss" scoped>
 .tags-view-container {
   /* width: 100%; */
-  // background: #ffffff;
+  // background: #FFFFFF;
   // border-bottom: 1px solid #eee;
   // border-left: 8px solid #ebf2f6;
   // margin: 8px 8px 0px 0px;
@@ -228,7 +240,7 @@ export default {
       position: relative;
       cursor: pointer;
       height: 40px;
-      width: auto;
+      width: 600px;
       line-height: 40px;
       background: #ffffff;
       color: #303133;

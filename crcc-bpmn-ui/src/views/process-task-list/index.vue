@@ -10,7 +10,7 @@
                     <crcc-card v-loading="loadingTypes" :scroll="true" title="流程类型">
                         <div :class="processTypesList.list.length>0? 'types-list' : 'empty types-list'">
                             <el-table ref="typeTable" :data="processTypesList.list" stripe  highlight-current-row :show-header="false" @row-click="selectType">
-                                 <el-table-column prop="typeName" align="left" show-overflow-tooltip>
+                                <el-table-column prop="typeName" align="left" show-overflow-tooltip>
                         </el-table-column>
                         <el-table-column prop="taskNum" width="60px" header-align="center" align="left" class-name="tag-group" >
                             <template slot-scope="{row}">
@@ -30,7 +30,7 @@
                                 <el-table-column v-for="col in extendCols" v-bind:key="col.field" :prop="col.field" :label="col.label" :width="col.width" :header-align="col.align" :align="col.align" show-overflow-tooltip></el-table-column>
                                 <el-table-column prop="_procName_" label="所属流程" min-width="200" show-overflow-tooltip></el-table-column>
                                 <el-table-column prop="_name_" label="任务名称" min-width="200" show-overflow-tooltip></el-table-column>
-                                <el-table-column prop="_createTime_" label="创建时间" width="160" header-align="center" align="center" show-overflow-tooltip></el-table-column>
+                                <el-table-column prop="_createTime_" label="创建时间" min-width="160"  align="center" show-overflow-tooltip></el-table-column>
                                 <el-table-column label="操作" width="100" header-align="center" align="center" class-name="table-btn-group">
                                     <template slot-scope="{ row }">
                                         <el-button type="text" @click="showStatus(row)">进度</el-button>
@@ -43,8 +43,8 @@
                 </el-col>
             </el-row>
         </template>
-        <processView  ref="processView"  :id='currentDetailRow.id'></processView>
-        <processDeal ref="processDeal"></processDeal>
+        <processView  ref="processView" :showAside='false' :id='currentDetailRow.id' @close="loadFlowTypes"></processView>
+        <processDeal ref="processDeal" @close ="loadTasks"></processDeal>
     </crcc-main>
 </template>
 
@@ -75,7 +75,7 @@ export default {
                 total: 0
             },
             taskList: {
-                list: [1],
+                list: [],
                 pageSize: 20,
                 pageNum: 0,
                 total: 0

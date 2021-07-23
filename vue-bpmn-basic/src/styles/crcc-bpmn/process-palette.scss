@@ -2,6 +2,7 @@
     width: max-content;
     content: attr(title);
     vertical-align: text-bottom;
+    word-wrap: normal;
     position: absolute;
     right: -10px;
     overflow: hidden;

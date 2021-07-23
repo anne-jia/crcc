@@ -3,7 +3,7 @@
         <div class="crcc-control_header">
             <span class="color-title"><span class="color" :style="getfinishedColor"></span>已经过的节点</span>
             <span class="color-title"><span class="color" :style="getDoingColor"></span>当前节点</span>
-            <span class="color-title"><span class="color" :style="getWillColor"></span>未过的节点</span>
+            <span class="color-title" v-if="showWillColor"><span class="color" :style="getWillColor"></span>未过的节点</span>
 
         </div>
         <div class="crcc-process-designer__container">
@@ -24,6 +24,10 @@ export default {
     props: {
         value: String, // xml 字符串
         status: Array,
+        showWillColor:{
+            type:Boolean,
+            default:false,
+        },
         willColor: {
             type: String,
             default: '#cbf0c9'
@@ -39,7 +43,7 @@ export default {
         },
         doingStrokeColor: {
             type: String,
-            default: '#ff4949'
+            default: '#606266'
         },
         finishedColor: {
             type: String,
@@ -111,10 +115,13 @@ export default {
                                     });
                                     break;
                             case 'will':
-                                    modeling.setColor(elementRegistry.get(item.task), {
+                                if(this.showWillColor){
+                                      modeling.setColor(elementRegistry.get(item.task), {
                                         fill: this.willColor,
                                         stroke: this.willStrokeColor,
                                     });
+                                }
+                                  
                                     break;
                                 }
 

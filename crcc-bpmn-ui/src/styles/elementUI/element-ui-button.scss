@@ -7,10 +7,9 @@ $planBgColor: #f2f6fc;
     border-color: $borderColor;
   }
 }
-
 .el-button--default.is-plain {
-  // border-color: $borderColor;
-  // color: $textolor;
+  border-color: $borderColor;
+  color: $textolor;
   &:hover {
     background-color: $planBgColor;
     border-color: $borderColor;
@@ -158,7 +157,7 @@ $planBgColor: #f2f6fc;
 
   .btn-active {
     // border-radius: 4px;
-    color: #004098;
+    // color: #004098;
     &:hover{
       color: #46a6ff
    }

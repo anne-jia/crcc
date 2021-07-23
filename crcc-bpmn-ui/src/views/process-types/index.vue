@@ -14,7 +14,7 @@
         <template slot="crcc-opcation">
             <el-button :disabled="getDisableTypeBtn" type="primary" @click="changTypes('add')">新增</el-button>
             <el-button :disabled="getDisableTypeBtn||  currentType.isSysDef == '1'" plain @click="changTypes('update')">修改</el-button>
-            <el-button :disabled="getDisableTypeBtn ||  currentType.isSysDef == '1'" plain @click="delTypes('del')">删除</el-button>
+            <!-- <el-button :disabled="getDisableTypeBtn ||  currentType.isSysDef == '1'" plain @click="delTypes('del')">删除</el-button> -->
             <el-button :disabled="!getDisableTypeBtn" plain @click="saveTypes('save')">保存</el-button>
             <el-button :disabled="!getDisableTypeBtn" plain @click="changTypes('cancel')">取消</el-button>
         </template>

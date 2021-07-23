@@ -106,14 +106,17 @@ function parseToMessageCmd(element, extensionElements, bpmnFactory, jsonEntity) 
     commandArray.push(cmdHelper.addElementsTolist(element, messages, 'recipients', [recipientsElement]));
 
     var recipients = jsonEntity.recipients;
-    if(recipients.sysCompany){
-      if (recipients.sysCompany.length > 0 || recipients.sysJob.length > 0) {
+    var sysCompanyLenght = recipients?.sysCompany?.length || 0,
+      sysJobLenght = recipients?.sysJob?.length || 0,
+      sysUserLength = recipients.sysUser.length || 0;
+    
+      if (sysCompanyLenght> 0 || sysJobLenght > 0) {
         // <custom:rangeCondition>
         var rangeCond = createRangeConditionElement(recipientsElement, bpmnFactory);
         commandArray.push(cmdHelper.addElementsTolist(element, recipientsElement, 'rangeCond', [rangeCond]));
   
         // <custom:companyCondition>
-        if (recipients.sysCompany.length > 0) {
+        if (sysCompanyLenght > 0) {
           var companyCond = createCompanyConditionElement(rangeCond, bpmnFactory);
           commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'companyCond', [companyCond]));
   
@@ -123,27 +126,22 @@ function parseToMessageCmd(element, extensionElements, bpmnFactory, jsonEntity) 
           });
           commandArray.push(cmdHelper.addElementsTolist(element, companyCond, 'companies', companies));
         }
+        if (sysJobLenght > 0) {
+          // <custom:jobCondition>
+          var jobCond = createJobConditionElement(rangeCond, bpmnFactory);
+          commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'jobCond', jobCond));
+    
+          // <custom:sysJob>
+          var jobs = map(recipients.sysJob, function(job) {
+            return createSysJobElement(jobCond, bpmnFactory, job.id, job.name, job.isVariable);
+          });
+          commandArray.push(cmdHelper.addElementsTolist(element, jobCond, 'jobs', jobs));
+        }
       }
-    }
   
-    if (recipients.sysJob.length > 0) {
-      // <custom:jobCondition>
-      debugger;
 
-      var rangeCond = createRangeConditionElement(recipientsElement, bpmnFactory);
-      commandArray.push(cmdHelper.addElementsTolist(element, recipientsElement, 'rangeCond', [rangeCond]));
 
-      var jobCond = createJobConditionElement(rangeCond, bpmnFactory);
-      commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'jobCond', jobCond));
-
-      // <custom:sysJob>
-      var jobs = map(recipients.sysJob, function(job) {
-        return createSysJobElement(jobCond, bpmnFactory, job.id, job.name, job.isVariable);
-      });
-      commandArray.push(cmdHelper.addElementsTolist(element, jobCond, 'jobs', jobs));
-    }
-
-    if (recipients.sysUser.length > 0) {
+    if (sysUserLength > 0) {
       // <custom:userCondition>
       var userCond = createUserConditionElement(recipientsElement, bpmnFactory);
       commandArray.push(cmdHelper.addElementsTolist(element, recipientsElement, 'userCond', [userCond]));
@@ -233,7 +231,7 @@ function parseMessageElementToJson(element) {
 }
 
 function MessageSettingParser(eventBus, bpmnFactory, commandStack) {
-  eventBus.on('message-setting.saved', function(e) {
+  eventBus.on('saved-message', function(e) {
     var element = e.element,
       jsonEntity = e.setting;
     
@@ -271,7 +269,7 @@ function MessageSettingParser(eventBus, bpmnFactory, commandStack) {
         messageJson = parseMessageElementToJson(messageElement[0]);
       }
     }
-    eventBus.fire('message-setting.openning', { element: element, setting: messageJson });
+    eventBus.fire('opening-message', { element: element, setting: messageJson });
   });
 }
 

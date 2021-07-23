@@ -1,15 +1,14 @@
 <!--  index-->
 <template>
-    <div class='bpmn-view'>
-        <customModeler></customModeler>
-    </div>
+    <modelerView></modelerView>
+
 </template>
 
 <script>
-import customModeler from '@/components/crcc-bpmn/modeler-readonly/readonly-modeler.vue'
+// import customModeler from '@/components/crcc-bpmn/modeler-readonly/readonly-modeler.vue'
 export default {
     components: {
-        customModeler
+        // customModeler
     },
     data() {
         return {

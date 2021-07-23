@@ -1,6 +1,6 @@
 <!--  view-process-->
 <template>
-    <el-dialog @open="open" @close="close" append-to-body v-el-drag-dialog :visible.sync="dialogVisible" :close-on-click-modal="false" width="1000px">
+    <el-dialog @open="open" @close="close"   :fullscreen="fullScreen" append-to-body v-el-drag-dialog :visible.sync="dialogVisible" :close-on-click-modal="false" width="1000px">
         <template slot="title">
             <span class="el-dialog__title" style="user-select: none; cursor: default">流程处理</span>
             <button type="button" aria-label="FullScreen" class="el-dialog__headerbtn" style="right: 40px; color: #909399">
@@ -37,7 +37,7 @@
                                 <div  v-if="canUpload" style="color:red;padding-bottom: 8px;">注意：文件大小应小于10M</div>
 
                             </el-form>
-                            <el-collapse v-model="activeFileTab" accordion>
+                            <el-collapse v-model="activeFileTab" v-show="flowFiles.length>0" accordion>
                                 <el-collapse-item v-for="task in flowFiles" v-bind:key="task.id" :title="task.name" :name="task.id">
                                      <el-table :data="task.files" border stripe  highlight-current-row>
                                          <el-table-column prop="uploader" label="操作人" header-align="center" align="left" show-overflow-tooltip></el-table-column>
@@ -132,32 +132,7 @@ export default {
             canUpload: true,
             userMsg: "",
             activeFileTab: "",
-            flowFiles: [{
-                    id: 1,
-                    name: '测试',
-                    files: [{
-                        uploader: '可',
-                        uploadTime: '2021-1-2',
-                        fileName: 'ceshi.png',
-                        id: 1
-                    }, {
-                        uploader: '可',
-                        uploadTime: '2021-1-2',
-                        fileName: 'ceshi.png',
-                        id: 2
-                    }]
-                },
-                {
-                    id: 2,
-                    name: '测试02',
-                    files: [{
-                        uploader: '可',
-                        uploadTime: '2021-1-2',
-                        fileName: 'ceshi.png',
-                        id: 1
-                    }]
-                }
-            ],
+            flowFiles: [],
             uploadUrl: window.CLIENT_URL + "tasks/upload",
             selectedTab: "todo",
             instLog: [1, 3],
@@ -207,6 +182,7 @@ export default {
     methods: {
         close() {
             this.dialogVisible = false;
+            this.$emit('close',this.currentTask.id);
         },
         open(task) {
             if(task){
@@ -312,8 +288,8 @@ export default {
                     if (ret) {
                         let temp = [];
                         ret.forEach(file => {
-                            let task = temp.find(t => t.id == file.procTaskDefId);
-                            if (!task) {
+                            let task = temp.findIndex(t => t.id == file.procTaskDefId);
+                            if (task==-1) {
                                 task = {
                                     id: file.procTaskDefId,
                                     name: file.procTaskName,
@@ -350,6 +326,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-dialog__header{
+    .dialog-full-screen{
+            margin-right: 12px;
+    }
+}
 ::v-deep .el-dialog__body {
     padding: 8px;
     height: 580px;
@@ -394,6 +375,16 @@ export default {
 
     .el-table__empty-block {
         border-right: none;
+    }
+}
+::v-deep .el-dialog.is-fullscreen{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    left: 0px !important;
+    top: 0px  !important;
+     .el-dialog__body{
+         flex: 1;
     }
 }
 </style>

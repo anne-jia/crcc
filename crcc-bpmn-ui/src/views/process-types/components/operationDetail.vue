@@ -178,8 +178,11 @@ export default {
                   taskColInfo:`"field":"${field}"`
                 }
                 processTypesApi.isColumnDuplicate(value).then(duplicated => {
-                    this.duplicatedField = duplicated;
-                    this.$refs.flowForm.validateField('field');
+                    if(duplicated){
+                        this.duplicatedField = duplicated;
+                        this.$refs.flowForm.validateField('field');
+                    }
+                  
                 }).catch(err => {
                     this.error(err.message[0])
                 });
@@ -200,8 +203,11 @@ export default {
                   taskColInfo:`"label":"${label}"`
                 }
                 processTypesApi.isColumnDuplicate(value).then(duplicated => {
-                    this.duplicatedLabel = duplicated;
-                    this.$refs.flowForm.validateField('label');
+                    if(duplicated){
+                        this.duplicatedLabel = duplicated;
+                        this.$refs.flowForm.validateField('label');
+                    }
+
                 }).catch(err => {
                     this.error(err.message[0])
                 });

@@ -1,6 +1,6 @@
 <!--  message-setting-->
 <template>
-    <el-dialog @close="close" append-to-body title="参与者设置" v-el-drag-dialog :visible.sync="dialogVisible" :close-on-click-modal="false" width="880px">
+    <el-dialog @close="close" append-to-body title="参与者设置" v-el-drag-dialog :visible.sync="dialogVisible" custom-class="take-part-in-setting" :close-on-click-modal="false" width="880px">
         <el-row>
             <el-col :span="6">
                 <crcc-card :scroll="false" title="参与者分组设置">
@@ -16,10 +16,10 @@
                         <el-table ref="expTable" :show-header="false" empty-text="暂无参与者分组数据" :data="participants" highlight-current-row @row-click="selectCurrent">
                             <el-table-column type="index" width="30"></el-table-column>
                             <el-table-column prop="expressionDesc" align="left" show-overflow-tooltip></el-table-column>
-                            <el-table-column prop="expressionDesc" class-name="table-btn-group" width="48px">
+                            <el-table-column prop="expressionDesc" class-name="tag-sigle" width="48px">
                                 <template slot-scope="scope">
                                     <el-button type="text" icon="el-icon-edit" @click="editExp('update',scope)"></el-button>
-                                    <el-button type="text" icon="el-icon-delete" @click="removeItem(scope.$index)"></el-button>
+                                    <el-button type="text" icon="el-icon-delete" @click="removeItem(scope.$index,scope.row)"></el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -49,7 +49,7 @@
                                     <el-table stripe border highlight-current-row :data="currentExpression.sysJob">
                                         <el-table-column label="岗位名称" align="left" header-align="center" show-overflow-tooltip prop="name">
                                         </el-table-column>
-                                        <el-table-column label="操作" prop="name" width="58px" align="center" class-name="table-btn-group">
+                                        <el-table-column label="操作" prop="name" width="58px" align="center" class-name="tag-sigle">
                                             <template slot-scope="{$index }">
                                                 <el-button type="text" icon="el-icon-delete" :disabled="disabled" @click="currentExpression.sysJob.splice($index, 1)"></el-button>
                                             </template>
@@ -75,7 +75,7 @@
                                     <el-table stripe border highlight-current-row :data="currentExpression.sysUser">
                                         <el-table-column label="人员" prop="userName" align="left" header-align="center" show-overflow-tooltip>
                                         </el-table-column>
-                                        <el-table-column label="操作" prop="userName" width="58px" align="center" class-name="table-btn-group">
+                                        <el-table-column label="操作" prop="userName" width="58px" align="center" class-name="tag-sigle">
                                             <template slot-scope="{$index }">
                                                 <el-button type="text" icon="el-icon-delete" :disabled="disabled" @click="currentExpression.sysUser.splice($index, 1)"></el-button>
                                             </template>
@@ -124,10 +124,9 @@ export default {
             bindOperation: {
                 status: 'add',
                 index: 0,
-
             },
             //参与者数据
-            participants:[],
+            participants: [],
             //当前设置
             currentExpression: {
                 expressionDesc: "",
@@ -137,33 +136,34 @@ export default {
             },
             //选中的数据
             validateList: [],
-           
+
             modelerElement: null
         };
     },
     computed: {
         disabled() {
-            return !this.currentExpression || !this.currentExpression.expressionDesc;
+            let value = this.currentExpression?.expressionDesc || ''
+            return !value;
         }
     },
     methods: {
         opened() {
-            this.$nextTick(()=>{
-                   var row ={
+            this.$nextTick(() => {
+                var row = {
                     expressionDesc: "",
                     validateCondition: "",
                     sysJob: [],
                     sysUser: []
                 };
-            if (this.participants && this.participants.length > 0) {
-                    row =this.participants[0];
-            }
-            this.selectCurrent(row)
+                if (this.participants && this.participants.length > 0) {
+                    row = this.participants[0];
+                }
+                this.selectCurrent(row)
             });
-     
+
         },
         showDialogVisibel(value) {
-            this.modelerElement = value.element;
+            this.modelerElement = value?.element || null;
             this.participants = value.participants;
             this.opened();
             // this.currentExpression.sysJob
@@ -189,24 +189,37 @@ export default {
             this.$refs.operationGroup.dialogVisible = true;
         },
         operationGroupAdd(list, value) {
-            this.bindOperation.list = list;
+            this.participants = list;
             this.selectCurrent(value);
         },
         selectCurrent(row) {
-            if(!this.$refs.expTable){
+            if (!this.$refs.expTable) {
                 return;
             }
-            this.currentExpression = row;
-            this.$refs.expTable.setCurrentRow(row);
+            let index = this.participants.findIndex(item => item.expressionDesc == row.expressionDesc);
+            if (index != -1) {
+                this.currentExpression = {
+                    ...row
+                };
+                this.$refs.expTable.setCurrentRow(row);
+            } else {
+                this.currentExpression = {
+                        expressionDesc: "",
+                        validateCondition: "",
+                        sysJob: [],
+                        sysUser: []
+                    },
+                    this.$refs.expTable.setCurrentRow();
+            }
+
         },
         //删除分组
-        removeItem(index) {
-            this.bindOperation.list.splice(index, 1);
-            if (this.bindOperation.list.length > 0) {
-                this.selectCurrent(this.bindOperation.list[0])
-            } else {
-                this.selectCurrent({})
+        removeItem(index, row) {
+            this.participants.splice(index, 1);
+            if (row.expressionDesc == this.currentExpression.expressionDesc) {
+                this.selectCurrent(row)
             }
+
         },
         //添加岗位
         addPosition(checklist) {
@@ -214,25 +227,25 @@ export default {
         },
         addUsers(checklist) {
             let newArr = []
-            let find = this.currentExpression.sysUser.find(j => j.userId == this.startUser[0].userId);
-            if (!find) {
-                checklist.map(item=>{
-                        newArr.push({
-                            userId:item.id,
-                            userName:item.name,
-                            isVariable:false
-                        })
+            let find = this.currentExpression.sysUser.findIndex(j => j.userId == this.startUser[0].userId);
+            if (find == -1) {
+                checklist.map(item => {
+                    newArr.push({
+                        userId: item.id,
+                        userName: item.name,
+                        isVariable: false
+                    })
                 })
                 this.currentExpression.sysUser = newArr;
             } else {
-                checklist.map(item=>{
-                    if(item.id!=this.startUser[0].userId){
+                checklist.map(item => {
+                    if (item.id != this.startUser[0].userId) {
                         newArr.push({
-                            userId:item.id,
-                            userName:item.name,
-                            isVariable:false
+                            userId: item.id,
+                            userName: item.name,
+                            isVariable: false
                         })
-                    }    
+                    }
                 })
                 this.currentExpression.sysUser = newArr.concat(this.startUser);
             }
@@ -246,50 +259,48 @@ export default {
             this.$refs.operationUsers.dialogVisible = true;
         },
         addStartUser() {
-            if (!this.currentExpression.sysUser.find(j => j.userId == this.startUser[0].userId)) {
+            let findIndex = this.currentExpression.sysUser.findIndex(j => j.userId == this.startUser[0].userId)
+            if (findIndex == -1) {
                 this.currentExpression.sysUser = this.currentExpression.sysUser.concat(this.startUser)
             }
         },
         //生成条件的人员设置
         selectConditionVar() {
             this.$refs.variableSelect.open(variable => {
-                 if(this.currentExpression.validateCondition){
-                        this.currentExpression.validateCondition += "" + variable.exp;  
-                    }else{
-                         this.currentExpression.validateCondition=variable.exp;
-                    }
+                if (this.currentExpression.validateCondition) {
+                    this.currentExpression.validateCondition += "" + variable.exp;
+                } else {
+                    this.currentExpression.validateCondition = variable.exp;
+                }
                 // if (!this.validateList.find(j => j.exp == variable.exp)) {
                 //     this.validateList = this.validateList.concat(variable);
-                    
+
                 // }
             });
 
         },
-        changeValidateCondition(value){
-            if(!value.trim()){
-                this.validateList=[];
+        changeValidateCondition(value) {
+            if (!value.trim()) {
+                this.validateList = [];
             }
         },
-        
-    confirm() {
-      let firstUnValid = this.participants.find(
-        exp =>
-          exp.sysCompany.length == 0 &&
-          exp.sysJob.length == 0 &&
-          exp.sysUser.length == 0
-      );
-      if (!this.participants || firstUnValid) {
-        this.error(`'${firstUnValid.expressionDesc}'设置无效，请修改`);
-        return;
-      }
 
-      this.$emit("on-save-take-part-setting", {
-        element: this.modelerElement,
-        participants: this.participants
-      });
+        confirm() {
+            let firstUnValid = this.participants.find(
+                exp => exp.sysJob.length == 0 && exp.sysUser.length == 0
+            );
+            if (!this.participants || firstUnValid) {
+                this.error(`'${firstUnValid.expressionDesc}'设置无效，请修改`);
+                return;
+            }
 
-      this.close();
-    },
+            this.$emit("on-save-take-part-setting", {
+                element: this.modelerElement,
+                participants: this.participants
+            });
+
+            this.close();
+        },
 
         clearConditionVar() {
             this.validateList = []
@@ -302,57 +313,66 @@ export default {
 <style lang="scss" scoped>
 $borderColor: #dcdfe6;
 
-::v-deep .el-dialog__body {
-    padding: 0px 0px;
-    overflow: hidden;
-    height: 460px;
+::v-deep .take-part-in-setting {
+    .el-dialog__body {
+        padding: 0px 0px;
+        overflow: hidden;
+        height: 460px;
 
-    .el-row {
-        height: 100%;
-
-        .el-col {
+        .el-row {
             height: 100%;
-        }
 
-        .el-col+.el-col {
-            border-left: 1px solid $borderColor;
-        }
-    }
+            .el-col {
+                height: 100%;
+            }
 
-    .group-take-part {
-        .el-table .el-table__empty-block {
-            border-right: none;
-            width: 100%;
-            text-align: center;
-
-            .el-table__empty-text {
-                width: 100%;
+            .el-col+.el-col {
+                border-left: 1px solid $borderColor;
             }
         }
 
-        .el-table::before {
-            height: 0px;
-        }
-    }
+        .group-take-part {
+            .el-table .el-table__empty-block {
+                border-right: none;
+                width: 100%;
+                text-align: center;
 
-    .setting {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        overflow: hidden;
+                .el-table__empty-text {
+                    width: 100%;
+                }
+            }
 
-        .el-form {
-            padding: 8px;
-            border-bottom: 1px solid $borderColor;
-        }
+            .el-table::before {
+                height: 0px;
+            }
 
-        .el-form-item--mini.el-form-item {
-            margin-bottom: 0px;
         }
 
-        .el-row {
-            flex: 1;
+        .position-list {
+            .el-table__empty-block {
+                border-bottom: 1px solid #dcdfe6;
+            }
+        }
+
+        .setting {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
             overflow: hidden;
+
+            .el-form {
+                padding: 8px;
+                border-bottom: 1px solid $borderColor;
+            }
+
+            .el-form-item--mini.el-form-item {
+                margin-bottom: 0px;
+            }
+
+            .el-row {
+                flex: 1;
+                overflow: hidden;
+            }
         }
     }
 }

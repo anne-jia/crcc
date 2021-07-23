@@ -2,18 +2,41 @@
 <template>
     <el-dialog @open='opened' @close='close' append-to-body :title='getTitle' v-el-drag-dialog :visible.sync='dialogVisible' :close-on-click-modal='false' width='480px'>
         <el-form ref="flowForm" status-icon :model="currentFlow" :rules="validateRules" label-width="88px">
-            <el-form-item label="流程类型">
+            <el-form-item label="流程类型" prop="typeId">
                 <el-select :disabled="state!='copy'" v-model="currentFlow.typeId" default-first-option style="width:100%">
                     <el-option v-for="type in flowTypes" v-bind:key="type.id" :label="type.typeName" :value="type.id">
                         <span class="select-option">{{type.typeName}}</span>
                     </el-option>
                 </el-select>
             </el-form-item>
+            <el-form-item label="编制公司" prop="companyName">
+                <el-select :disabled="state!='copy'" :value="currentFlow.companyName" default-first-option filterable @change="changeCompany" style="width:100%">
+                      <el-option
+                        v-for="item in companyList"
+                        :key="item.id"
+                        :label="item.pathName"
+                        :disabled='!(item.hasPermission)'
+                        :value="item"
+                        >
+                        </el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item label="流程标识" prop="flowCode">
-                <el-input v-model="currentFlow.flowCode" @change="changeFlowCode" @input="inputFlowCode" maxlength="64"></el-input>
+                <el-input v-model="currentFlow.flowCode" clearable @change="changeFlowCode" @input="inputFlowCode" maxlength="64"></el-input>
             </el-form-item>
             <el-form-item label="流程名称" prop="flowName">
-                <el-input v-model="currentFlow.flowName" maxlength="128"></el-input>
+                <el-input v-model="currentFlow.flowName" clearable maxlength="128"></el-input>
+            </el-form-item>
+            <el-form-item label="是否公开" prop="general">
+                  <el-select v-model="currentFlow.general" placeholder="请选择是否公开"  style="width:100%">
+                    <el-option
+                    v-for="item in optionsGeneral"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    >
+                    </el-option>
+                </el-select>
             </el-form-item>
         </el-form>
         <div slot="footer" style="text-align: right;">
@@ -47,16 +70,41 @@ export default {
                 typeId: '',
                 flowCode: "",
                 flowName: "",
+                companyId: "",
+                companyName: "",
+                companyPath:'',
+
+                general:false,
+                //拷贝
                 flowToCopy:{},
             },
             duplicatedFlowCode: false,
+            //流程类型 表格数据
             flowTypes: [],
+              //有权限公司列表
+            companyList:[],
+            // 是否公开
+            optionsGeneral:[
+                {
+                    value: false,
+                    label: '否'  
+                }, {
+                    value: true,
+                    label: '是'  
+                },
+            ],
             validateRules: {
+                   typeId:[{  
+                    required: true,
+                    transform,
+                    message: "流程类型不能为空",
+                    trigger: "change"
+                }],
                 flowCode: [{
                         required: true,
                         transform,
                         message: "请填写流程标识",
-                        trigger: "blur"
+                        trigger: "change"
                     },
                     {
                         validator: (rule, value, callback) => {
@@ -70,7 +118,7 @@ export default {
                             }
                             callback();
                         },
-                        trigger: "blur"
+                        trigger: "change"
                     },
                     {
                         validator: (rule, value, callback) => {
@@ -80,14 +128,24 @@ export default {
                                 callback();
                             }
                         },
-                        trigger: "blur"
+                        trigger: "change"
                     }
                 ],
+                companyName:[{  
+                    required: true,
+                    message: "编制公司不能为空",
+                    trigger: "change"
+                }],
                 flowName: [{
                     required: true,
                     transform,
                     message: "请填写流程名称",
-                    trigger: "blur"
+                    trigger: "change"
+                }],
+                general:[{  
+                    required: true,
+                    message: "是否公开不能为空",
+                    trigger: "change"
                 }]
             },
         }
@@ -108,9 +166,19 @@ export default {
     },
     methods: {
         opened() {},
+             //更改选中公司
+        changeCompany(val){
+            let company={
+                companyId:val.id,
+                companyName:val.pathName,
+                companyPath:val.path
+            }
+            this.currentFlow ={...this.currentFlow,...company}
+            // this.choseType={...this.choseType,...company};
+        },
         close() {
-            this.$refs.flowForm.resetFields();
             this.$refs.flowForm.clearValidate();
+            this.$refs.flowForm.resetFields();
             this.dialogVisible = false
         },
         confirm() {

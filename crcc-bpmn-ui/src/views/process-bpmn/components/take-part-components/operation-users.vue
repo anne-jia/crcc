@@ -307,6 +307,8 @@ export default {
 ::v-deep .operation-users {
   .el-dialog__body {
     height: 380px;
+    padding: 0px;
+
   }
 }
 </style>

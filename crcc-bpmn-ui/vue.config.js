@@ -1,4 +1,4 @@
-'use strict'
+// 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 // const webpack = require('webpack')
@@ -53,10 +53,10 @@ module.exports = {
       },
     
       '/crcc-process': {
-        target: 'http://172.16.96.126:9090',
+        target: 'http://172.16.96.126:9090/',
         changeOrigin: true,
         pathRewrite: {
-          '/crcc-process': '/'
+          '/crcc-process': ''
         }
       }
     }
@@ -98,6 +98,8 @@ module.exports = {
       .rule('svg')
       .exclude.add(resolve('src/icons'))
       .end()
+   
+    
     config.module
       .rule('icons')
       .test(/\.svg$/)

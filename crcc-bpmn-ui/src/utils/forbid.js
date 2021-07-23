@@ -6,20 +6,10 @@ function banBackSpace(e) {
   // 按下Backspace键
   if (ev.keyCode == 8) {
     var tagName = obj.nodeName // 标签名称
-    // var className =$(obj).hasClass('el-input')
-    // 如果标签不是input或者textarea则阻止Backspace
-    if (tagName != 'INPUT' && tagName != 'TEXTAREA') {
+    if (tagName == "BODY") {
       return stopIt(ev)
     }
-    var tagType = obj.type.toUpperCase()// 标签类型
-    // input标签除了下面几种类型，全部阻止Backspace
-    if (tagName != 'INPUT' && (tagType != 'TEXT' && tagType != 'TEXTAREA' && tagType != 'PASSWORD')) {
-      return stopIt(ev)
-    }
-    // input或者textarea输入框如果不可编辑则阻止Backspace
-    if ((tagName != 'INPUT' || tagName == 'TEXTAREA') && (obj.readOnly == true || obj.disabled == true)) {
-      return stopIt(ev)
-    }
+
   }
 }
 function stopIt(ev) {

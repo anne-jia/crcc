@@ -82,8 +82,8 @@ $processPanelWidth:300px;
             }
         
             .bpp-properties-entry{
-                display: flex;
-                justify-content: flex-start;
+                // display: flex;
+                // justify-content: flex-start;
                 // align-items: center;
                 padding-left: 2px;
                 padding-bottom: 0px;
@@ -173,6 +173,8 @@ $processPanelWidth:300px;
         font-size: 14px;
         font-weight: normal;
         margin-bottom: 20px;
+        height: 28px;
+        box-sizing:border-box;
         &:focus{
             border: 1px solid #42A7FF;
             outline:none !important;

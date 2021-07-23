@@ -1,6 +1,6 @@
 <!--  view-process-->
 <template>
-    <el-dialog @open="opened" @close="close" append-to-body v-el-drag-dialog :visible.sync="dialogVisible" :close-on-click-modal="false" width="960px">
+    <el-dialog @open="opened" @close="close"  :fullscreen="fullScreen" append-to-body v-el-drag-dialog :visible.sync="dialogVisible" :close-on-click-modal="false" width="960px">
         <template slot="title">
             <span class="el-dialog__title" style="user-select: none; cursor: default">流程进度</span>
             <button type="button" aria-label="FullScreen" class="el-dialog__headerbtn" style="right: 40px; color: #909399">
@@ -12,14 +12,14 @@
                 </span>
             </button>
         </template>
-        <processLayout>
+        <processLayout :showAside="showAside" :width="getAsideWidth">
             <template slot="main">
                 <modeler-viewer v-model="instance.definition" :status="instance.status"></modeler-viewer>
             </template>
 
             <template slot="aside">
                 <el-tabs v-model="activeTab" type="card" style="height: 100%">
-                    <el-tab-pane label="自由流跳转" name="jump" v-if="controlTask.freeFlowSet" class="free-jump">
+                    <el-tab-pane label="自由流跳转" name="jump"  v-show="controlTask.freeFlowSet" class="free-jump">
                         <div style="
                           padding: 0px 8px 8px 8px;
                           border-bottom: 1px solid #dcdfe6;
@@ -30,17 +30,17 @@
                             请勾选目标任务进行自由流跳转
                         </div>
                         <div class="table-box">
-                            <el-table ref="nodeTable" :data="flowNodes" :show-header="false" stripe highlight-current-row>
+                            <el-table ref="nodeTable" :data="flowNodes" @selection-change="selectionChangeJupm" :show-header="false" stripe highlight-current-row>
                                 <el-table-column type="selection" :selectable="selectable"></el-table-column>
                                 <el-table-column prop="name" label="勾选任务进行自由流跳转" show-overflow-tooltip></el-table-column>
                             </el-table>
                         </div>
 
                         <div style="padding: 8px 8px 0; text-align: right">
-                            <el-button type="primary" plain @click="jump">跳转</el-button>
+                            <el-button type="primary" plain @click="jump" v-show="showJumpBtn">跳转</el-button>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="自由流指派" name="assign" v-if="controlTask.freeFlowAssign">
+                    <el-tab-pane label="自由流指派" name="assign" v-show="controlTask.freeFlowAssign">
                         <el-table ref="taskTable" :data="taskList" height="100%" stripe highlight-current-row>
                             <el-table-column prop="taskName" label="运行中的任务" show-overflow-tooltip></el-table-column>
                             <el-table-column prop="assigneeName" label="办理人" width="90" show-overflow-tooltip></el-table-column>
@@ -60,7 +60,7 @@
 
 <script>
 import processLayout from "./components/process-layout.vue";
-import modelerViewer from "@/components/crcc-bpmn/modeler-readonly/readonly-modeler.vue";
+// import modelerViewer from "@/components/crcc-bpmn/modeler-readonly/readonly-modeler.vue";
 
 import camundaApi from "@/api/camunda-api";
 import processInstanceApi from "@/api/process-instance-api";
@@ -69,11 +69,15 @@ import operationUser from "@/views/process-bpmn/components/take-part-components/
 
 export default {
     props: {
-        id: String
+        id: String,
+        showAside:{
+            type:Boolean,
+            default:true
+        },
     },
     components: {
         processLayout,
-        modelerViewer,
+        // modelerViewer,
         operationUser
     },
     data() {
@@ -86,9 +90,9 @@ export default {
                 //自由跳转
                 freeFlowSet: false
             },
-
+           showJumpBtn:false,
             //自由跳转
-            flowNodes: [1],
+            flowNodes: [],
             activeTab: "jump",
             //自由指派中，运行中的任务
             taskList: [],
@@ -99,7 +103,17 @@ export default {
             }
         };
     },
-    computed: {},
+    computed: {
+     
+        getAsideWidth(){
+          return  this.fullScreen? '380px':"260px"
+        },
+        getInstanceStatus(){
+           return  this.instance.status.filter(item=>item.state=="running")
+        //    return  this.instance.status.filter(item=>item.state=="fin")
+
+        }
+    },
     methods: {
         opened() {
             this.$nextTick(async () => {
@@ -107,21 +121,31 @@ export default {
                 this.getAuths();
             });
         },
-        //控制是否可选则
-        selectable(row, index) {
-            let findIndex = row.task_audit.indexOf('|');
-            if (findIndex != -1) {
-                let str = row.task_audit.substr(0, findIndex);
-                let find = this.instance.status.findIndex(item => {
-                    item.task == str
-                })
-                if (find == -1) {
-                    return false
-                } else {
-                    return true
-                }
+        selectionChangeJupm(selection){
+            if(selection.length>0){
+                this.showJumpBtn =true
+            }else{
+                this.showJumpBtn =false
+
             }
         },
+        //控制是否可选则
+        selectable(row, index) {
+            let newTask = row.id.replace('#multiInstanceBody','');
+           if(this.getInstanceStatus.length>0){
+            let find=   this.getInstanceStatus.findIndex(item=>item.task==newTask);
+            
+            if(find==-1){
+                return true
+            }else{
+                return false
+            }
+
+           }else{
+               return true
+           }
+        },
+            
         //打开人员的弹框
         opneChonseUser() {
             this.$refs.operationUser.dialogVisible = true;
@@ -218,13 +242,19 @@ export default {
         },
         close() {
             this.dialogVisible = false;
+            this.$emit('close');
         }
     },
-    mounted() {}
+ 
 };
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-dialog__header{
+    .dialog-full-screen{
+            margin-right: 12px;
+    }
+}
 ::v-deep .el-dialog__body {
     padding: 8px;
     height: 480px;
@@ -242,7 +272,9 @@ export default {
     .el-tabs__content {
         flex: 1;
     }
-
+    .el-tab-pane{
+        height: 100%;
+    }
     .free-jump {
         height: 100%;
         display: flex;
@@ -262,6 +294,16 @@ export default {
 
     .el-table__empty-block {
         border-right: none;
+    }
+}
+::v-deep .el-dialog.is-fullscreen{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    left: 0px !important;
+    top: 0px  !important;
+     .el-dialog__body{
+         flex: 1;
     }
 }
 </style>

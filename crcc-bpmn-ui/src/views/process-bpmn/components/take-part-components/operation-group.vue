@@ -22,7 +22,12 @@ export default {
         value:{
             type:Object,
             default: function () {
-                return { expressionDesc: '' }
+                return { 
+                expressionDesc: '' ,
+                validateCondition: "",
+                sysJob: [],
+                sysUser: []
+            }
             }
         },
         status: String,
@@ -42,6 +47,7 @@ export default {
 
         return {
             dialogVisible: false,
+        
             validateRules: {
                 expressionDesc: [{
                         required: true,
@@ -51,7 +57,7 @@ export default {
                     },
                     {
                         validator: (rule, value, callback) => {
-                            if (this.participants.find(exp => exp.expressionDesc == value)) {
+                            if (this.participants.findIndex(exp => exp.expressionDesc == value) !=-1) {
                                 callback(new Error("相同的参与者描述已存在，请修改"));
                             } else {
                                 callback();
@@ -73,17 +79,20 @@ export default {
                 default:
                     return "新增参与者分组";
             }
-        }
+        },
+       
     },
     methods: {
-        opened() {},
+        opened() {
+        },
         submit() {
             this.$refs.descForm.validate(valid => {
                 if (valid) {
                     if (this.status=='add') {
-                        let value ={...this.value}
-                      let data =  this.participants.concat([value])
-                        this.$emit("expression-change", data,value);
+                        let  item={...this.value}
+                      let data =  this.participants.concat([item])
+                        this.$emit("expression-change", data,item);
+
                     } else {
                         let data = [...this.participants]
                             data.splice(this.index,1,{...this.value})

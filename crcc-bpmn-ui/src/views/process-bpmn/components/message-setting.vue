@@ -32,7 +32,7 @@
                                     <el-table stripe border highlight-current-row :data="messageSetting.recipients.sysJob">
                                         <el-table-column label="岗位名称" align="left" header-align="center" show-overflow-tooltip prop="name">
                                         </el-table-column>
-                                        <el-table-column label="操作" prop="name" width="58px" align="center" class-name="table-btn-group">
+                                        <el-table-column label="操作" prop="name" width="58px" align="center" class-name="tag-sigle">
                                             <template slot-scope="{$index }">
                                                 <el-button type="text" icon="el-icon-delete" @click="messageSetting.recipients.sysJob.splice($index, 1)"></el-button>
                                             </template>
@@ -57,7 +57,7 @@
                                     <el-table stripe border highlight-current-row :data="messageSetting.recipients.sysUser">
                                         <el-table-column label="人员" prop="userName" align="left" header-align="center" show-overflow-tooltip>
                                         </el-table-column>
-                                        <el-table-column label="操作" prop="userName" width="58px" align="center" class-name="table-btn-group">
+                                        <el-table-column label="操作" prop="userName" width="58px" align="center" class-name="tag-sigle">
                                             <template slot-scope="{$index }">
                                                 <el-button type="text" icon="el-icon-delete" @click="messageSetting.recipients.sysUser.splice($index, 1)"></el-button>
                                             </template>
@@ -183,16 +183,34 @@ export default {
         },
         //增加人员
         addUsers(checklist) {
-            let find = this.messageSetting.recipients.sysUser.find(j => j.userId == this.startUser[0].userId);
-            if (!find) {
-                this.messageSetting.recipients.sysUser = checklist;
+            let find = this.messageSetting.recipients.sysUser.findIndex(j => j.userId == this.startUser[0].userId);
+            let newArr = []
+            if (find==-1) {
+                 checklist.map(item=>{
+                        newArr.push({
+                            userId:item.id,
+                            userName:item.name,
+                            isVariable:false
+                        })
+                })
+                this.messageSetting.recipients.sysUser = newArr;
             } else {
+                  checklist.map(item=>{
+                        if(item.id!=this.startUser[0].userId){
+                        newArr.push({
+                            userId:item.id,
+                            userName:item.name,
+                            isVariable:false
+                        })
+                    }    
+                })
                 this.messageSetting.recipients.sysUser = checklist.concat(this.startUser)
+
             }
         },
         //设流程启动人收到信息
         addStartUser() {
-            if (!this.messageSetting.recipients.sysUser.find(j => j.userId == this.startUser[0].userId)) {
+            if (this.messageSetting.recipients.sysUser.findIndex(j => j.userId == this.startUser[0].userId)==-1) {
                 this.messageSetting.recipients.sysUser = this.messageSetting.recipients.sysUser.concat(this.startUser)
             }
         },

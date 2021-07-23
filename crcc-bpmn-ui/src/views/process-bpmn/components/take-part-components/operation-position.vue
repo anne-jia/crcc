@@ -280,6 +280,7 @@ export default {
 ::v-deep .operation-position {
   .el-dialog__body {
     height: 380px;
+    padding: 0px;
   }
 }
 </style>
