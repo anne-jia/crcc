@@ -8,7 +8,7 @@ const processPermissionsApi = {
  
     getCompanyTree() {
         return window.axios({
-            url: `${window.CLIENT_URL}companyflow/getCompanyTree`,
+            url: `${window.CLIENT_URL}/companyflow/getCompanyTree`,
             method: 'get',
         })
     },
@@ -18,9 +18,9 @@ const processPermissionsApi = {
      * @returns 
      */
     
-     getCompanyListByParentId(id) {
+     getCompanyListByParentId(id,name,type) {
         return window.axios({
-            url: `${window.CLIENT_URL}companyflow/getCompanyListByParentId?parentId=${id}`,
+            url: `${window.CLIENT_URL}/companyflow/getCompanyListByParentId?parentId=${id}&parentPathName=${name}&parentType=${type}`,
             method: 'get',
         })
     },
@@ -31,7 +31,7 @@ const processPermissionsApi = {
      */
     saveCompanyFlow(data) {
         return window.axios({
-            url: `${window.CLIENT_URL}companyflow/saveCmpFlow`,
+            url: `${window.CLIENT_URL}/companyflow/saveCmpFlow`,
             method: 'post',
             data
         })
@@ -43,7 +43,7 @@ const processPermissionsApi = {
      */
     removeFlow(companyFlowId) {
         return window.axios({
-            url: `${window.CLIENT_URL}companyflow/deleteFlow?companyFlowId=${companyFlowId}`,
+            url: `${window.CLIENT_URL}/companyflow/deleteFlow?companyFlowId=${companyFlowId}`,
             method: 'delete',
         })
     },
@@ -55,7 +55,7 @@ const processPermissionsApi = {
     getCompanyFlowPage(value) {
         let data ={pageNum:value.pageNum,pageSize:value.pageSize,json:JSON.stringify({"keyword":value.keyword,"companyId":value.companyId})}
         return window.axios({
-            url: `${window.CLIENT_URL}companyflow/getCompanyFlowPage`,
+            url: `${window.CLIENT_URL}/companyflow/getCompanyFlowPage`,
             method: 'post',
             data
         })
@@ -68,14 +68,14 @@ const processPermissionsApi = {
     loadHelpFlows(value) {
         let data ={pageNum:value.pageNum,pageSize:value.pageSize,json:JSON.stringify({"keyword":value.keyword,'exclusionId':value.exclusionId})}
         return window.axios({
-            url: `${window.CLIENT_URL}companyflow/loadHelpFlows`,
+            url: `${window.CLIENT_URL}/companyflow/loadHelpFlows`,
             method: 'post',
             data
         })
     },
     deleteTaskExternalParticipants(id) {
         return window.axios({
-            url: `${window.CLIENT_URL}taskexternal/deleteTaskExternalParticipants?id=${id}`,
+            url: `${window.CLIENT_URL}/taskexternal/deleteTaskExternalParticipants?id=${id}`,
             method: 'delete',
         })
     },
@@ -84,7 +84,7 @@ const processPermissionsApi = {
      */
     deleteParticipants(processDefinitionKey,companyId,taskDefinitionKey) {
         return window.axios({
-            url: `${window.CLIENT_URL}taskexternal/deleteParticipants?processDefinitionKey=${processDefinitionKey}&companyId=${companyId}&taskDefinitionKey=${taskDefinitionKey}`,
+            url: `${window.CLIENT_URL}/taskexternal/deleteParticipants?processDefinitionKey=${processDefinitionKey}&companyId=${companyId}&taskDefinitionKey=${taskDefinitionKey}`,
             method: 'delete',
         })
     },
@@ -97,7 +97,7 @@ const processPermissionsApi = {
      */
     getTaskExternalParticipants(processDefinitionKey,companyId,taskDefinitionKey) {
         return window.axios({
-            url: `${window.CLIENT_URL}taskexternal/getTaskExternalParticipants?processDefinitionKey=${processDefinitionKey}&companyId=${companyId}&taskDefinitionKey=${taskDefinitionKey}`,
+            url: `${window.CLIENT_URL}/taskexternal/getTaskExternalParticipants?processDefinitionKey=${processDefinitionKey}&companyId=${companyId}&taskDefinitionKey=${taskDefinitionKey}`,
             method: 'get',
         })
     },
@@ -114,7 +114,7 @@ const processPermissionsApi = {
 saveTaskExternalParticipants(value) {
         let data ={...value, participants: JSON.stringify(value.participants)}
         return window.axios({
-            url: `${window.CLIENT_URL}taskexternal/saveTaskExternalParticipants`,
+            url: `${window.CLIENT_URL}/taskexternal/saveTaskExternalParticipants`,
             method: 'post',
             data
         })

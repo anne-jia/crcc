@@ -5,14 +5,14 @@ const processDefinitionApi = {
 
     getBizTypes() {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/getBizTypes`,
+            url: `${window.CLIENT_URL}/flowmgr/getBizTypes`,
             method: 'get',
         })
     },
     //flowmgr/hasRightCompanyListForFlowDefine 获取有权限的的组织
     getHasPermissioCompany() {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/hasRightCompanyListForFlowDefine`,
+            url: `${window.CLIENT_URL}/flowmgr/hasRightCompanyListForFlowDefine`,
             method: 'get',
         })
     },
@@ -20,7 +20,7 @@ const processDefinitionApi = {
     //部署流程
     deployFlow(data) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/deploy`,
+            url: `${window.CLIENT_URL}/flowmgr/deploy`,
             method: 'post',
             data
         })
@@ -28,7 +28,7 @@ const processDefinitionApi = {
     //设置流程的状态
     setFlowState(data) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/setState`,
+            url: `${window.CLIENT_URL}/flowmgr/setState`,
             method: 'post',
             data
         })
@@ -36,7 +36,7 @@ const processDefinitionApi = {
     //获取流程图
     getFlowXml(procDefId) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/getFlowXml?procDefId=${procDefId}`,
+            url: `${window.CLIENT_URL}/flowmgr/getFlowXml?procDefId=${procDefId}`,
             method: 'get',
         })
        
@@ -44,7 +44,7 @@ const processDefinitionApi = {
     // 查重流程定义标识
     checkProcKey(procKey) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/duplicateCheck?procKey=${procKey}`,
+            url: `${window.CLIENT_URL}/flowmgr/duplicateCheck?procKey=${procKey}`,
             method: 'get',
         })
     },
@@ -52,7 +52,7 @@ const processDefinitionApi = {
     getFlowPage(value) {
         let data ={pageNum:value.pageNum,pageSize:value.pageSize,json:JSON.stringify({"keyword":value.keyword,"typeId":value.typeId,'companyId':value.companyId})}
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/getFlowPage`,
+            url: `${window.CLIENT_URL}/flowmgr/getFlowPage`,
             method: 'post',
             data
         })

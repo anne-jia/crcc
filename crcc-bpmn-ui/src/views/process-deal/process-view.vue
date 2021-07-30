@@ -14,7 +14,7 @@
         </template>
         <processLayout :showAside="showAside" :width="getAsideWidth">
             <template slot="main">
-                <modeler-viewer v-model="instance.definition" :status="instance.status"></modeler-viewer>
+                <modeler-view v-model="instance.definition" :status="instance.status"></modeler-view>
             </template>
 
             <template slot="aside">
@@ -60,14 +60,21 @@
 
 <script>
 import processLayout from "./components/process-layout.vue";
-// import modelerViewer from "@/components/crcc-bpmn/modeler-readonly/readonly-modeler.vue";
 
 import camundaApi from "@/api/camunda-api";
 import processInstanceApi from "@/api/process-instance-api";
+import {ModelerView} from '@crcc/bpmn-basic'
 
 import operationUser from "@/views/process-bpmn/components/take-part-components/operation-users.vue";
 
+import elDragDialog from '@/directive/el-drag-dialog/index'
+
 export default {
+    directives:{
+        elDragDialog
+    },
+    name:'processView',
+
     props: {
         id: String,
         showAside:{
@@ -77,8 +84,8 @@ export default {
     },
     components: {
         processLayout,
-        // modelerViewer,
-        operationUser
+        operationUser,
+        ModelerView
     },
     data() {
         return {

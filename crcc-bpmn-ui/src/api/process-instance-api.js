@@ -6,7 +6,7 @@ const processInstanceApi = {
      */
     getProcTypes() {
         return window.axios({
-            url: `${window.CLIENT_URL}instmgr/types`,
+            url: `${window.CLIENT_URL}/instmgr/types`,
             method: 'get',
         })
     },
@@ -18,7 +18,7 @@ const processInstanceApi = {
      */
     getInstancesPage(typeId) {
         return window.axios({
-            url: `${window.CLIENT_URL}instmgr/instances?typeId=${typeId}`,
+            url: `${window.CLIENT_URL}/instmgr/instances?typeId=${typeId}`,
             method: 'get',
         })
     },
@@ -29,7 +29,7 @@ const processInstanceApi = {
      */
     deleteInst(instId) {
         return window.axios({
-            url: `${window.CLIENT_URL}instmgr/deleteInst?instId=${instId}`,
+            url: `${window.CLIENT_URL}/instmgr/deleteInst?instId=${instId}`,
             method: 'delete',
         })
     },
@@ -40,7 +40,7 @@ const processInstanceApi = {
      */
     getFreeNodes(instId) {
         return window.axios({
-            url: `${window.CLIENT_URL}instmgr/freenodes?instId=${instId}`,
+            url: `${window.CLIENT_URL}/instmgr/freenodes?instId=${instId}`,
             method: 'get',
         })
     },
@@ -52,7 +52,7 @@ const processInstanceApi = {
      */
     jump(data) {
         return window.axios({
-            url: `${window.CLIENT_URL}freeflow/jump`,
+            url: `${window.CLIENT_URL}/freeflow/jump`,
             method: 'post',
             data
         })
@@ -64,7 +64,7 @@ const processInstanceApi = {
      */
     running(instId) {
         return window.axios({
-            url: `${window.CLIENT_URL}instmgr/running?instId=${instId}`,
+            url: `${window.CLIENT_URL}/instmgr/running?instId=${instId}`,
             method: 'get',
         })
      
@@ -76,7 +76,7 @@ const processInstanceApi = {
      */
     assign(data) {
         return window.axios({
-            url: `${window.CLIENT_URL}freeflow/assign`,
+            url: `${window.CLIENT_URL}/freeflow/assign`,
             method: 'post',
             data
         })
@@ -87,7 +87,7 @@ const processInstanceApi = {
      */
     getAuths() {
         return window.axios({
-            url: `${window.CLIENT_URL}instmgr/freeflowAllowed`,
+            url: `${window.CLIENT_URL}/instmgr/freeflowAllowed`,
             method: 'get',
         })
      

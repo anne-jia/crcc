@@ -111,8 +111,14 @@ import crccCard from "@/components/crcc-main/crcc-card/index.vue";
 import operationPosition from './take-part-components/operation-position.vue'
 import operationUsers from './take-part-components/operation-users.vue'
 import startUser from "./take-part-components/inner-parms-start";
+import elDragDialog from '@/directive/el-drag-dialog/index'
 
 export default {
+    directives:{
+        elDragDialog
+    },
+    
+    name:'messageSetting',
     props: {},
     components: {
         crccCard,

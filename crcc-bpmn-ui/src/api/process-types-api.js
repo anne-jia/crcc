@@ -12,7 +12,7 @@ const processTypesApi = {
     getTypePage(value) {
         let data ={pageNum:value.pageNum,pageSize:value.pageSize,json:JSON.stringify({"keyword":value.keyword})}
         return window.axios({
-            url: `${window.CLIENT_URL}flowtype/getTypePage`,
+            url: `${window.CLIENT_URL}/flowtype/getTypePage`,
             method: 'post',
             data
         })
@@ -26,7 +26,7 @@ const processTypesApi = {
      */
     getColumns(typeId) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowtype/columns?typeId=${typeId}`,
+            url: `${window.CLIENT_URL}/flowtype/columns?typeId=${typeId}`,
             method: 'get',
         })
     },
@@ -47,7 +47,7 @@ const processTypesApi = {
     */
     isCodeUsed(data) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowtype/isCodeUsed`,
+            url: `${window.CLIENT_URL}/flowtype/isCodeUsed`,
             method: 'post',
             data,
         })
@@ -57,7 +57,7 @@ const processTypesApi = {
     //参数同 isCodeUsed
     isNameUsed(data) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowtype/isNameUsed`,
+            url: `${window.CLIENT_URL}/flowtype/isNameUsed`,
             method: 'post',
             data,
         })
@@ -66,7 +66,7 @@ const processTypesApi = {
     //保存基本类型 ，修改|| 新增
     saveType(data) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowtype/save`,
+            url: `${window.CLIENT_URL}/flowtype/save`,
             method: 'post',
             data,
         })
@@ -78,7 +78,7 @@ const processTypesApi = {
      */
     deleteType(typeId) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowtype/delete?typeId=${typeId}`,
+            url: `${window.CLIENT_URL}/flowtype/delete?typeId=${typeId}`,
             method: 'delete',
         })
     },
@@ -91,7 +91,7 @@ const processTypesApi = {
      */
     isColumnDuplicate(data) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowtype/isColumnDuplicate`,
+            url: `${window.CLIENT_URL}/flowtype/isColumnDuplicate`,
             method: 'post',
             data
         })
@@ -106,7 +106,7 @@ const processTypesApi = {
     saveColInfo(value) {
         let taskColInfo =JSON.stringify(value) 
         return window.axios({
-            url: `${window.CLIENT_URL}flowtype/saveCol`,
+            url: `${window.CLIENT_URL}/flowtype/saveCol`,
             method: 'post',
             data: {
                 id:value.id,
@@ -122,7 +122,7 @@ const processTypesApi = {
      */
     deleteCol(extendId) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowtype/deleteCol?extendId=${extendId}`,
+            url: `${window.CLIENT_URL}/flowtype/deleteCol?extendId=${extendId}`,
             method: 'delete',
         })
     },

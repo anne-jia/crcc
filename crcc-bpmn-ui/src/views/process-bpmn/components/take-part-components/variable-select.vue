@@ -15,8 +15,12 @@
 
 <script>
 import ParamList from "./inner-params";
+import elDragDialog from '@/directive/el-drag-dialog/index'
 
 export default {
+    directives:{
+        elDragDialog
+    },
     name: "VariableSelect",
 
     data() {

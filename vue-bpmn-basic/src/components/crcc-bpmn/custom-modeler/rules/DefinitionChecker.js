@@ -1,4 +1,4 @@
-import ErrorHandler, { error } from './ErrorHandler'
+import ErrorHandler, { processError } from './ErrorHandler'
 import Validators from './index'
 
 var hasTraveled = {};
@@ -36,31 +36,31 @@ export default function check(definition) {
 
     var process = definition.rootElements[0];
     if (!process.name || !process.name.trim()) {
-        error('流程名称不能为空', process)
+        processError('流程名称不能为空', process)
     }
 
     if (process.flowElements && process.flowElements.length > 0) {
         var flowElements = process.flowElements;
         var startElement = flowElements.filter(el => el.$type == 'bpmn:StartEvent');
         if (startElement.length == 0) {
-            error('未定义开始事件', process)
+            processError('未定义开始事件', process)
         } else if (startElement.length > 1) {
-            error('存在多个开始事件', process)
+            processError('存在多个开始事件', process)
         } else {
             traverseElements(startElement[0]);
 
             if (parallelGatewayCheck != 0) {
-                error('并行网关区域绘制错误，请检查', process);
+                processError('并行网关区域绘制错误，请检查', process);
             }
 
             // 是否存在零散节点
             var notIncluded = flowElements.filter(el => !hasTraveled[el.id]);
             if (notIncluded.length > 0) {
-                notIncluded.forEach(el => error('元素未被包含在主流程中', el))
+                notIncluded.forEach(el => processError('元素未被包含在主流程中', el))
             }
         }
     } else {
-        error('流程定义没有内容', process)
+        processError('流程定义没有内容', process)
     }
     return ErrorHandler.getErrors()
 }

@@ -31,6 +31,7 @@ export default function(Vue) {
       }
     } else {
       window.Vue.prototype.error('出现内部错误，请及时联系维护人员')
+      return
     }
   }
 }

@@ -75,9 +75,9 @@
             </el-row>
         </template>
         <import-flow ref="importFlow" :exclusionId="currentTreeData.id" @selected-flow="selectedFlow"></import-flow>
-        <processSetting ref="processSetting" :bpmnId='currentDetailRow.procDefId' v-model="participants" @close="loadFlowTypes">
+        <process-setting ref="processSetting" :bpmnId='currentDetailRow.procDefId' v-model="participants" @close="loadFlowTypes">
 
-        </processSetting>
+        </process-setting>
     </crcc-main>
 </template>
 
@@ -88,6 +88,8 @@ import processSetting from '../process-deal/process-setting.vue'
 
 import processPermissionsApi from "@/api/process-permissions-api";
 export default {
+    name:'processPermissions',
+
     components: {
         crccCard,
         importFlow,
@@ -145,7 +147,6 @@ export default {
             this.$refs.importFlow.dialogVisible = true;
         },
         loadFlowTypes() {
-
         },
 
         pageLoader() {},
@@ -153,7 +154,7 @@ export default {
         selectedFlow(value) {
             let companyFlow = {
                 procKey: value.map(f => f.procKey).join(","),
-                companyId: this.currentTreeData.id
+                companyId: this.currentTreeData.id,
             };
             processPermissionsApi
                 .saveCompanyFlow(companyFlow)
@@ -193,7 +194,6 @@ export default {
                     participants: [],
                     processDefinitionId: row.procDefId,
                     processDefinitionKey: row.procKey,
-                
                     taskDefinitionKey: ""
             },
             this.$refs.processSetting.dialogVisible = true
@@ -230,10 +230,10 @@ export default {
         },
 
         //根据父节点加载子节点
-        getCompanyListByParentId(id) {
+        getCompanyListByParentId(id,name,type) {
             return new Promise((resolve, reject) => {
                 processPermissionsApi
-                    .getCompanyListByParentId(id)
+                    .getCompanyListByParentId(id,name,type)
                     .then(res => {
                         if (res) {
                             resolve(res);
@@ -273,7 +273,7 @@ export default {
                     } else {
                         if (node.key) {
                             let parame = encodeURI(node.key);
-                            let value = await this.getCompanyListByParentId(parame);
+                            let value = await this.getCompanyListByParentId(parame,node.data.pathName,node.data.type);
                             if (value) {
                                 if (!Array.isArray(value)) {
                                     resolve([value]);

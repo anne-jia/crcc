@@ -5,7 +5,7 @@ function format(message, element) {
     return { message, element: element.id }
 }
 
-function error(message, element) {
+function processError(message, element) {
     element ? errorArray.push(format(message, element)) : errorArray.push({ message })
 }
 
@@ -23,5 +23,5 @@ export default {
 }
 
 export {
-    error
+    processError
 }

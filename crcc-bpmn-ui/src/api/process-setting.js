@@ -8,7 +8,7 @@ const processSetting = {
      */
     jobsByName(JobName) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/jobsByName?JobName=${JobName}`,
+            url: `${window.CLIENT_URL}/flowmgr/jobsByName?JobName=${JobName}`,
             method: 'get',
         })
     },
@@ -18,7 +18,7 @@ const processSetting = {
      */
     jobsTree() {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/jobsTree`,
+            url: `${window.CLIENT_URL}/flowmgr/jobsTree`,
             method: 'get',
         })
     },
@@ -27,9 +27,9 @@ const processSetting = {
      * @param {*} parentId 流程定义中根据父组织的id
      * @returns 懒加载获取下级组织直到岗位的列表数据
      */
-    jobsByParentId(parentId) {
+    jobsByParentId(id,name,type) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/jobsByParentId?parentId=${parentId}`,
+            url: `${window.CLIENT_URL}/flowmgr/jobsByParentId?parentId=${id}&parentPathName=${name}&parentType=${type}`,
             method: 'get',
         })
     },
@@ -40,7 +40,7 @@ const processSetting = {
      */
      usersByName(userName) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/usersByName?userName=${userName}`,
+            url: `${window.CLIENT_URL}/flowmgr/usersByName?userName=${userName}`,
             method: 'post',
         })
     },
@@ -50,7 +50,7 @@ const processSetting = {
      */
      usersTree() {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/usersTree`,
+            url: `${window.CLIENT_URL}/flowmgr/usersTree`,
             method: 'post',
         })
     },
@@ -59,9 +59,9 @@ const processSetting = {
      * @param {*} parentId 流程定义中根据父组织的id
      * @returns 懒加载获取下级组织直到用户的列表数据
      */
-     usersByParentId(parentId) {
+     usersByParentId(id,name,type) {
         return window.axios({
-            url: `${window.CLIENT_URL}flowmgr/usersByParentId?parentId=${parentId}`,
+            url: `${window.CLIENT_URL}/flowmgr/usersByParentId?parentId=${id}&parentPathName=${name}&parentType=${type}`,
             method: 'post',
         })
     },

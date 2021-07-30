@@ -6,9 +6,10 @@
 
 <script>
 // import customModeler from '@/components/crcc-bpmn/modeler-readonly/readonly-modeler.vue'
+import {ModelerView} from '@crcc/bpmn-basic'
 export default {
     components: {
-        // customModeler
+        ModelerView
     },
     data() {
         return {

@@ -43,8 +43,8 @@
                 </el-col>
             </el-row>
         </template>
-        <processView  ref="processView" :showAside='false' :id='currentDetailRow.id' @close="loadFlowTypes"></processView>
-        <processDeal ref="processDeal" @close ="loadTasks"></processDeal>
+        <process-view  ref="processView" :showAside='false' :id='currentDetailRow.id' @close="loadFlowTypes"></process-view>
+        <process-deal ref="processDeal" @close ="loadTasks"></process-deal>
     </crcc-main>
 </template>
 
@@ -56,6 +56,8 @@ import processView from '../process-deal/process-view.vue'
 import processDeal from '../process-deal/process-deal.vue'
 
 export default {
+    name:'processTaskList',
+
     components: {
         crccCard,
         processView,

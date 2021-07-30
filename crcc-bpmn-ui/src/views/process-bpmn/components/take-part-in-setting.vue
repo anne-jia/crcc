@@ -107,8 +107,13 @@ import operationUsers from './take-part-components/operation-users.vue'
 import variableSelect from './take-part-components/variable-select.vue'
 
 import startUser from "./take-part-components/inner-parms-start";
+import elDragDialog from '@/directive/el-drag-dialog/index'
 
 export default {
+    directives:{
+        elDragDialog
+    },
+    name:'takePartInSetting',
     props: {},
     components: {
         crccCard,

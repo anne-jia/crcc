@@ -33,7 +33,12 @@
 
 <script>
 import processTypesApi from '@/api/process-types-api'
+import elDragDialog from '@/directive/el-drag-dialog/index'
+
 export default {
+    directives:{
+        elDragDialog
+    },
     props: {
         state: {
             type: String,

@@ -35,7 +35,7 @@
                 </div>
             </crcc-card>
         </el-col>
-        <processView ref="processView" :id='currentDetailRow.id'></processView>
+        <processView ref="processView" :id='currentDetailRow.id' @close="getProcTypes"></processView>
     </el-row>
 </template>
 
@@ -47,6 +47,8 @@ import processInstanceApi from '@/api/process-instance-api'
 import showPopver from '@/directive/show-popver'
 
 export default {
+    name:'processInstanceList',
+
     components: {
         crccCard,
         processView

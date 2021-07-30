@@ -1,15 +1,15 @@
 <!--  bpmn-->
 <template>
     <div class='bpmn' v-loading='loadingProcess'>
-        <customModeler :key="`process-${reloadIndex}`" v-model="xmlString" 
+        <custom-modeler :key="`process-${reloadIndex}`" v-model="xmlString" 
         ref="customModeler"
         v-bind="controlForm"
          @opening-message="openMessage"
          @opening-participant="openParticipant"
          @publish-process='publishProcess' @element-click="elementClick">
             <el-button type="primary" icon="el-icon-back" @click="goBack">返回</el-button>
-        </customModeler>
-        <messageSetting ref="messageSetting" @on-message-save="savedMessage"></messageSetting>
+        </custom-modeler>
+        <message-setting ref="messageSetting" @on-message-save="savedMessage"></message-setting>
         <take-part-in-setting ref="takePartInSetting" @on-save-take-part-setting="savedParticipant"></take-part-in-setting>
     </div>
 </template>
@@ -17,12 +17,14 @@
 <script>
 import messageSetting from './components/message-setting.vue'
 import takePartInSetting from './components/take-part-in-setting.vue'
-
+import {CustomModeler} from '@crcc/bpmn-basic'
 import processDefinitionApi from "@/api/process-definition-api";
 export default {
+    name:'processBpmn',
     components: {
         messageSetting,
-        takePartInSetting
+        takePartInSetting,
+        CustomModeler
     },
     data() {
         return {

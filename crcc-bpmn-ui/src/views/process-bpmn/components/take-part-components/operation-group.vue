@@ -17,7 +17,12 @@
 </template>
 
 <script>
+import elDragDialog from '@/directive/el-drag-dialog/index'
+
 export default {
+    directives:{
+        elDragDialog
+    },
     props: {
         value:{
             type:Object,

@@ -91,6 +91,7 @@ import crccCard from "@/components/crcc-main/crcc-card/index.vue";
 import operationDetail from "./components/operationDetail.vue";
 import processTypesApi from '@/api/process-types-api'
 export default {
+    name:'processTypes',
     components: {
         crccCard,
         operationDetail

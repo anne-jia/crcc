@@ -114,8 +114,13 @@
 <script>
 import processLayout from "./components/process-layout.vue";
 import procesTasksApi from "@/api/process-task-api";
+import elDragDialog from '@/directive/el-drag-dialog/index'
 
 export default {
+    directives:{
+        elDragDialog
+    },
+    name:'processDeal',
     props: {},
     components: {
         processLayout,

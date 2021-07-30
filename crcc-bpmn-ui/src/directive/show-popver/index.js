@@ -1,4 +1,5 @@
-const showPopver = Vue.directive('showPopver', {
+
+const showPopver = {
   // el {element} 当前元素
   bind(el, binding, vnode) {
     const vcTooltipDom = document.createElement('div')
@@ -106,5 +107,16 @@ const showPopver = Vue.directive('showPopver', {
     const vcTooltipDom = document.getElementById('vc-tooltip')
     vcTooltipDom && document.body.removeChild(vcTooltipDom)
   }
-})
+}
+
+const install = function(Vue) {
+  Vue.directive('showPopver',showPopver )
+}
+
+if (window.Vue) {
+  window.showPopver = showPopver
+  Vue.use(install); // eslint-disable-line
+}
+
+showPopver.install = install
 export default showPopver
