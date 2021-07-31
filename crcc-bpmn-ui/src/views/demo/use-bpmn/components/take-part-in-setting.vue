@@ -6,7 +6,12 @@
 </template>
 
 <script>
+import elDragDialog from '@/directive/el-drag-dialog/index'
+
 export default {
+    directives:{
+        elDragDialog
+    },
     props: {},
     components: {
 

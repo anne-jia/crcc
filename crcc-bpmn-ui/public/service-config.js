@@ -9,7 +9,7 @@
   // win.CLIENT_URL = window.BASE_URL + "crcc-process/";
 =======
   // win.CLIENT_URL = window.BASE_URL + "purchase/purchase-workflow-engine-server/";
-  win.CLIENT_URL = window.BASE_URL + "crcc-process/";
+  win.CLIENT_URL = window.BASE_URL + "crcc-process";
 
 >>>>>>> 12b148362cc7bfddd228cefba4549bc960391132
 })(window);

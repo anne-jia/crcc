@@ -14,6 +14,9 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
 import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css' // 右边属性面板样式
 
 import 'styles/crcc-bpmn/index.scss'
+import {
+  processError
+} from '@/components/crcc-bpmn/custom-modeler/rules/ErrorHandler';
 
 const components = [
   CustomModeler,
@@ -37,5 +40,13 @@ export default {
   CustomModeler,
   ModelerSettingControl,
   ModelerView,
+  processError
   // workflowEventBus
+}
+export {
+  install,
+  CustomModeler,
+  ModelerSettingControl,
+  ModelerView,
+  processError
 }

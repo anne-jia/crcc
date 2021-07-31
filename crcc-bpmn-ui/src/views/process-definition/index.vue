@@ -96,6 +96,7 @@ import processBpmn from '@/views/process-bpmn/index.vue'
 import processTypesApi from '@/api/process-types-api'
 import processDefinitionApi from "@/api/process-definition-api";
 export default {
+    name:'processDefinition',
     components: {
         crccCard,
         operationDefinition,
@@ -142,7 +143,7 @@ export default {
                 total: 0
             },
             flowDefinitions: {
-                list: [1],
+                list: [],
                 pageSize: 20,
                 pageNum: 1,
                 total: 0

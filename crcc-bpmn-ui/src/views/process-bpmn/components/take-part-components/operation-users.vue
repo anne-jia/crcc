@@ -39,7 +39,7 @@
             ref="userTree"
             :default-checked-keys="defaultCheckedKeys"
               @check="getCheckChange"
-            @check-change="checkChangeNode"
+             @check-change="checkChangeNode"
             :check-strictly="true"
             :expand-on-click-node="false"
             highlight-current
@@ -67,7 +67,12 @@
 <script>
 import processSetting from "@/api/process-setting";
 
+import elDragDialog from '@/directive/el-drag-dialog/index'
+
 export default {
+    directives:{
+        elDragDialog
+    },
   props: {
     checkedNodes: {
       type: Array,
@@ -226,10 +231,10 @@ export default {
       });
     },
     //根据父节点加载子节点
-    usersByParentId(id) {
+    usersByParentId(id,path,name) {
       return new Promise((resolve, reject) => {
         processSetting
-          .usersByParentId(id)
+          .usersByParentId(id,path,name)
           .then(res => {
             if (res) {
               resolve(res);
@@ -271,7 +276,7 @@ export default {
           }
           if (node.key) {
             let  parame = encodeURI(node.key)
-            let value = await this.usersByParentId( parame);
+            let value = await this.usersByParentId( parame,node.data.pathName,node.data.type);
             if (value) {
               if (!Array.isArray(value)) {
                 resolve([value]);

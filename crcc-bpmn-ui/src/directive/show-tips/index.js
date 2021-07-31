@@ -1,4 +1,4 @@
-const showTips = Vue.directive('showTips', {
+const showTips = {
   // el {element} 当前元素
   componentUpdated(el, binding, vnode, oldVnode) {
     const elLink = el.children[0];
@@ -77,5 +77,17 @@ const showTips = Vue.directive('showTips', {
     const vcTooltipDom = document.getElementById('vc-tooltip')
     vcTooltipDom && document.body.removeChild(vcTooltipDom)
   }
-})
+}
+  
+const install = function(Vue) {
+  Vue.directive('showTips',showTips )
+}
+
+if (window.Vue) {
+  window.showTips = showTips
+  Vue.use(install); // eslint-disable-line
+}
+
+showTips.install = install
+
 export default showTips

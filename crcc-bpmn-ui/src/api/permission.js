@@ -1,7 +1,7 @@
 
 export function getUserMenus() {
   return window.axios({
-    url: `${window.CLIENT_URL}sysMenu/getUserMenus`,
+    url: `${window.CLIENT_URL}/sysMenu/getUserMenus`,
     method: 'get'
   })
 }

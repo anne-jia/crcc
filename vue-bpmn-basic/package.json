@@ -6,13 +6,13 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build:bundle": "vue-cli-service build --target lib --name @crcc/bpmn-basic src/index.js",
+    "build:bundle": "vue-cli-service build --target lib --name bpmn-basic src/index.js",
     "publish:crcc": "npm publish --registry=http://36.112.134.140:8080/repository/npm-host/",
     "registry": "npm config set registry http://36.112.134.140:8080/repository/npm/",
     "login": "npm login --registry=http://36.112.134.140:8080/repository/npm-host/"
   },
-  "main": "dist/@crcc/bpmn-basic.common.js",
-  "style": "dist/@crcc/css/bpmn-basic.css",
+  "main": "dist/bpmn-basic.common.js",
+  "style": "dist/css/bpmn-basic.css",
   "dependencies": {
     "axios": "^0.21.1",
     "bpmn-js": "^8.6.0",

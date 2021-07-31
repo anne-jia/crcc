@@ -52,7 +52,7 @@ import ErrorDialog from "./components/ErrorDialog";
 import {workflowEventBus} from '../modeler-enhance/properties-event-handler/PropertiesEventHandlerProvider.js'
 
 export default {
-    name: "CustomModeler",
+    name: "customModeler",
     components: {
         ErrorDialog,
     },

@@ -66,7 +66,12 @@
 
 <script>
 import processSetting from "@/api/process-setting";
+import elDragDialog from '@/directive/el-drag-dialog/index'
+
 export default {
+    directives:{
+        elDragDialog
+    },
   props: {
     checkedNodes: {
       type: Array,
@@ -197,10 +202,10 @@ export default {
       });
     },
     //根据父节点加载子节点
-    jobsByParentId(id) {
+    jobsByParentId(id,path,name) {
       return new Promise((resolve, reject) => {
         processSetting
-          .jobsByParentId(id)
+          .jobsByParentId(id,path,name)
           .then(res => {
             if (res) {
               resolve(res);
@@ -236,7 +241,7 @@ export default {
         if (node.level >= 1) {
           if (node.key) {
             let parame = encodeURI(node.key)
-            let value = await this.jobsByParentId(parame);
+            let value = await this.jobsByParentId(parame,node.data.pathName,node.data.type);
             if (value) {
               if (!Array.isArray(value)) {
                 resolve([value]);

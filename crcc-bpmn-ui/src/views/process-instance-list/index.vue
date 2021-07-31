@@ -128,7 +128,7 @@
                 </div>
             </crcc-card>
         </el-col>
-        <processView ref="processView" :id='currentDetailRow.id'></processView>
+        <processView ref="processView" :id='currentDetailRow.id' @close="getProcTypes"></processView>
     </el-row>
 >>>>>>> 12b148362cc7bfddd228cefba4549bc960391132
 </template>
@@ -141,6 +141,7 @@ import processInstanceApi from "@/api/process-instance-api";
 import showPopver from "@/directive/show-popver";
 
 export default {
+<<<<<<< HEAD
   components: {
     crccCard,
     processView,
@@ -170,6 +171,13 @@ export default {
     //当前选中行的数据
     currentFlowType() {
       return this.$refs.typeTable.store.states.currentRow;
+=======
+    name:'processInstanceList',
+
+    components: {
+        crccCard,
+        processView
+>>>>>>> 614fce9baea409743f6a3b6ef7ba46f706a0cedc
     },
 <<<<<<< HEAD
   },

@@ -24,20 +24,23 @@
             </div>
 
         </modeler-setting-control>
-        <takePartInSetting ref="takePartInSetting" @on-save-take-part-setting="savedParticipant"></takePartInSetting>
+        <take-part-in-setting  ref="takePartInSetting" @on-save-take-part-setting="savedParticipant"></take-part-in-setting >
     </el-dialog>
 </template>
 
 <script>
-import modelerSettingControl from "@/components/crcc-bpmn/modeler-setting-control/index.vue";
 import processDefinitionApi from "@/api/process-definition-api";
 import processPermissionsApi from "@/api/process-permissions-api";
+import {ModelerSettingControl,processError} from '@crcc/bpmn-basic'
 
 import takePartInSetting from '@/views/process-bpmn/components/take-part-in-setting.vue'
-import {
-    error
-} from '@/components/crcc-bpmn/custom-modeler/rules/ErrorHandler';
+import elDragDialog from '@/directive/el-drag-dialog/index'
+
 export default {
+    directives:{
+        elDragDialog
+    },
+    name:'processSetting',
     props: {
         //流程实例得id
         bpmnId: String,
@@ -57,8 +60,8 @@ export default {
         },
     },
     components: {
-        modelerSettingControl,
-        takePartInSetting
+        takePartInSetting,
+        ModelerSettingControl
     },
     data() {
         return {
@@ -107,7 +110,7 @@ export default {
                         type: 'success',
                         message: '流程参与者清除成功!'
                     });
-                }).catch(err => error.message[err[0]])
+                }).catch(err => processError.message[err[0]])
 
             }).catch(() => {
                 this.$message({
@@ -154,7 +157,7 @@ export default {
                     participants: this.value.participants
                 });
 
-            }).catch(err => error.message[err[0]])
+            }).catch(err => processError.message[err[0]])
         },
         close() {
             this.dialogVisible = false;

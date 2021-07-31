@@ -36,8 +36,12 @@
 
 <script>
 import processPermissionsApi from '@/api/process-permissions-api'
+import elDragDialog from '@/directive/el-drag-dialog/index'
 
 export default {
+    directives:{
+        elDragDialog
+    },
     props: {
         exclusionId: String
     },

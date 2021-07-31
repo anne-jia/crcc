@@ -9,7 +9,7 @@ const procesTasksApi = {
      */
  getTaskProcessor(taskId) {
     return window.axios({
-        url: `${window.CLIENT_URL}tasks/processor?taskId=${taskId}`,
+        url: `${window.CLIENT_URL}/tasks/processor?taskId=${taskId}`,
         method: 'get',
     })
 },
@@ -20,7 +20,7 @@ const procesTasksApi = {
      */
     completeTask(data) {
         return window.axios({
-            url: `${window.CLIENT_URL}usertask/complete`,
+            url: `${window.CLIENT_URL}/usertask/complete`,
             method: 'post',
             data
         })
@@ -34,7 +34,7 @@ const procesTasksApi = {
      */
     loadFlowFiles(taskId) {
         return window.axios({
-            url: `${window.CLIENT_URL}tasks/files?taskId=${taskId}`,
+            url: `${window.CLIENT_URL}/tasks/files?taskId=${taskId}`,
             method: 'get',
         })
       
@@ -46,7 +46,7 @@ const procesTasksApi = {
      */
     deleteFile(fileId) {
         return window.axios({
-            url: `${window.CLIENT_URL}tasks/deleteFile?fileId=${fileId}`,
+            url: `${window.CLIENT_URL}/tasks/deleteFile?fileId=${fileId}`,
             method: 'DELETE',
         })
     },
@@ -57,7 +57,7 @@ const procesTasksApi = {
      */
     getLogs(instId) {
         return window.axios({
-            url: `${window.CLIENT_URL}tasks/logs?instId=${instId}`,
+            url: `${window.CLIENT_URL}/tasks/logs?instId=${instId}`,
             method: 'get',
         })
     },
@@ -68,7 +68,7 @@ const procesTasksApi = {
      */
     loadTasks(typeId) {
         return window.axios({
-            url: `${window.CLIENT_URL}tasklist/active?typeId=${typeId}`,
+            url: `${window.CLIENT_URL}/tasklist/active?typeId=${typeId}`,
             method: 'get',
         })
     },
@@ -79,7 +79,7 @@ const procesTasksApi = {
      */
     loadFlowTypes() {
         return window.axios({
-            url: `${window.CLIENT_URL}tasklist/types`,
+            url: `${window.CLIENT_URL}/tasklist/types`,
             method: 'get',
         })
     },
@@ -90,7 +90,7 @@ const procesTasksApi = {
      */
     loadFlowInstFiles(instId) {
         return window.axios({
-            url: `${window.CLIENT_URL}tasks/instFiles?instId=${instId}`,
+            url: `${window.CLIENT_URL}/tasks/instFiles?instId=${instId}`,
             method: 'get',
         })
     },

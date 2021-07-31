@@ -8,35 +8,46 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   lintOnSave: false,
   publicPath: '../',
-  assetsDir:'../',
+  assetsDir:'/',
 
   chainWebpack: config => {
-    config.module.rule('fonts')
-    .use('url-loader')
-    .tap(args => {
-      args.fallback.options.name='fonts/[name].[hash:8].[ext]'
+   const fontsRule= config.module.rule('fonts')
+    fontsRule.uses.clear();
 
-      return args
-    }).end(),
+    fontsRule.use('url-loader')
+      .loader('url-loader')
+      .options({
+        limit: 4096,
+      })
+      .end()
+     .use("file-loader")
+      .loader('file-loader')
+        .options({
+        name:'[name].[hash:8].[ext]',
+        outputPath:'fonts/'
+      }).end()
+
+
     config.module.rule('svg')
-    .use('file-loader')
-    .options({
-      name:'img/[name].[hash:8].[ext]'
-    })
-    .end(),
-    
-    // config.module.rule('images')
-    // .use('url-loader')
-    // .options({
-    //   name:'../img/[name].[hash:8].[ext]'
-    // })
-    // .end(),
+    .use('url-loader')
+        .loader('url-loader')
+        .options({
+          limit: 4096,
+          outputPath:'img/'
+        })
+        .end()
+        .use("file-loader")
+        .loader('file-loader')
+          .options({
+          name:'[name].[hash:8].[ext]',
+          outputPath:'img/'
+        }).end()
 
+    
     config.module
     .rule('svg')
     .exclude.add(resolve('src/icons'))
     .end()
-
     config.module
     .rule('icons')
     .test(/\.svg$/)
@@ -47,7 +58,19 @@ module.exports = {
     .options({
       symbolId: 'icon-[name]'
     })
-    .end()
+      .end()
+      .use('url-loader')
+      .loader('url-loader')
+      .options({
+        limit: 4096,
+      })
+      .end()
+      .use("file-loader")
+      .loader('file-loader')
+        .options({
+        name:'[name].[hash:8].[ext]',
+        outputPath:'img/'
+      }).end()
 
     config.merge({
       resolve: {

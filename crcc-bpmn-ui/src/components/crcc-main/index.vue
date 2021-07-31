@@ -20,6 +20,7 @@
 <script>
 
 export default {
+    name:"crccMain",
     props:{
         scroll:{
             type:Boolean,
@@ -37,7 +38,7 @@ export default {
             type:String,
             default:' '
         },
-     
+
     },
     components: {
     },
@@ -54,8 +55,8 @@ export default {
                 return 'crcc-main' + this.className;
             }
         },
-     
-           
+
+
     },
     methods: {
 

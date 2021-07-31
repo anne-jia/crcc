@@ -14,6 +14,7 @@
 
 <script>
 export default {
+    name:'crccCard',
     props:{
         scroll:{
             type:Boolean,
@@ -79,7 +80,7 @@ $borderColor:#dcdfe6;
             line-height: 16px;
         }
     }
-    
+
     .main {
         flex: 1;
         overflow: hidden;

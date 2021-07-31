@@ -42,6 +42,7 @@ function createAxios() {
      * You can also judge the status by HTTP Status Code
      */
     response => {
+
       const res = response.data
       // if the custom code is not 20000, it is judged as an error.
 
@@ -71,20 +72,36 @@ function createAxios() {
       }
     },
     error => {
-      let responseData = {},errorInfo =error?.response?.data||{};
-      if (typeof errorInfo === 'object') {
-        responseData = errorInfo
+      if (error.message.includes('code 500')) {
+        error.message =["出现内部错误，请及时联系维护人员"] 
+        return Promise.reject(error)
       }
-      if (typeof errorInfo=== 'string') {
-        console.error('此处异常信息为字符串，请检查处理')
-        responseData = JSON.parse(errorInfo)
+      if (error.message.includes('timeout')) {
+        error.message =["网络超时"] 
+      return Promise.reject(error)
       }
-      if (responseData && responseData.bizError) {
-        const unauthorizedException = 'com.crcc.integration.api.authorization.exception.UnauthorizedException'
-        if (unauthorizedException == responseData.exception) {
-          Vue.prototype.unauthorizedException = true
-        } else {
-          return Promise.reject(responseData)
+      let responseData ;
+      if(error.response.status===404){
+        error.message =["连接出错404"] 
+        return Promise.reject(error)
+      }else{
+        if (typeof error.response.data === 'object') {
+          responseData = error.response.data
+          if (typeof responseData.message[0] === 'string') {
+            responseData.message[0] = JSON.parse(responseData.message[0]);
+          }
+        }
+        if (typeof error.response.data === 'string') {
+          console.error('此处异常信息为字符串，请检查处理')
+          responseData = JSON.parse(error.response.data)
+        }
+        if (responseData && responseData.bizError) {
+          const unauthorizedException = 'com.crcc.integration.api.authorization.exception.UnauthorizedException'
+          if (unauthorizedException == responseData.exception) {
+            Vue.prototype.unauthorizedException = true
+          } else {
+            return Promise.reject(responseData)
+          }
         }
       }
 

@@ -48,8 +48,12 @@
 
 <script>
 import processDefinitionApi from "@/api/process-definition-api";
+import elDragDialog from '@/directive/el-drag-dialog/index'
 
 export default {
+    directives:{
+        elDragDialog
+    },
     props: {
         state: {
             // add, update, view,copy,del

@@ -1,28 +1,27 @@
 <!--  bpmn-->
 <template>
     <div class='bpmn'>
-        <customModeler v-model="xmlString"
+        <custom-modeler v-model="xmlString"
          v-bind="controlForm"
           @publish-process='publishProcess' 
           @opening-message="openMessage"
           @opening-participant="openParticipant"
           @element-click="elementClick">
             <el-button type="primary" icon="el-icon-back" @click="goBack">返回</el-button>
-        </customModeler>
-        <messageSetting ref="messageSetting"></messageSetting>
+        </custom-modeler>
+        <message-setting ref="messageSetting"></message-setting>
         <take-part-in-setting ref="takePartInSetting"></take-part-in-setting>
     </div>
 </template>
 
 <script>
-// import customModeler from '@/components/crcc-bpmn/custom-modeler/custom-modeler.vue'
 
 import messageSetting from './components/message-setting.vue'
 import takePartInSetting from './components/take-part-in-setting.vue'
-
+import {CustomModeler} from '@crcc/bpmn-basic'
 export default {
     components: {
-        // customModeler,
+        CustomModeler,
         messageSetting,
         takePartInSetting
     },
@@ -80,7 +79,6 @@ export default {
 
     },
     mounted() {
-     
     },
 }
 </script>
