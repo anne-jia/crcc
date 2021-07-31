@@ -71,13 +71,13 @@ function createAxios() {
       }
     },
     error => {
-      let responseData = {}
-      if (typeof error.response.data === 'object') {
-        responseData = error.response.data
+      let responseData = {},errorInfo =error?.response?.data||{};
+      if (typeof errorInfo === 'object') {
+        responseData = errorInfo
       }
-      if (typeof error.response.data === 'string') {
+      if (typeof errorInfo=== 'string') {
         console.error('此处异常信息为字符串，请检查处理')
-        responseData = JSON.parse(error.response.data)
+        responseData = JSON.parse(errorInfo)
       }
       if (responseData && responseData.bizError) {
         const unauthorizedException = 'com.crcc.integration.api.authorization.exception.UnauthorizedException'

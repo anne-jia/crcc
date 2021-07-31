@@ -2,7 +2,7 @@
 <template>
     <crcc-main class="flow-types" :scroll="false" :showSearch="false">
         <template slot="crcc-opcation">
-            <el-button type="primary">刷新</el-button>
+            <el-button type="primary" @click="loadFlowTypes">刷新</el-button>
         </template>
         <template slot="crcc-main">
             <el-row>
@@ -10,7 +10,7 @@
                     <crcc-card v-loading="loadingTypes" :scroll="true" title="流程类型">
                         <div :class="processTypesList.list.length>0? 'types-list' : 'empty types-list'">
                             <el-table ref="typeTable" :data="processTypesList.list" stripe  highlight-current-row :show-header="false" @row-click="selectType">
-                                 <el-table-column prop="typeName" align="left" show-overflow-tooltip>
+                                <el-table-column prop="typeName" align="left" show-overflow-tooltip>
                         </el-table-column>
                         <el-table-column prop="taskNum" width="60px" header-align="center" align="left" class-name="tag-group" >
                             <template slot-scope="{row}">
@@ -18,8 +18,8 @@
                             </template>
                         </el-table-column>
                             </el-table>
-                            <pagination v-show="processTypesList.total > 0" scrollToElementClassName=".main.scrollBar" :total="processTypesList.total" :pageSize="processTypesList.pageSize" :currentPage="processTypesList.pageNum" @pagination="pageLoader">
-                            </pagination>
+                            <!-- <pagination v-show="processTypesList.total > 0" scrollToElementClassName=".main.scrollBar" :total="processTypesList.total" :pageSize="processTypesList.pageSize" :currentPage="processTypesList.pageNum" @pagination="pageLoader">
+                            </pagination> -->
                         </div>
                     </crcc-card>
                 </el-col>
@@ -27,11 +27,10 @@
                     <crcc-card v-loading="loadingFlowTable||loadingTypes" :scroll="true" title="流程详情">
                         <div>
                             <el-table ref="flowTable" :data="taskList.list" border stripe highlight-current-row>
-                      
                                 <el-table-column v-for="col in extendCols" v-bind:key="col.field" :prop="col.field" :label="col.label" :width="col.width" :header-align="col.align" :align="col.align" show-overflow-tooltip></el-table-column>
                                 <el-table-column prop="_procName_" label="所属流程" min-width="200" show-overflow-tooltip></el-table-column>
                                 <el-table-column prop="_name_" label="任务名称" min-width="200" show-overflow-tooltip></el-table-column>
-                                <el-table-column prop="_createTime_" label="创建时间" width="160" header-align="center" align="center" show-overflow-tooltip></el-table-column>
+                                <el-table-column prop="_createTime_" label="创建时间" min-width="160"  align="center" show-overflow-tooltip></el-table-column>
                                 <el-table-column label="操作" width="100" header-align="center" align="center" class-name="table-btn-group">
                                     <template slot-scope="{ row }">
                                         <el-button type="text" @click="showStatus(row)">进度</el-button>
@@ -44,17 +43,23 @@
                 </el-col>
             </el-row>
         </template>
+        <processView  ref="processView" :showAside='false' :id='currentDetailRow.id' @close="loadFlowTypes"></processView>
+        <processDeal ref="processDeal" @close ="loadTasks"></processDeal>
     </crcc-main>
 </template>
 
 <script>
 import crccCard from "@/components/crcc-main/crcc-card/index.vue";
-
 import procesTasksApi from "@/api/process-task-api";
 import showPopver from '@/directive/show-popver'
+import processView from '../process-deal/process-view.vue'
+import processDeal from '../process-deal/process-deal.vue'
+
 export default {
     components: {
-        crccCard
+        crccCard,
+        processView,
+        processDeal
     },
      directives:{
         showPopver
@@ -70,12 +75,15 @@ export default {
                 total: 0
             },
             taskList: {
-                list: [1],
+                list: [],
                 pageSize: 20,
                 pageNum: 0,
                 total: 0
             },
-            extendCols: []
+            extendCols: [],
+            currentDetailRow:{
+                id:''
+            }
         };
     },
     computed: {
@@ -127,8 +135,29 @@ export default {
                 });;
         },
         pageLoader() {},
-        showStatus() {},
-        handleTask() {},
+        showStatus(task) {
+            this.currentDetailRow ={
+                id: task?._procInstId_||'',
+                name: task?._name_||'',
+                createTime: task?._createTime_||'',
+                procName: task?._procName_||'',
+                taskDefKey: task?._taskDefKey_||''
+            };
+            this.$refs.processView.dialogVisible =true
+
+        },
+        handleTask(task) {
+            this.$refs.processDeal.open(  {
+                id: task?._id_||'',
+                name: task?._name_||'',
+                createTime: task?._createTime_||'',
+                procInstId: task?._procInstId_||'',
+                procName: task?._procName_||'',
+                taskDefKey: task?._taskDefKey_||''
+        },
+        this.currentFlowType) 
+
+        },
     },
     mounted() {
         this.loadFlowTypes();

@@ -1,23 +1,26 @@
 <!--  bpmn-->
 <template>
     <div class='bpmn' v-loading='loadingProcess'>
-        <customModeler :key="`process-${reloadIndex}`" v-model="xmlString" v-bind="controlForm" @publish-process='publishProcess' @element-click="elementClick">
+        <customModeler :key="`process-${reloadIndex}`" v-model="xmlString" 
+        ref="customModeler"
+        v-bind="controlForm"
+         @opening-message="openMessage"
+         @opening-participant="openParticipant"
+         @publish-process='publishProcess' @element-click="elementClick">
             <el-button type="primary" icon="el-icon-back" @click="goBack">返回</el-button>
         </customModeler>
-        <messageSetting ref="messageSetting"></messageSetting>
-        <take-part-in-setting ref="takePartInSetting"></take-part-in-setting>
+        <messageSetting ref="messageSetting" @on-message-save="savedMessage"></messageSetting>
+        <take-part-in-setting ref="takePartInSetting" @on-save-take-part-setting="savedParticipant"></take-part-in-setting>
     </div>
 </template>
 
 <script>
-import customModeler from '@/components/crcc-bpmn/custom-modeler'
 import messageSetting from './components/message-setting.vue'
 import takePartInSetting from './components/take-part-in-setting.vue'
 
 import processDefinitionApi from "@/api/process-definition-api";
 export default {
     components: {
-        customModeler,
         messageSetting,
         takePartInSetting
     },
@@ -30,46 +33,71 @@ export default {
                 flowTypeId: '',
                 processId: "",
                 processName: "",
+                companyId:"",
+                general:false,
+                companyPath:'',
+                companyName:"",
                 prefix: "camunda",
                 status:'create',
             },
-            processForm: {
-
-            }
+    
         }
     },
-    computed: {
 
-    },
     methods: {
         goBack(realod=false) {
             this.$emit('hide-bpmn', realod)
         },
         editDiagram(flowInfo) {
             this.loadingProcess = true
-            this.controlForm.flowType = flowInfo.typeId;
-            this.controlForm.status = 'update';
+            let data={
+                flowType:flowInfo.typeId,
+                processId: flowInfo.flowCode,
+                processName:flowInfo.flowName,
+                companyId:flowInfo.companyId,
+                companyName:flowInfo.companyName,
+                companyPath:flowInfo.companyPath,
+                general:flowInfo.general,
+                status:'update'
+            }
+            this.controlForm={...this.controlForm,...data}
+           
             processDefinitionApi.getFlowXml(flowInfo.procDefId).then(xml => {
                 this.xmlString = xml;
                 this.reloadIndex++;
             }).catch(err => this.error(err.message[0])).finally(() => this.loadingProcess = false);
         },
         createDiagram(flowInfo){
-            this.controlForm.status = 'create';
-            this.controlForm.flowType = flowInfo.typeId;
-            this.controlForm.processId = flowInfo.flowCode;
-             this.controlForm.processName = flowInfo.flowName;
+            let data={
+                flowType:flowInfo.typeId,
+                processId: flowInfo.flowCode,
+                processName:flowInfo.flowName,
+                companyId:flowInfo.companyId,
+                companyName:flowInfo.companyName,
+                companyPath:flowInfo.companyPath,
+                general:flowInfo.general,
+                status:'create'
+            }
+            this.controlForm={...this.controlForm,...data}
             this.xmlString = '';
             this.reloadIndex++;
         },
 
         copyDiagram(flowInfo) {
             this.loadingProcess = true;
-            this.controlForm.flowType = flowInfo.typeId;
-            this.controlForm.processId = flowInfo.flowCode;
-            this.controlForm.processName = flowInfo.flowName;
+                 let data={
+                flowType:flowInfo.typeId,
+                processId: flowInfo.flowCode,
+                processName:flowInfo.flowName,
+                companyId:flowInfo.companyId,
+                companyName:flowInfo.companyName,
+                companyPath:flowInfo.companyPath,
+                general:flowInfo.general,
+                status:'copy'
+            }
+            this.controlForm={...this.controlForm,...data}
+
             //复制
-            this.controlForm.status = 'copy';
             processDefinitionApi.getFlowXml(flowInfo.flowToCopy.procDefId).then(xml => {
                 this.xmlString = xml;
                 this.reloadIndex++;
@@ -82,63 +110,41 @@ export default {
         },
         // 获取更改 提交到后台交互
         publishProcess(value) {
+            let data = {...value,general:this.controlForm.general,companyPath:this.controlForm.companyPath}
             this.loadingProcess =true
-             processDefinitionApi.deployFlow(value)
+             processDefinitionApi.deployFlow(data)
                 .then(() => {
                     this.info("部署完成");
-                    this.loadingProcess =false
                     this.goBack(true);
                 })
                 .catch(err => {
                     this.error(err.message[0]);
-                });
+                }).finally(() =>this.loadingProcess =false);
 
 
         },
         //消息设置打开
-        openMessage() {
-            let that = this;
-            Vue.$workflowEventBus.$on('message-setting.openning', function (e) {
-            // that.$refs.messageSetting.dialogVisible = true;
-
-            })
+        openMessage(e) {
+            this.$refs.messageSetting.showHelp(e);
         },
         //消息设置关闭
-        savedMessage() {
-            let that = this;
-
-            Vue.$workflowEventBus.$on('message-setting.saved', function (e) {
-                console.info(e, 'savedMessage')
-            })
+        savedMessage(result) {
+                this.$refs.customModeler.savedMessage(result)
         },
         //参与者设置打开
-        openParticipant() {
-            let that = this;
-            Vue.$workflowEventBus.$on('sys-participant.openning', function (e) {
-                console.log(e,);
-                if(that.$refs.takePartInSetting){
-                that.$refs.takePartInSetting.showDialogVisibel(e);
-
-                }
-
-            })
+        openParticipant(e) {
+                    this.$refs.takePartInSetting.showDialogVisibel(e);
+          
         },
        
         //参与者设置关闭
-        savedParticipant() {
-            let that = this;
-            Vue.$workflowEventBus.$on('participant.saved', function (e) {
-                console.info(e)
-            })
+        savedParticipant(result) {
+            this.$refs.customModeler.savedParticipant(result)
+               
         }
 
     },
-    mounted() {
-        this.openMessage();
-        this.savedMessage();
-        this.openParticipant();
-        this.savedParticipant();
-    },
+  
 }
 </script>
 

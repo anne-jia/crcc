@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import defaultSettings from '@/settings'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -30,7 +29,7 @@ export default {
   },
   data() {
     return {
-      title: defaultSettings.title,
+      title: '运营方管理系统',
       logo: require('@/assets/images/logos.png')
     }
   }
@@ -53,7 +52,6 @@ export default {
   height: 61px;
   line-height: 61px;
   background: #1959af;
-  line-height: 48px;
   // background: url(../../../assets/images/title.jpg) no-repeat;
   /* background: rgb(24,76,169); */
   /* box-shadow:0px 0px 4px 3px #9498a0; */

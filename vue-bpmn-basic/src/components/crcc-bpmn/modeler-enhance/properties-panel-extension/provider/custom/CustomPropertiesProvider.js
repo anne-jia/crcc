@@ -10,7 +10,7 @@ import linkProps from 'bpmn-js-properties-panel/lib/provider/bpmn/parts/LinkProp
 import eventProps from 'bpmn-js-properties-panel/lib/provider/bpmn/parts/EventProps';
 import documentationProps from 'bpmn-js-properties-panel/lib/provider/bpmn/parts/DocumentationProps';
 import listenerProps from 'bpmn-js-properties-panel/lib/provider/camunda/parts/ListenerProps'
-import listenerDetails from 'bpmn-js-properties-panel/lib/provider/camunda/parts/ListenerDetailProps'
+import listenerDetails from './parts/ListenerDetailProps'
 import listenerFields from 'bpmn-js-properties-panel/lib/provider/camunda/parts/ListenerFieldInjectionProps'
 import {
     is
@@ -21,6 +21,7 @@ import endEventProps from './parts/EndEventProps'
 import userSettingProps from './parts/UserSettingProps'
 import userTaskPropsExtend from './parts/UserTaskPropsExtend'
 import multiInstanceLoopProps from './parts/MultiInstanceLoopProps'
+import conditionalProps from 'bpmn-js-properties-panel/lib/provider/camunda/parts/ConditionalProps'
 
 var getListenerLabel = function (param, translate) {
 
@@ -62,6 +63,7 @@ function createGeneralTabGroups(element, bpmnFactory, canvas, elementRegistry, t
     };
     linkProps(detailsGroup, element, translate);
     eventProps(detailsGroup, element, bpmnFactory, elementRegistry, translate);
+    conditionalProps(detailsGroup, element, bpmnFactory, translate);
 
     var multiInstanceGroup = {
         id: 'multiInstance',

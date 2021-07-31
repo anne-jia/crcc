@@ -139,7 +139,7 @@
             "name": "SysUser",
             "properties": [
                 {
-                    "name": "userCode",
+                    "name": "userId",
                     "type": "String",
                     "isAttr": true
                 },

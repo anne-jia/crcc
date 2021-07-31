@@ -86,20 +86,28 @@ export const asyncRoutes = [{
     },
     {
       "path": "/icons",
-      "component": () => import('@/views/icons/index'),
+      "component": () => import('@/views/demo/icons/index'),
       "name": "icons",
       "meta": {
         "title": "图标",
         "icon": "0",
         "affix": true
       }
-    },
-    {
-      "path": "/npmn",
-      "component": () => import('@/views/use-bpmn/index'),
-      "name": "bpmn",
+    },{
+      "path": "/demo",
+      "component": () => import('@/views/demo/use-bpmn/index.vue'),
+      "name": "demo",
       "meta": {
-        "title": "流程",
+        "title": "demo",
+        "icon": "0",
+        "affix": true
+      }
+    },{
+      "path": "/demoView",
+      "component": () => import('@/views/demo/bpmn-view/index.vue'),
+      "name": "demoView",
+      "meta": {
+        "title": "demoView",
         "icon": "0",
         "affix": true
       }

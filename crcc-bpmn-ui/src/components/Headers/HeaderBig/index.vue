@@ -7,13 +7,12 @@
       <div class="fl" style="line-height: 61px" @click="ChangeShow">
         <!-- <span  :class="{'is-active':sidebar.opened}" class="hamburger el-icon-s-unfold"    /> -->
         <svg-icon
-          :class="{ 'is-active': sidebar.opened }"
+          :class="{ 'is-active': !sidebar.opened }"
           class="hamburger"
           icon-class="fold2"
         />
       </div>
     </el-tooltip>
-    <!-- <breadcrumb id="breadcrumb-container" class="breadcrumb-container" /> -->
     <div class="layout-top-search">
       <el-select
         v-model="searchMenu"
@@ -23,7 +22,7 @@
         style="width: 214px"
       >
         <el-option-group
-          v-for="(group, idx) in searchGroup"
+          v-for="(group, idx) in menuList"
           :key="idx"
           :label="group.meta.title"
         >
@@ -31,7 +30,7 @@
             v-for="item in group.children"
             :key="item.name"
             :label="item.meta.title"
-            :value="item.name"
+            :value="item.meta.title"
           />
         </el-option-group>
       </el-select>
@@ -49,15 +48,15 @@
         />
         <span class="company-title"> 公司名称：{{ mainPosition.name }} </span>
       </div>
+      <div class="layout-message">
+        <el-badge :value="msgNum" :hidden="msgNum < 1" class="item">
+          <i class="el-icon-message-solid" />
+        </el-badge>
+      </div>
       <div class="title-box">
-        <!-- <svg-icon icon-class="ren" class="ren-avatar" /> -->
         <i class="el-icon-s-custom" />
         <span class="user-title"> {{ name }}</span>
       </div>
-      <!-- <div  class="title-box setting-box">
-      <svg-icon icon-class="shezhi" class="shezhi-avatar" />
-      <span class="title"> 设置 </span>
-    </div> -->
       <div class="title-box exit-box">
         <svg-icon icon-class="tuichu" class="tuichu-avatar" />
         <span class="exit" @click="exit"> 退出</span>
@@ -67,13 +66,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-// import Breadcrumb from '@/components/Breadcrumb'
+
 export default {
-  components: {
-    // Breadcrumb
-  },
   data() {
     return {
+      msgNum: 0,
       searchMenu: '',
       logo: require('@/assets/images/logos.png')
     }
@@ -86,7 +83,7 @@ export default {
       'mainPosition',
       'permission_routes'
     ]),
-    searchGroup() {
+    menuList() {
       return this.permission_routes.filter(
         (item) => item.children && item.meta
       )
@@ -157,18 +154,19 @@ export default {
       background: #ffffff22;
       border-color: #ffffff22;
       color: #fff;
-      font-size: 16px;
+      font-size: 14px;
     }
     .el-input.is-focus .el-input__inner {
       border-color: #ffffff22;
     }
     .el-button--default {
+      padding: 0;
       border-radius: 0 4px 4px 0;
       text-align: center;
       width: 32px;
       height: 28px;
       position: absolute;
-      top: 15px;
+      top: 16px;
       right: -32px;
       border-left: none;
       color: #fff;
@@ -180,13 +178,9 @@ export default {
     }
   }
 }
-.breadcrumb-container {
-  margin-left: 102px;
-  float: left;
-}
 .header-right {
-  height: 48px;
-  line-height: 48px;
+  height: 61px;
+  line-height: 61px;
   float: right;
   display: flex;
   justify-content: flex-end;
@@ -228,6 +222,30 @@ export default {
 @media screen and(max-width: 835px) {
   .company {
     display: none;
+  }
+}
+.layout-message {
+  font-size: 20px;
+  color: #fff;
+  height: 61px;
+  width: 61px;
+  line-height: 61px;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 10px;
+  &:hover {
+    background: #3378d3;
+  }
+  ::v-deep {
+    .el-badge__content.is-fixed {
+      top: 18px;
+      right: 12px;
+    }
+    .el-badge__content {
+      height: 14px;
+      line-height: 14px;
+      border: none;
+    }
   }
 }
 </style>

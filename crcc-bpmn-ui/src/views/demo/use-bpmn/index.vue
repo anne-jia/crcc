@@ -1,7 +1,12 @@
 <!--  bpmn-->
 <template>
     <div class='bpmn'>
-        <customModeler v-model="xmlString" v-bind="controlForm" @publish-process='publishProcess' @element-click="elementClick">
+        <customModeler v-model="xmlString"
+         v-bind="controlForm"
+          @publish-process='publishProcess' 
+          @opening-message="openMessage"
+          @opening-participant="openParticipant"
+          @element-click="elementClick">
             <el-button type="primary" icon="el-icon-back" @click="goBack">返回</el-button>
         </customModeler>
         <messageSetting ref="messageSetting"></messageSetting>
@@ -10,13 +15,14 @@
 </template>
 
 <script>
-import customModeler from '@/components/crcc-bpmn/custom-modeler'
+// import customModeler from '@/components/crcc-bpmn/custom-modeler/custom-modeler.vue'
+
 import messageSetting from './components/message-setting.vue'
 import takePartInSetting from './components/take-part-in-setting.vue'
 
 export default {
     components: {
-        customModeler,
+        // customModeler,
         messageSetting,
         takePartInSetting
     },
@@ -35,54 +41,46 @@ export default {
     },
     methods: {
         goBack() {
+            // if (Vue.$workflowEventBus) {
+            //     Vue.$workflowEventBus.$emit("message-setting.saved", 111);
 
+            // }
         },
         //元素点击时候
         elementClick(element) {
             this.element = element;
         },
         // 获取更改 提交到后台交互
-        publishProcess(value) {
-            console.log(value, 'value')
-        },
+        publishProcess(value) {},
         //消息设置打开
         openMessage() {
-            let that =this;
-            Vue.$workflowEventBus.$on('message-setting.openning', function (e) {
-                that.$refs.messageSetting.dialogVisible =true;
-            })
+            let that = this;
+            that.$refs.messageSetting.dialogVisible = true;
+
         },
         //消息设置关闭
         savedMessage() {
-            let that =this;
+            let that = this;
+            // if (Vue.$workflowEventBus) {
+            //     Vue.$workflowEventBus.$emit("message-setting.saved", 111);
 
-            Vue.$workflowEventBus.$on('message-setting.saved', function (e) {
-                console.info(e,'savedMessage')
-            })
+            // }
         },
         //参与者设置打开
         openParticipant() {
-            let that =this;
-            Vue.$workflowEventBus.$on('sys-participant.openning', function (e) {
-                  that.$refs.takePartInSetting.dialogVisible =true;
-            })
+            let that = this;
+            that.$refs.takePartInSetting.dialogVisible = true;
         },
         //参与者设置关闭
         savedParticipant() {
-            let that =this;
+            let that = this;
 
-            Vue.$workflowEventBus.$on('participant.saved', function (e) {
-                console.info(e)
-            })
+            // Vue.$workflowEventBus.$on('participant.saved', function (e) {})
         }
 
     },
     mounted() {
-        this.openMessage();
-        this.savedMessage();
-        this.openParticipant();
-        this.savedParticipant();
-        console.log(this, Vue.$workflowEventBus);
+     
     },
 }
 </script>

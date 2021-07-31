@@ -2,25 +2,24 @@ import Vue from 'vue'
 
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 import ElementUI from 'element-ui'
+import bpmnBasis from '@crcc/bpmn-basic'
 import './styles/element-variables.scss'
 import '@/styles/index.scss' // global css
 import './icons' // icon
-
 //bpmn style
 import 'normalize.css/normalize.css'
 
-//Begin 以下为bpmn工作流绘图工具的样式
-import 'bpmn-js/dist/assets/diagram-js.css' // 左边工具栏以及编辑节点的样式
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
-//End 以下为bpmn工作流绘图工具的样式
-
-import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css' // 右边属性面板样式
+// //Begin 以下为bpmn工作流绘图工具的样式
+// import 'bpmn-js/dist/assets/diagram-js.css' // 左边工具栏以及编辑节点的样式
+// import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
+// import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
+// import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
+// //End 以下为bpmn工作流绘图工具的样式
+// import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css' // 右边属性面板样式
 
 
 import './permission' // permission control
-
+import '@crcc/bpmn-basic/dist/@crcc/bpmn-basic.css'
 
 import Cookies from 'js-cookie'
 import addMessageUtils from '@/utils/message'
@@ -33,7 +32,8 @@ import * as filters from './filters' // global filters
 
 import DlgDraggable from 'vue-element-dialog-draggable'
 import draggable from 'vuedraggable'
-import elDragDialog from  '@/directive/el-drag-dialog/index'
+import elDragDialog from '@/directive/el-drag-dialog/index'
+// import WorkflowModeler from '@/vue-bpmn-basic'
 
 import moment from 'moment'
 
@@ -57,6 +57,7 @@ Vue.use(ElementUI, {
 })
 
 Vue.use(DlgDraggable)
+Vue.use(bpmnBasis)
 Vue.use(elDragDialog)
 Vue.prototype.$moment = moment
 Vue.prototype.validSpecialChar = function(value) {

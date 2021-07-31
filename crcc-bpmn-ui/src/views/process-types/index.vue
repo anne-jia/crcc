@@ -14,7 +14,7 @@
         <template slot="crcc-opcation">
             <el-button :disabled="getDisableTypeBtn" type="primary" @click="changTypes('add')">新增</el-button>
             <el-button :disabled="getDisableTypeBtn||  currentType.isSysDef == '1'" plain @click="changTypes('update')">修改</el-button>
-            <el-button :disabled="getDisableTypeBtn ||  currentType.isSysDef == '1'" plain @click="delTypes('del')">删除</el-button>
+            <!-- <el-button :disabled="getDisableTypeBtn ||  currentType.isSysDef == '1'" plain @click="delTypes('del')">删除</el-button> -->
             <el-button :disabled="!getDisableTypeBtn" plain @click="saveTypes('save')">保存</el-button>
             <el-button :disabled="!getDisableTypeBtn" plain @click="changTypes('cancel')">取消</el-button>
         </template>
@@ -360,7 +360,6 @@ export default {
                 this.baseInfo.typeName = val.trim();
                 this.baseInfo.typeCode = this.baseInfo.typeCode.trim();
                 processTypesApi.isNameUsed(this.baseInfo).then(duplicated => {
-                    console.log(duplicated, this.duplicatedTypeName)
                     this.duplicatedTypeName = duplicated
                     this.$refs.typeForm.validateField('typeName');
                 }).catch(err => {

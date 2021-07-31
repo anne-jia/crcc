@@ -2,9 +2,9 @@
 <template>
     <el-dialog @open="opened" @close="close" append-to-body :title="getTitle" v-el-drag-dialog :visible.sync="dialogVisible" custom-class="add-group-dialog" :close-on-click-modal="false" width="380px" top="30vh">
         <div>
-            <el-form ref="descForm" status-icon :model="currentExpression" :rules="validateRules" label-width="60px" @submit.native.prevent>
+            <el-form ref="descForm" status-icon :model="value" :rules="validateRules" label-width="60px" @submit.native.prevent>
                 <el-form-item label="描述" prop="expressionDesc">
-                    <el-input v-model="currentExpression.expressionDesc" maxlength="128" clearable></el-input>
+                    <el-input v-model="value.expressionDesc" maxlength="128" clearable></el-input>
                 </el-form-item>
             </el-form>
         </div>
@@ -19,8 +19,25 @@
 <script>
 export default {
     props: {
+        value:{
+            type:Object,
+            default: function () {
+                return { 
+                expressionDesc: '' ,
+                validateCondition: "",
+                sysJob: [],
+                sysUser: []
+            }
+            }
+        },
         status: String,
-        expList: Array,
+        participants: {
+            type:Array,
+             default: function () {
+                return []
+            }
+        },
+        index:Number,
     },
     components: {},
     data() {
@@ -30,7 +47,7 @@ export default {
 
         return {
             dialogVisible: false,
-            currentExpression: {},
+        
             validateRules: {
                 expressionDesc: [{
                         required: true,
@@ -40,7 +57,7 @@ export default {
                     },
                     {
                         validator: (rule, value, callback) => {
-                            if (this.expList.find(exp => exp.expressionDesc == value)) {
+                            if (this.participants.findIndex(exp => exp.expressionDesc == value) !=-1) {
                                 callback(new Error("相同的参与者描述已存在，请修改"));
                             } else {
                                 callback();
@@ -62,20 +79,24 @@ export default {
                 default:
                     return "新增参与者分组";
             }
-        }
+        },
+       
     },
     methods: {
-        opened() {},
+        opened() {
+        },
         submit() {
             this.$refs.descForm.validate(valid => {
                 if (valid) {
-                    if (this.isAdding) {
-                        this.$emit("expression-add", this.currentExpression);
+                    if (this.status=='add') {
+                        let  item={...this.value}
+                      let data =  this.participants.concat([item])
+                        this.$emit("expression-change", data,item);
+
                     } else {
-                        this.$emit(
-                            "expression-edit",
-                            this.currentExpression
-                        );
+                        let data = [...this.participants]
+                            data.splice(this.index,1,{...this.value})
+                        this.$emit("expression-change",data,{...this.value});
                     }
                     this.close();
                 } else {

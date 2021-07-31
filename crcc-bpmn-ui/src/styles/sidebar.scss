@@ -1,8 +1,18 @@
 #app {
+  .main-container {
+    min-height: 100%;
+    // height: calc(100% - 10px) ;
+    overflow: hidden;
+    transition: margin-left 0.28s;
+    margin-left: $sideBarWidth;
+    position: relative;
+  }
+
   .sidebar-container {
     transition: width 0.28s;
     width: $sideBarWidth !important;
     background: $menuBg;
+
     height: 100%;
     position: fixed;
     font-size: 0px;
@@ -54,8 +64,7 @@
       width: 1.2em;
       height: 1.2em;
       vertical-align: -0.35em;
-      filter: drop-shadow(#303133 80px 0);
-      transform: translateX(-80px);
+      color: #6f6f6f;
     }
 
     .sub-el-icon {
@@ -76,9 +85,7 @@
             color: $menuBgTitle !important;
           }
           .svg-icon {
-            // -webkit-filter: drop-shadow(#004098 80px 0);
-            filter: drop-shadow($menuBgTitle 80px 0);
-            transform: translateX(-80px);
+            color: $menuBgTitle;
           }
         }
       }
@@ -108,7 +115,7 @@
       height: $sideBarHeight;
       line-height: $sideBarHeight;
       padding: 0 25px !important;
-      font-size: 16px;
+      font-size: 14px;
 
       &:hover {
         background-color: $menuHover !important;
@@ -116,11 +123,11 @@
         i {
           color: $menuBgTitle !important;
         }
-        .svg-icon {
-          // -webkit-filter: drop-shadow(#004098 80px 0);
-         filter: drop-shadow($menuBgTitle 80px 0);
-         transform: translateX(-80px);
-        }
+        // .svg-icon {
+        //   // -webkit-filter: drop-shadow(#004098 80px 0);
+        //   filter: drop-shadow($menuBgTitle 20px 0);
+        //   transform: translateX(-20px);
+        // }
       }
       // &:hover
     }
@@ -160,7 +167,7 @@
       min-width: $sideBarWidth !important;
       height: $sideBarMinHeight;
       line-height: $sideBarMinHeight;
-      font-size: 16px;
+      font-size: 14px;
       // background-color: $subMenuBg !important;
 
       &:hover {

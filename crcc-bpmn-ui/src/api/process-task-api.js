@@ -1,18 +1,18 @@
 //代办任务
 const procesTasksApi = {
-    /**
+
+/**
      * 
      * @param {*} taskId 
      * @returns 
      * 根据taskId获取任务审核需要的相关信息，包括审批意见是否必填、是否可以上传附件、后续可扭转路径、单据预览URL
      */
-    getTaskProcessor(taskId) {
-        return window.axios({
-            url: `${window.CLIENT_URL}tasklist/active?taskId=${taskId}`,
-            method: 'get',
-        })
-    },
-
+ getTaskProcessor(taskId) {
+    return window.axios({
+        url: `${window.CLIENT_URL}tasks/processor?taskId=${taskId}`,
+        method: 'get',
+    })
+},
     /**
      * 
      * @param {*} taskInfo 

@@ -1,18 +1,16 @@
 <!--  bpmn-->
 <template>
 <div class='bpmn'>
-    <customModeler  v-model="xmlString"  v-bind="controlForm" @publish-process='publishProcess'  @element-click="elementClick">
+    <custom-modeler  v-model="xmlString"  v-bind="controlForm" @publish-process='publishProcess'  @element-click="elementClick">
         <el-button type="success" @click="readMe">readMe</el-button>
-    </customModeler>
+    </custom-modeler>
 </div>
 </template>
 
 <script>
-import customModeler from '@/components/crcc-bpmn/custom-modeler'
+
 export default{
-components:{
-customModeler
-},
+
 data(){
 return{
 xmlString:'',
@@ -33,7 +31,6 @@ methods:{
 
     // 获取更改 提交到后台交互
     publishProcess(value){
-        console.log(value,'value')
     },
     readMe(){
         this.$router.push('read-me')

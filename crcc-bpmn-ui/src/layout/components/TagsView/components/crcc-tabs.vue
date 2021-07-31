@@ -39,9 +39,9 @@
             >全部关闭</el-button>
           </el-col>
         </el-row>
-        <template slot="reference">
-          <svg-icon icon-class="more-vertical"></svg-icon>
-        </template>
+        <span slot="reference">
+          <i class="iconfont icon-more-vertical-copy" />
+        </span>
       </el-popover>
     </li>
     <li class="tabs-item--btn tabs-item--right" @click="nextMenu">
@@ -126,13 +126,26 @@ export default {
     // 重新计算tag的X轴宽度
     reComputedX() {
       this.$nextTick(() => {
+        // 当前tab可视区域宽度
         const showWidth = this.$refs.refContent.clientWidth
-        const dataWidth = this.$refs.refData.clientWidth
-        const hideWidth = dataWidth - showWidth
-        if (hideWidth > 0) {
-          this.translateX = -hideWidth - 20
+        // 获取数据视口信息
+        const dataPosition = this.$refs.refData.getBoundingClientRect()
+        // 获取当前选中数据视口信息
+        const activeDatePosition = this.$refs.refData
+          .querySelector('.active')
+          .getBoundingClientRect()
+        // 计算当前选中区域位置
+        const currentPosition = dataPosition.left - activeDatePosition.left
+        if (Math.abs(currentPosition) + activeDatePosition.width > showWidth) {
+          // 存在遮挡部分
+          this.translateX =
+            showWidth - (Math.abs(currentPosition) + activeDatePosition.width)
         } else {
-          this.translateX = 0
+          if (Math.abs(currentPosition) <= showWidth) {
+            this.translateX = 0
+          } else {
+            this.translateX = currentPosition
+          }
         }
       })
     },
@@ -183,8 +196,8 @@ export default {
       if (!this.selectedPaths.includes(this.selectedTag.path)) {
         this.selectedPaths.push(this.selectedTag.path)
         this.selectedList.push(this.selectedTag)
-        this.reComputedX()
       }
+      this.reComputedX()
     },
     /* 获取当前选中的数据下标 */
     getSelectedIdx() {
@@ -259,12 +272,12 @@ export default {
 <style lang="scss" scoped>
 .tabs-group {
   list-style: none;
-  padding: 0 10px;
-  margin: 10px 0;
+  padding: 0 8px;
+  margin: 8px 0;
   .tabs-item--btn {
-    height: 36px;
-    width: 36px;
-    line-height: 36px;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
     background: #fff;
     border-radius: 4px;
     text-align: center;
@@ -295,14 +308,14 @@ export default {
         display: inline-block;
         margin-right: 10px;
         min-width: 100px;
-        height: 36px;
-        line-height: 36px;
+        height: 30px;
+        line-height: 30px;
         text-align: center;
         background: #fff;
         border-radius: 4px;
         cursor: pointer;
         padding: 0 16px;
-        font-size: 16px;
+        font-size: 14px;
         &:hover {
           color: #228ef8;
         }

@@ -16,9 +16,11 @@
                 <div style="padding:8px 8px 0px 8px">
                     <el-table ref="flowTable" :data="flowDefinitions.list" :row-key="getRowKey" border stripe highlight-current-row>
                         <el-table-column type="selection" reserve-selection></el-table-column>
-                        <el-table-column prop="procKey" label="标识" show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="procName" label="名称" show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="typeName" label="类型" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="procKey" label="标识" header-align="center" align="left" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="procName" label="名称" header-align="center" align="left" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="typeName" label="类型" header-align="center" align="left" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="companyName" label="流程编制公司" header-align="center" align="left" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="createTime" width="150px" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
                     </el-table>
                     <pagination v-show="flowDefinitions.total>0" scrollToElementClassName='.import-flow' :total="flowDefinitions.total" :pageSize="flowDefinitions.pageSize" :currentPage="flowDefinitions.pageNum" @pagination="pageLoader">
                     </pagination>
@@ -48,14 +50,14 @@ export default {
             searchForm: {
                 keyword: "",
                 exclusionId: '',
-                pageSize: 1,
-                pageNum: 20
+                pageSize: 20,
+                pageNum: 1
             },
             loadingFlowDefinitions: false,
             flowDefinitions: {
                 list: [],
                 pageSize: 20,
-                pageNum: 0,
+                pageNum: 1,
                 total: 0
             },
 
@@ -103,7 +105,7 @@ export default {
         loadHelpFlows(value) {
             this.loadingFlowDefinitions = true
             processPermissionsApi.loadHelpFlows(value).then(res => {
-                this.flowDefinitions = value;
+                this.flowDefinitions = res;
             }).catch(err => this.error(err.message[0])).finally(() => {
                 this.loadingFlowDefinitions = false
             })

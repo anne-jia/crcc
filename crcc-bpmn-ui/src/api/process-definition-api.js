@@ -2,12 +2,21 @@
 
 const processDefinitionApi = {
    //获取流程类型
+
     getBizTypes() {
         return window.axios({
             url: `${window.CLIENT_URL}flowmgr/getBizTypes`,
             method: 'get',
         })
     },
+    //flowmgr/hasRightCompanyListForFlowDefine 获取有权限的的组织
+    getHasPermissioCompany() {
+        return window.axios({
+            url: `${window.CLIENT_URL}flowmgr/hasRightCompanyListForFlowDefine`,
+            method: 'get',
+        })
+    },
+
     //部署流程
     deployFlow(data) {
         return window.axios({
@@ -41,7 +50,7 @@ const processDefinitionApi = {
     },
     //获取定义流程列表
     getFlowPage(value) {
-        let data ={pageNum:value.pageNum,pageSize:value.pageSize,json:JSON.stringify({"keyword":value.keyword,"typeId":value.typeId})}
+        let data ={pageNum:value.pageNum,pageSize:value.pageSize,json:JSON.stringify({"keyword":value.keyword,"typeId":value.typeId,'companyId':value.companyId})}
         return window.axios({
             url: `${window.CLIENT_URL}flowmgr/getFlowPage`,
             method: 'post',

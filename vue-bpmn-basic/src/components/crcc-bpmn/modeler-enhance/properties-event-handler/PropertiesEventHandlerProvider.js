@@ -3,23 +3,25 @@ import Vue from 'vue'
 const workflowEventBus = new Vue();
 
 Vue.$workflowEventBus = workflowEventBus
+// Vue.prototype.$workflowEventBus=workflowEventBus
+
 // 打开消息设置
 function PropertiesEventHandlerProvider(eventBus) {
-    eventBus.on('message-setting.openning', function(event) {
-        workflowEventBus.$emit('message-setting.openning', event)
+    eventBus.on('opening-message', function(event) {
+        workflowEventBus.$emit('opening-message', event)
     })
 //打开参与者设置
-    eventBus.on('sys-participant.opening', function(event) {
-        workflowEventBus.$emit('sys-participant.openning', event)
+    eventBus.on('opening-participant', function(event) {
+        workflowEventBus.$emit('opening-participant', event)
     })
 
 // 保存消息设置
-    workflowEventBus.$on('message-setting.saved', function(event) {
-        eventBus.fire('message-setting.saved', event)
+    workflowEventBus.$on('saved-message', function (result) {
+        eventBus.fire('saved-message', { element: result.element, setting: result.setting })
     })
 //保存参与者设置
-    workflowEventBus.$on('participant.saved', function(event) {
-        eventBus.fire('participant.saved', event)
+    workflowEventBus.$on('saved-participant', function(result) {
+        eventBus.fire('saved-participant',  { element: result.element, participants: result.participants })
     })
 
 }
@@ -27,3 +29,6 @@ function PropertiesEventHandlerProvider(eventBus) {
 PropertiesEventHandlerProvider.$inject = [ 'eventBus' ]
 
 export default PropertiesEventHandlerProvider
+export {
+    workflowEventBus
+}

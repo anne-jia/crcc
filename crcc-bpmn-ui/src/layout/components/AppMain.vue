@@ -23,19 +23,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .app-main{
-      margin-bottom: 8px;
-      overflow: hidden;
-      margin: 0 8px;
-      position: relative;
-      flex: 1;
-      background: #fff;
-    }
+.app-main {
+  /* 50= navbar  50  */
+  /* min-height: calc(100vh - 50px); */
+  // min-height: calc(100vh - 58px);
+
+  /* width: 100%; */
+  margin: 0 8px;
+  position: relative;
+  overflow: hidden;
+  // overflow-y: auto;
+  background: #fff;
+  height: calc(100vh - 118px);
+}
+
 .fixed-header + .app-main {
   padding-top: 50px;
 }
 
 .hasTagsView {
+  // .app-main {
+  //   /* 84 = navbar + tags-view = 50 + 34 */
+  //   /* min-height: calc(100vh - 84px); */
+  //   // height: calc(100vh - 200px);
+  // }
 
   .fixed-header + .app-main {
     padding-top: 84px;

@@ -46,8 +46,8 @@ function createUserConditionElement(parent, bpmnFactory) {
   return createElement('custom:UserCondition', { users: [] }, parent, bpmnFactory);
 }
 
-function createSysUserElement(parent, bpmnFactory, userCode, userName, isVariable) {
-  return createElement('custom:SysUser', { userCode: userCode, userName: userName, isVariable: isVariable }, parent, bpmnFactory);
+function createSysUserElement(parent, bpmnFactory, userId, userName, isVariable) {
+  return createElement('custom:SysUser', { userId: userId, userName: userName, isVariable: isVariable }, parent, bpmnFactory);
 }
 
 function parseToParticipantElement(element, extensionElements, bpmnFactory, jsonEntity) {
@@ -70,45 +70,47 @@ function parseToParticipantElement(element, extensionElements, bpmnFactory, json
   // <custom:validationCondition>
   var validationCond = createValidationConditionElement(participant, bpmnFactory, jsonEntity.validateCondition);
   commandArray.push(cmdHelper.addElementsTolist(element, participant, 'validationCond', [validationCond]));
+  var sysCompanyLenght = jsonEntity?.sysCompany?.length || 0,
+    sysJobLenght = jsonEntity?.sysJob?.length || 0,
+    sysUserLength = jsonEntity.sysUser.length || 0;
+    if (sysCompanyLenght > 0 || sysJobLenght > 0) {
+      // <custom:rangeCondition>
+      var rangeCond = createRangeConditionElement(participant, bpmnFactory);
+      commandArray.push(cmdHelper.addElementsTolist(element, participant, 'rangeCond', [rangeCond]));
+  
+      // <custom:companyCondition>
+      if (sysCompanyLenght > 0) {
+        var companyCond = createCompanyConditionElement(rangeCond, bpmnFactory);
+        commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'companyCond', [companyCond]));
+  
+        // <custom:sysCompany>
+        var companies = map(jsonEntity.sysCompany, function(company) {
+          return createSysCompanyElement(companyCond, bpmnFactory, company.id, company.name, company.isVariable);
+        });
+        commandArray.push(cmdHelper.addElementsTolist(element, companyCond, 'companies', companies));
+      }
 
-  if (jsonEntity.sysCompany.length > 0 || jsonEntity.sysJob.length > 0) {
-    // <custom:rangeCondition>
-    var rangeCond = createRangeConditionElement(participant, bpmnFactory);
-    commandArray.push(cmdHelper.addElementsTolist(element, participant, 'rangeCond', [rangeCond]));
+        if (sysJobLenght > 0) {
+          // <custom:jobCondition>
+          var jobCond = createJobConditionElement(rangeCond, bpmnFactory);
+          commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'jobCond', jobCond));
 
-    // <custom:companyCondition>
-    if (jsonEntity.sysCompany.length > 0) {
-      var companyCond = createCompanyConditionElement(rangeCond, bpmnFactory);
-      commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'companyCond', [companyCond]));
-
-      // <custom:sysCompany>
-      var companies = map(jsonEntity.sysCompany, function(company) {
-        return createSysCompanyElement(companyCond, bpmnFactory, company.id, company.name, company.isVariable);
-      });
-      commandArray.push(cmdHelper.addElementsTolist(element, companyCond, 'companies', companies));
+          // <custom:sysJob>
+          var jobs = map(jsonEntity.sysJob, function(job) {
+            return createSysJobElement(jobCond, bpmnFactory, job.id, job.name, job.isVariable);
+          });
+          commandArray.push(cmdHelper.addElementsTolist(element, jobCond, 'jobs', jobs));
+        }
     }
 
-    if (jsonEntity.sysJob.length > 0) {
-      // <custom:jobCondition>
-      var jobCond = createJobConditionElement(rangeCond, bpmnFactory);
-      commandArray.push(cmdHelper.addElementsTolist(element, rangeCond, 'jobCond', jobCond));
-
-      // <custom:sysJob>
-      var jobs = map(jsonEntity.sysJob, function(job) {
-        return createSysJobElement(jobCond, bpmnFactory, job.id, job.name, job.isVariable);
-      });
-      commandArray.push(cmdHelper.addElementsTolist(element, jobCond, 'jobs', jobs));
-    }
-  }
-
-  if (jsonEntity.sysUser.length > 0) {
+  if (sysUserLength > 0) {
     // <custom:userCondition>
     var userCond = createUserConditionElement(participant, bpmnFactory);
     commandArray.push(cmdHelper.addElementsTolist(element, participant, 'userCond', [userCond]));
 
     // <custom:sysUser>
     var users = map(jsonEntity.sysUser, function(user) {
-      return createSysUserElement(userCond, bpmnFactory, user.userCode, user.userName, user.isVariable);
+      return createSysUserElement(userCond, bpmnFactory, user.userId, user.userName, user.isVariable);
     });
     commandArray.push(cmdHelper.addElementsTolist(element, userCond, 'users', users));
   }
@@ -160,7 +162,7 @@ function parseParticipantElementToJson(participantEl) {
     var users = userCond[0].users;
     prt.sysUser = [].concat(map(users, function(u) {
       return {
-        userCode: u.userCode,
+        userId: u.userId,
         userName: u.userName,
         isVariable: !!u.isVariable
       };
@@ -170,10 +172,9 @@ function parseParticipantElementToJson(participantEl) {
 }
 
 function ParticipantParser(eventBus, bpmnFactory, commandStack) {
-  eventBus.on('participant.saved', function(e) {
+  eventBus.on('saved-participant', function(e) {
     var element = e.element,
         participantJsons = e.participants;
-
     if (participantJsons) {
       var commands = [];
       var bo = getBusinessObject(element);
@@ -209,7 +210,7 @@ function ParticipantParser(eventBus, bpmnFactory, commandStack) {
         return parseParticipantElementToJson(participantEl);
       });
     }
-    eventBus.fire('sys-participant.opening', { element: element, participants: participantJson });
+    eventBus.fire('opening-participant', { element: element, participants: participantJson });
   });
 }
 

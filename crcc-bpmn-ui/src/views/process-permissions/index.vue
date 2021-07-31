@@ -12,7 +12,7 @@
             </el-form>
         </template>
         <template slot="crcc-opcation">
-            <el-button type="primary" @click="openImportFlow">引入流程</el-button>
+            <el-button type="primary" :disabled='!currentTreeData.hasPermission' @click="openImportFlow">引入流程</el-button>
         </template>
         <template slot="crcc-main">
             <el-row>
@@ -20,50 +20,78 @@
                     <crcc-card :scroll="true" title="系统组织">
                         <div>
                             <!-- 组织树结构 -->
-                            <el-tree @node-click="nodeClickTree" ref="orgTree" :expand-on-click-node="false" :load="loadNode" highlight-current :key="loadTreeTime" :lazy="lazy" node-key="code" :default-expanded-keys="defaultExpandedKeys" :props="defaultProps">
+                            <el-tree @node-click="nodeClickTree" ref="orgTree" :expand-on-click-node="false" :load="loadNode" highlight-current :key="loadTreeTime" :lazy="lazy" node-key="id" :default-expanded-keys="defaultExpandedKeys" :props="defaultProps">
+                                <template slot-scope="{data}">
+                                    <span :class="data.hasPermission?'has-permission':'no-permission'">
+                                        {{data.name}}
+                                    </span>
+
+                                </template>
                             </el-tree>
                         </div>
                     </crcc-card>
                 </el-col>
                 <el-col :span="16">
                     <crcc-card :scroll="true" title="流程列表" className="flow-table">
-                        <div v-loading="loadingDefinitions">
+                        <div v-show="!currentTreeData.hasPermission" style="text-align: center;">
+                            <span v-if="!currentTreeData.pathName" style=" line-height: 44px;color: #909399;font-size: 14px;"> 暂无数据</span>
+                            <div v-else>
+                                <h1 class="text-jumbo text-ginormous">
+                                    对不起！
+                                </h1>
+                                <h2> 您没有权限查看【{{currentTreeData.pathName}}】下的流程列表</h2>
+                            </div>
+
+                        </div>
+                        <div v-show="currentTreeData.hasPermission" v-loading="loadingDefinitions">
                             <!-- 表格 -->
                             <el-table ref="flowTable" :data="flowDefinitions.list" border stripe highlight-current-row>
-                                <el-table-column prop="typeName" label="类型" header-align="center" align="left" show-overflow-tooltip></el-table-column>
                                 <el-table-column prop="procKey" label="标识" header-align="center" align="left" show-overflow-tooltip></el-table-column>
                                 <el-table-column prop="procName" label="名称" header-align="center" align="left" show-overflow-tooltip></el-table-column>
+                                <el-table-column prop="typeName" label="类型" header-align="center" align="left" show-overflow-tooltip></el-table-column>
+                                <el-table-column prop="companyName" label="流程编制公司" header-align="center" align="left" show-overflow-tooltip></el-table-column>
                                 <el-table-column width="60" class-name="switch" header-align="center" align="center" show-overflow-tooltip label="状态">
                                     <template slot-scope="{ row }">
                                         <i v-if="row.state == 0" class="el-icon-circle-close" style="color:#ff4949"></i>
                                         <i v-else class="el-icon-circle-check" style="color:#1890ff"></i>
                                     </template>
                                 </el-table-column>
-                                <el-table-column width="60" label="操作" class-name="table-btn-group" align="center" show-overflow-tooltip>
+                                <el-table-column prop="createTime" width="150px" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
+                                <el-table-column prop="lastModifyTime" width="150px" label="最后操作时间" align="center" show-overflow-tooltip></el-table-column>
+                                <el-table-column width="90" label="操作" class-name="table-btn-group" align="center">
                                     <template slot-scope="{ row }">
-                                        <el-button type="text" class="el-icon-delete" @click="removeFlow(row)"></el-button>
+                                        <el-button type="text" @click="removeFlow(row)">
+                                            删除</el-button>
+                                        <el-button type="text" @click="settingFlow(row)">设置</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
                             <pagination v-show="flowDefinitions.total > 0" scrollToElementClassName=".flow-table" :total="flowDefinitions.total" :pageSize="flowDefinitions.pageSize" :currentPage="flowDefinitions.pageNum" @pagination="pageLoader">
                             </pagination>
                         </div>
+
                     </crcc-card>
                 </el-col>
             </el-row>
         </template>
-        <import-flow ref="importFlow" :exclusionId="currentTreeData.code" @selected-flow="selectedFlow"></import-flow>
+        <import-flow ref="importFlow" :exclusionId="currentTreeData.id" @selected-flow="selectedFlow"></import-flow>
+        <processSetting ref="processSetting" :bpmnId='currentDetailRow.procDefId' v-model="participants" @close="loadFlowTypes">
+
+        </processSetting>
     </crcc-main>
 </template>
 
 <script>
 import crccCard from "@/components/crcc-main/crcc-card/index.vue";
 import importFlow from "./components/import-flow.vue";
+import processSetting from '../process-deal/process-setting.vue'
+
 import processPermissionsApi from "@/api/process-permissions-api";
 export default {
     components: {
         crccCard,
-        importFlow
+        importFlow,
+        processSetting
     },
     data() {
         return {
@@ -71,23 +99,41 @@ export default {
             searchForm: {
                 companyId: "",
                 keyword: "",
-                pageSize: 1,
-                pageNum: 20
+                pageSize: 20,
+                pageNum: 1
             },
+            //组织树加载
             loadTreeTime: 0,
-            currentTreeData: {},
+            //当前选中树
+            currentTreeData: {
+                  
+            },
+            //参与者
+            participants:{ 
+                    companyId: "",
+                    id: "",
+                    participants: [],
+                    processDefinitionId: "",
+                    processDefinitionKey: "",
+                    taskDefinitionKey: ""
+            },
+            
+            //流程详情当前行的数据
+            currentDetailRow: {},
+            //当前组织树默认展开节点
             defaultExpandedKeys: [],
             defaultProps: {
                 children: "children",
                 label: "name",
-                id: "code",
+                id: "id",
                 isLeaf: "isDetail"
             },
             lazy: true,
+            //实例列表
             flowDefinitions: {
                 list: [],
                 pageSize: 20,
-                pageNum: 0,
+                pageNum: 1,
                 total: 0
             }
         };
@@ -98,19 +144,25 @@ export default {
         openImportFlow() {
             this.$refs.importFlow.dialogVisible = true;
         },
+        loadFlowTypes() {
+
+        },
+
         pageLoader() {},
         //添加选中需要引入的流程
         selectedFlow(value) {
             let companyFlow = {
                 procKey: value.map(f => f.procKey).join(","),
-                companyId: this.currentTreeData.code
+                companyId: this.currentTreeData.id
             };
-            processPermissionsApi.saveCompanyFlow(companyFlow).then(() => {
-                this.info("关联成功");
-                this.getCompanyFlowPage(this.searchForm);
-                this.$refs.importFlow.close();
-
-            }).catch(err=>thie.error(err.message[0]));
+            processPermissionsApi
+                .saveCompanyFlow(companyFlow)
+                .then(() => {
+                    this.info("关联成功");
+                    this.getCompanyFlowPage(this.searchForm);
+                    this.$refs.importFlow.close();
+                })
+                .catch(err => thie.error(err.message[0]));
         },
         //删除列表
         removeFlow(row) {
@@ -121,7 +173,7 @@ export default {
                 })
                 .then(() => {
                     processPermissionsApi
-                        .removeFlow(row.companyFlowId)
+                        .removeFlow(row.linkCompanyFlowId)
                         .then(res => {
                             this.info("操作成功");
                             this.getCompanyFlowPage(this.searchForm);
@@ -131,6 +183,20 @@ export default {
                 .catch(() => {
                     return;
                 });
+        },
+
+        settingFlow(row) {
+            this.currentDetailRow = row;
+            this.participants={ 
+                    companyId: row.linkCompanyId,
+                    id: "",
+                    participants: [],
+                    processDefinitionId: row.procDefId,
+                    processDefinitionKey: row.procKey,
+                
+                    taskDefinitionKey: ""
+            },
+            this.$refs.processSetting.dialogVisible = true
         },
 
         //获取流程列表
@@ -188,11 +254,11 @@ export default {
                     let value = await this.getCompanyTree();
                     if (value) {
                         if (!Array.isArray(value)) {
-                            this.defaultExpandedKeys = [value.code];
+                            this.defaultExpandedKeys = [value.id];
                             this.currentTreeData = value;
                             resolve([value]);
                         } else {
-                            this.defaultExpandedKeys = [value[0].code];
+                            this.defaultExpandedKeys = [value[0].id];
                             this.currentTreeData = value[0];
                             resolve(value);
                         }
@@ -206,7 +272,8 @@ export default {
                         resolve(node.data.children);
                     } else {
                         if (node.key) {
-                            let value = await this.getCompanyListByParentId(node.key);
+                            let parame = encodeURI(node.key);
+                            let value = await this.getCompanyListByParentId(parame);
                             if (value) {
                                 if (!Array.isArray(value)) {
                                     resolve([value]);
@@ -228,9 +295,11 @@ export default {
                 if (JSON.stringify(val) == "{}") {
                     return;
                 } else {
-                    this.$refs.orgTree.setCurrentKey(val.code);
-                    this.searchForm.companyId = val.code;
-                    this.getCompanyFlowPage(this.searchForm);
+                    this.$refs.orgTree.setCurrentKey(val.id);
+                    this.searchForm.companyId = val.id;
+                    if (val.hasPermission) {
+                        this.getCompanyFlowPage(this.searchForm);
+                    }
                 }
             },
             deep: true,
@@ -244,7 +313,7 @@ export default {
 <style lang="scss" scoped>
 $borderColor: #dcdfe6;
 
-.el-row {
+::v-deep .el-row {
     height: 100%;
     min-width: 850px;
 
@@ -256,7 +325,14 @@ $borderColor: #dcdfe6;
         border-left: 1px solid $borderColor;
     }
 
-    ::v-deep .el-badge__content.is-fixed {
+    .el-tree .no-permission {
+        cursor: not-allowed;
+        width: 100%;
+        text-align: left;
+        color: #828080;
+    }
+
+    .el-badge__content.is-fixed {
         right: 22px;
     }
 }

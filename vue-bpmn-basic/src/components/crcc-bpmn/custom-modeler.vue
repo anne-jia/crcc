@@ -1,16 +1,12 @@
 <template>
   <div class="crcc-process-designer">
     <div class="crcc-process-palette-container">
-       <div class="crcc-control_header">
+      <div class="crcc-control_header">
         <slot>
           <!-- 插入自定义的按钮 -->
         </slot>
         <el-Button-group key="file-control">
-          <el-Button
-            type="primary"
-           
-            @click="$refs.refFile.click()"
-          >
+          <el-Button type="primary" @click="$refs.refFile.click()">
             <svg-icon icon-class="upload"></svg-icon> 导入文件
           </el-Button>
           <el-Button
@@ -19,9 +15,9 @@
             @click="downloadProcessAsBpmn()"
           >
             <svg-icon icon-class="download"></svg-icon>
-            导出BPMN</el-Button
-          >
-          <el-Button type="primary"  @click="publishProcess">
+            导出BPMN
+          </el-Button>
+          <el-Button type="primary" @click="publishProcess">
             <svg-icon icon-class="checked"></svg-icon>
             发布流程
           </el-Button>
@@ -48,7 +44,11 @@
         />
       </div>
       <div class="crcc-process-designer__container">
-        <div class="crcc-process-designer__canvas" ref="bpmn-canvas"></div>
+        <div
+          class="crcc-process-designer__canvas"
+          ref="bpmn-canvas"
+          id="canvas"
+        ></div>
       </div>
     </div>
     <div class="process-panel__container process-panel">
@@ -67,28 +67,39 @@ export default {
     value: String, // xml 字符串
     processId: String,
     processName: String,
+    flowType:String,
+    // copy ,update,create
+    status: {
+      type: String,
+      default: "create"
+    },
     prefix: {
       type: String,
       default: "camunda"
     },
-    saveType:{
-      type:String,
-      default:'xml',
+    saveType: {
+      type: String,
+      default: "xml"
     },
     events: {
       type: Array,
-      default: () => ["element.click"],
-    },
+      default: () => ["element.click"]
+    }
   },
-  components: {},
-  // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
-  // 生命周期 - 载入后, Vue 实例挂载到实际的 DOM 操作完成，一般在该过程进行 Ajax 交互
+  watch: {
+    'processInfo.resourceString': {
+      handler(newValue, oldValue) {
+        this.createNewDiagram(newValue);
+      },
+      deep:true,
+    }
+  },
   mounted() {
     // this.init();
+    this.processInfo.resourceString = this.value;
     this.initBpmnModeler();
     this.createNewDiagram(this.value);
-      this.$once("hook:beforeDestroy", () => {
+    this.$once("hook:beforeDestroy", () => {
       if (this.bpmnModeler) this.bpmnModeler.destroy();
       this.$emit("destroy", this.bpmnModeler);
       this.bpmnModeler = null;
@@ -102,40 +113,46 @@ export default {
       canvas: null,
       recoverable: false,
       revocable: false,
+      processInfo:{
+        resourceString: "",
+        resourceName:"",
+        name:"",
+        source:"vue-modeler"
+      }
     };
   },
   // 方法集合
   methods: {
     initBpmnModeler() {
       if (this.bpmnModeler) return;
+      this.canvas = this.$refs["bpmn-canvas"];
       this.bpmnModeler = new Modeler({
-        container: this.$refs["bpmn-canvas"],
+        container: this.canvas,
         propertiesPanel: {
-          parent: "#js-properties-panel",
-        },
+          parent: "#js-properties-panel"
+        }
       });
       this.$emit("init-finished", this.bpmnModeler);
       this.initModelListeners();
     },
-
     initModelListeners() {
       const EventBus = this.bpmnModeler.get("eventBus");
       const that = this;
       // 注册需要的监听事件, 将. 替换为 - , 避免解析异常
-      this.events.forEach((event) => {
+      this.events.forEach(event => {
         EventBus.on(event, function(eventObj) {
           let eventName = event.replace(/\./g, "-");
           let element = eventObj ? eventObj.element : null;
-            that.$emit(eventName, element, eventObj);
+          that.$emit(eventName, element, eventObj);
         });
       });
       // 监听图形改变返回xml
-      EventBus.on("commandStack.changed", async (event) => {
+      EventBus.on("commandStack.changed", async event => {
         try {
           this.recoverable = this.bpmnModeler.get("commandStack").canRedo();
           this.revocable = this.bpmnModeler.get("commandStack").canUndo();
           let { xml } = await this.bpmnModeler.saveXML({
-            format: true,
+            format: true
           });
           this.$emit("commandStack-changed", event);
           this.$emit("input", xml);
@@ -147,39 +164,51 @@ export default {
       // 监听视图缩放变化
       this.bpmnModeler.on("canvas.viewbox.changed", ({ viewbox }) => {
         this.$emit("canvas-viewbox-changed", {
-          viewbox,
+          viewbox
         });
         const { scale } = viewbox;
         this.defaultZoom = Math.floor(scale * 100) / 100;
-      });   
-
+      });
     },
-
     /* 创建新的流程图 */
     async createNewDiagram(xml) {
       // 将字符串转换成图显示出来
       let newId = this.processId || `Process_${new Date().getTime()}`;
       let newName = this.processName || `业务流程_${new Date().getTime()}`;
       let xmlString = xml || DefaultEmptyXML(newId, newName, this.prefix);
+      if (!this.bpmnModeler) {
+        return;
+      }
       try {
         let { warnings } = await this.bpmnModeler.importXML(xmlString);
-        if (warnings && warnings.length) {
-          warnings.forEach((warn) => console.warn(warn));
+        if (this.status == "copy" && this.bpmnModeler._definitions) {
+          this.bpmnModeler._definitions.rootElements[0].id = newId;
+          this.bpmnModeler._definitions.rootElements[0].name = newName;
+          try {
+            const { err, xml } = await this.bpmnModeler.saveXML();
+            this.processInfo.resourceString = xml;
+           
+          } catch (e) {
+            console.error(`${e.message || e}`);
+          }
         }
+        if (warnings && warnings.length) {
+          warnings.forEach(warn => console.warn(warn));
+        }
+        this.bpmnModeler.get("canvas").zoom("fit-viewport");
       } catch (e) {
         console.error(`${e.message || e}`);
       }
     },
-    publishProcess(){
+    publishProcess() {
       this.SaveProcess(this.saveType);
     },
-
     // 下载为bpmn格式,done是个函数，调用的时候传入的
     saveDiagram(done) {
       // 把传入的done再传给bpmn原型的saveXML函数调用
       this.bpmnModeler.saveXML(
         {
-          format: true,
+          format: true
         },
         function(err, xml) {
           done(err, xml);
@@ -194,10 +223,9 @@ export default {
         href: `data:application/${
           type === "svg" ? "text/xml" : "bpmn20-xml"
         };charset=UTF-8,${encodedData}`,
-        data: data,
+        data: data
       };
     },
-
     importLocalFile() {
       const that = this;
       const file = this.$refs.refFile.files[0];
@@ -211,7 +239,7 @@ export default {
     downloadProcessAsBpmn() {
       this.downloadProcess("bpmn");
     },
-        // 下载流程图到本地
+    // 保存流程图
     async SaveProcess(type) {
       try {
         const _this = this;
@@ -220,16 +248,30 @@ export default {
           const { err, xml } = await this.bpmnModeler.saveXML();
           // 读取异常时抛出异常
           if (err) {
-           return console.error(`${err.message || err}`);
+            return console.error(`${err.message || err}`);
           }
-         _this.$emit('publish-process',xml);
+           let submitValue={
+              resourceString: xml,
+              resourceName: this.bpmnModeler._definitions.rootElements[0].id+ ".bpmn",
+              name:this.bpmnModeler._definitions.rootElements[0].name,
+              flowType:this.flowType,
+              source:this.processInfo.source
+            }
+          _this.$emit("publish-process", submitValue);
         } else {
           const { err, svg } = await this.bpmnModeler.saveSVG();
           // 读取异常时抛出异常
           if (err) {
             return console.error(err);
           }
-         _this.$emit('publish-process',svg);
+           let submitValue={
+              resourceString: xml,
+              flowType:this.flowType,
+              resourceName: this.bpmnModeler._definitions.rootElements[0].id+ ".svg",
+              name:this.bpmnModeler._definitions.rootElements[0].name,
+              source:this.processInfo.source
+            }
+          _this.$emit("publish-process", submitValue);
         }
       } catch (e) {
         console.error(`${e.message || e}`);
@@ -284,14 +326,7 @@ export default {
     processReZoom() {
       this.defaultZoom = 1;
       this.bpmnModeler.get("canvas").zoom("fit-viewport");
-    },
-  },
-  // 计算属性
-  computed: {},
-
+    }
+  }
 };
 </script>
-
-<style scoped>
-
-</style>

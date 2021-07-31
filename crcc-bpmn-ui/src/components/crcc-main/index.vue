@@ -47,7 +47,7 @@ export default {
         }
     },
     computed: {
-            getClassName(){
+        getClassName(){
             if(this.scroll){
              return 'crcc-main scrollBar '+ this.className;
             }else{

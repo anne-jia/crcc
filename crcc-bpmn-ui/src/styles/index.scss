@@ -1,17 +1,13 @@
 @import "./variables.scss";
 @import "./mixin.scss";
 @import "./transition.scss";
-@import "./elementUI";
+@import "./element-ui.scss";
 @import "./sidebar.scss";
-
 @import "./scroll-style.scss";
-@import "./dialog.scss";
-
-@import "./crcc-bpmn/process-designer.scss";
-@import "./crcc-bpmn/process-panel.scss";
-@import "./crcc-bpmn/process-palette.scss";
+// @import "./crcc-bpmn/process-designer.scss";
+// @import "./crcc-bpmn/process-panel.scss";
+// @import "./crcc-bpmn/process-palette.scss";
 @import "./crcc-element/index.scss";
-
 
 body {
   height: 100%;
