@@ -1,0 +1,88 @@
+.el-header{
+  padding: 0px;
+}
+.el-header .header-btn-group, .other-btn-group {
+  border-bottom: 1px solid #e8e8ea;
+  padding-bottom: 4px;
+  .btn-group {
+    float: left;
+    padding: 4px 4px 0px 30px;
+    white-space: nowrap;
+    background: #ffffff;
+    .el-button {
+      border: none;
+      margin: 0 8px;
+   
+      &:first-of-type {
+        margin-left: 0;
+        padding-left: 0px;
+      }
+    }
+    .el-button--mini {
+      padding: 2px 4px;
+      line-height: 26px;
+    }
+    .el-button--text{
+      color: #004098;
+      &:hover{
+        color: #46a6ff
+     }
+    }
+    .el-button.is-disabled.el-button--text, .el-button.is-disabled:hover, .el-button.is-disabled:focus {
+      background-color: transparent;
+        color: #C0C4CC
+      }
+  }
+  .btn-group-second {
+    padding-left: 0;
+  }
+
+}
+.el-header {
+.query-form {
+    border-bottom: 1px solid #e8e8ea;
+    padding-bottom: 4px;
+    /* @include scrollBar;
+    &::-webkit-scrollbar {
+      height:4px  !important;
+    }
+    width: 100%;
+    overflow: scroll; */
+    .el-form {
+      padding: 4px 4px 0px 24px;
+      float: left;
+      white-space: nowrap;
+    }
+  }
+
+  .unti-serach{
+    padding:4px 0 0 34px;
+    /* height: 39px; */
+    line-height: 30px;
+    box-sizing: border-box;
+    
+    .el-form-item--mini.el-form-item {
+        margin-bottom: 0px;
+    }
+ 
+ }
+ .submit-btn{
+  background: rgba(229, 242, 255, 0.7);
+  margin-left: 8px;
+ }
+
+}
+.until,.code-dialog{
+   ::v-deep .el-input__suffix{
+      top:0;
+    }
+
+} 
+
+  .until{
+    // background: turquoise;
+  }
+  .el-divider--horizontal{
+    margin:0px;
+    background-color: #e8e8ea;
+  }

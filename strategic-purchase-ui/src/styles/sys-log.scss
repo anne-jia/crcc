@@ -1,0 +1,76 @@
+@import "~@/styles/mixin.scss";
+.log-box{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.el-form.log {
+   padding: 8px 14px 0;
+    .el-form-item { 
+        margin-right: 12px;
+
+        .el-button+.el-button {
+            margin-left: 12px;
+        }
+
+    }
+
+    .el-form-item--mini.el-form-item {
+        margin-bottom: 8px;
+    }
+}
+.el-row.log-table {
+    /* 205 39*/
+   padding: 14px 14px 0;
+   border-top: 1px solid #eaeaea;
+   flex: 1;
+   overflow: scroll;
+   @include scrollBar;
+   .el-table{
+    ::v-deep .el-table__expand-column.hidden-expend{
+    .cell .el-table__expand-icon{
+            display: none;
+        }
+    }
+    // ::v-deep .bizTypeOpDesc {
+    //     width: 99%;
+    //     overflow: hidden;
+    //     text-overflow: ellipsis;
+        
+    // }
+.demo-table-expand {
+    font-size: 0;
+  }
+   ::v-deep .demo-table-expand
+    {
+        border:none;
+    .el-form-item__label {
+        width: 128px;
+        color: #99a9bf;
+    }
+    .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+  } 
+}
+
+}
+
+
+@media screen and (max-width:936px) {
+    .el-form.log {
+        .form-select,.form-name{
+            width: 244px;
+        }
+    }
+   
+}
+@media screen and (max-width:904px)and (max-width:936px) {
+    
+        .el-form.log {
+        width:364px
+     }
+}
