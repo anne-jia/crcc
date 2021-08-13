@@ -1,0 +1,259 @@
+.el-icon-remove {
+  color: #ff4949;
+}
+
+
+
+.el-upload input[type=file] {
+  display: none !important;
+}
+
+.el-upload__input {
+  display: none;
+}
+
+.cell .el-tag {
+  margin-right: 0px;
+}
+
+.small-padding .cell {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.fixed-width .el-button--mini {
+  padding: 7px 10px;
+  min-width: 60px;
+}
+
+.status-col .cell {
+  padding: 0 10px;
+  text-align: center;
+}
+.status-col .cell .el-tag {
+  margin-right: 0px;
+}
+
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+}
+
+.upload-container .el-upload {
+  width: 100%;
+}
+.upload-container .el-upload .el-upload-dragger {
+  width: 100%;
+  height: 200px;
+}
+
+.el-dropdown-menu a {
+  display: block;
+}
+
+.el-range-editor.el-input__inner {
+  display: inline-flex !important;
+}
+
+.el-range-separator {
+  box-sizing: content-box;
+}
+
+.el-form-item .el-form-item__content {
+  line-height: 27px;
+  vertical-align: middle;
+}
+.el-form-item .el-form-item__label {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+}
+.el-form-item .el-input {
+  font-size: 14px;
+  line-height: 31px;
+  height: 26px;
+}
+.el-form-item .el-range-input {
+  font-size: 13px !important;
+}
+.el-form-item .el-input__inner {
+  font-size: 13px;
+}
+.el-form-item .el-select .el-input__suffix {
+  top: 2px;
+}
+
+.el-scrollbar__wrap {
+  overflow-x: hidden !important;
+}
+
+.el-select-dropdown__item.selected {
+  color: #489be9;
+  font-weight: normal;
+}
+
+.el-select-dropdown .el-scrollbar__wrap {
+  overflow-x: scroll !important;
+}
+
+.el-input-number__decrease, .el-input-number__increase {
+  border: none;
+  background: #efeff1;
+}
+
+.el-input-number.is-disabled .el-input-number__increase,
+.el-input-number.is-disabled .el-input-number__decrease {
+  color: #717377;
+  font-weight: 900;
+  background: #efeff1;
+}
+
+.el-input .el-input__count {
+  height: 90%;
+  bottom: 1px;
+  position: relative;
+}
+
+.el-textarea .el-input__count {
+  bottom: 2px;
+}
+
+.el-input__suffix-inner .el-input__count .el-input__count-inner {
+  line-height: 19px;
+}
+
+.el-select-dropdown__empty {
+  padding: 10px 8px;
+}
+
+.unitFilter .el-select-dropdown__empty, .unitFilter .el-select-dropdown__item {
+  font-size: 12px;
+}
+
+.el-autocomplete-suggestion__wrap {
+  padding: 0px;
+  min-height: 48px;
+}
+
+.el-autocomplete-suggestion__list {
+  margin-bottom: 12px;
+}
+
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
+  content: "";
+  margin-right: 0px;
+}
+
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:after {
+  content: "*";
+  color: #ff4949;
+  margin-left: 2px;
+}
+
+.el-form-item--mini .el-form-item__error {
+  padding-top: 5px;
+}
+
+.el-input.is-disabled .el-input__inner, .el-textarea.is-disabled .el-textarea__inner {
+  color: #858585;
+}
+
+.el-textarea__inner {
+  font-size: 13px;
+}
+
+.el-aside, .el-main {
+  padding: 0;
+  background: #ffffff;
+  font-size: 14px;
+}
+
+.el-aside {
+  height: calc(100vh - 105px);
+}
+
+.el-main {
+  height: calc(100vh - 105px);
+}
+
+.el-header {
+  background: #fff;
+}
+
+.el-link.el-link--primary {
+  color: #004098;
+}
+
+.el-message-box .el-message-box__btns .el-button {
+  min-width: 38px;
+}
+.el-message-box .el-message-box__btns .el-button--primary {
+  background-color: #4486e0;
+  border-color: #4486e0;
+}
+
+.el-link.el-link--default {
+  color: #004098;
+}
+.el-link.el-link--default:hover {
+  color: #2073e9;
+}
+
+.el-link.el-link--default.is-disabled:hover {
+  color: #C0C4CC;
+}
+
+.el-tooltip__popper.is-dark {
+  background: #fff9c9;
+  color: #000;
+}
+
+.el-tooltip__popper[x-placement^=top] .popper__arrow, .el-tooltip__popper[x-placement^=top] .popper__arrow::after,
+.el-popper[x-placement^=top] .popper__arrow::after, .el-tooltip__popper[x-placement^=top] .popper__arrow {
+  border-top-color: #fff9c9;
+}
+
+.el-tooltip__popper[x-placement^=left] .popper__arrow, .el-tooltip__popper[x-placement^=left] .popper__arrow::after {
+  border-left-color: #fff9c9;
+}
+
+.el-popper[x-placement^=right] .popper__arrow::after, .el-tooltip__popper[x-placement^=right] .popper__arrow {
+  border-right-color: #fff9c9;
+}
+
+.el-divider--horizontal {
+  margin: 12px 0;
+}
+
+.check-popver {
+  padding: 4px;
+  background: #fff9c9;
+}
+
+.check-popver[x-placement^=top] .popper__arrow, .check-popver[x-placement^=top] .popper__arrow::after {
+  border-top-color: #fff9c9;
+}
+
+.popover-word {
+  overflow-wrap: break-word;
+  width: 140px;
+}
+
+.tag-wrapper {
+  width: 168px;
+}
+.tag-wrapper .el-tag {
+  margin-bottom: 4px;
+  margin-right: 4px;
+}
+
+.file-name {
+  width: 100%;
+  justify-content: start;
+}
+.file-name .el-link--inner {
+  flex: 1;
+  word-break: normal;
+}
