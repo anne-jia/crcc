@@ -1,0 +1,458 @@
+// 【文件不再使用】迁移到了./elementUI/element-ui-table中
+
+// @import "~@/styles/mixin.scss";
+
+// .el-table {
+//   .el-table__header tr th {
+//     background: #F5F6F8;
+//     font-size: 14px;
+//     font-weight: 500;
+//     color: #606266;
+//     line-height: 20px;
+//   }
+
+//   .el-table__empty-block {
+//     border-right: 1px solid #DCDFE6;
+//   }
+// // Table表中按钮的名称
+
+//   .el-table__row {
+//     background: #FFFFFF;
+
+//     .cell {
+//       height: 16px;
+//       line-height: 16px;
+//       white-space: nowrap;
+//       font-size: 13px;
+//       .btn-active {
+//         height: 20px;   
+//         line-height: 9px;
+//         padding: 0px 8px;
+//         background-color:#e2edff;
+//         border-radius: 4px;
+//         border: 1px solid #94b7e9;
+//         color: #004098;
+//     }
+//   }
+
+// }
+
+// .el-table__body .check-group {
+//   padding:0px;
+//   height: 28px;
+// }
+
+// .el-table__body .check-group > .cell{
+//   padding: 0px !important;
+//   display: flex;
+//   line-height: 28px;
+//   height: 28px;
+//   justify-content: flex-start;
+
+// }
+// .el-table__body-wrapper{
+//   &.is-scrolling-right,&.is-scrolling-middle,&.is-scrolling-left{
+//    overflow-x: scroll;
+//    @include scrollBar;
+//   }
+// }
+// // table中带状态的样式
+// .el-table__body .states-group  {
+//   padding: 0px ;
+//   height: 28px;
+//  .cell{
+//   line-height: 28px;
+//   height: 28px;
+//   display: flex;
+//    justify-content: center;
+//    align-items: center;
+//    .el-tag{
+//     height: 22px;
+//     line-height: 21px;
+//     padding: 0 2px;
+//     border:none;
+//    }
+//    .el-icon-remove{
+//     color:#ff4949;
+//    }
+//    .el-icon-success{
+//     color:#67C23A;
+//    }
+//  }
+// }
+// .el-table__body .link-sigle {
+//   padding: 0px ;
+//   height: 28px;
+//   .cell{
+//     line-height: 28px;
+//     height: 28px;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     .el-link{
+//       display: inline-block;
+//       width: 100%;
+//       overflow: hidden;
+//       text-overflow: ellipsis;
+//     }
+//   }
+// }
+// .el-table__body .tag-group {
+//   padding: 0px ;
+//   height: 28px;
+//  .cell{
+//   line-height: 28px;
+//   height: 28px;
+//   display: flex;
+//   justify-content: left;
+//   align-items: center;
+//    padding:0;
+//    .el-tag{
+//     height: 22px;
+//     line-height: 21px;
+//     padding: 0 2px;
+//     margin-left: 4px;
+//     background: rgba(239, 243, 250, 0.8);
+//     border-color: rgba(202, 214, 234, 0.8);
+//     color: #004098
+//    }
+
+//  }
+// }
+// .el-table__body .tag-sigle {
+//   padding: 0px ;
+//   height: 28px;
+//  .cell{
+//    line-height: 28px;
+//    height: 28px;
+//    padding:0 4px;
+//    .el-tag{
+//     height: 22px;
+//     line-height: 22px;
+//     padding: 0 4px;
+//     border: none;
+//    }
+//    .number-tag{
+//      padding:0 8px;
+//     color:#004098;
+//     border-radius: 11px;
+//    }
+//    .el-tag.el-tag--success {
+//     color: #004098;
+//     background: rgb(239, 243, 250);
+
+//    }
+//    .el-tag.el-tag--warning{
+//     color: #e4af18;
+//    }
+//    .el-tag.el-tag--danger{
+//     color: #ff4949;
+
+//    }
+
+//  }
+// }
+// .el-table__body .tag-sigle-width{
+//   .el-tag{
+//     min-width: 56px;
+//   }
+// }
+
+// .el-table__row--striped .tag-sigle .number-tag,.single-row .tag-sigle .number-tag{
+//   background: #deecfb;
+// }
+
+
+// // table中使用button的样式
+//   .el-table__body .table-btn-group {
+//     padding: 0px ;
+//     height: 28px;
+//     .cell{
+//       // height: 100%;
+//       padding:0px 4px;
+//       line-height: 28px;
+//       height: 28px;
+//       display: flex;
+//       justify-content:flex-start;
+//       align-items: center;
+//       .el-button{
+//         height: 26px;
+//         padding: 0px 4px;
+//         // border:none;
+//         color: #004098;
+//         border: 1px solid rgba(218, 218, 218, 0.8);
+//         &:hover{
+//           color: #46a6ff
+//        }
+//       }
+//       .el-button.is-disabled{
+//         color:#C0C4CC
+//       }
+//     }
+//   }
+
+//   .el-table__body .input-group{
+//     padding: 0px ;
+//     border: none;
+//     .cell{
+//       // height: 100%;
+//       padding: 0px;
+//       line-height: 29px;
+//       height: 29px;
+//       .el-input__inner{
+//         // border: none;
+//         height: 28px;
+//         line-height: 28px;
+//       }
+//       .el-input.is-disabled .el-input__inner{
+//         border: none;
+//         border-right: 1px solid #DCDFE6;
+//         border-bottom: 1px solid #DCDFE6;
+//         background-color: transparent;
+//         color:#606266;
+//       }
+//       .el-input__inner{
+//         border-radius: 0px;
+//       }
+//       .el-input__suffix{
+//         right: 1px;
+//       }
+//     }
+  
+// }
+// .el-table__header-wrapper .must-fill{
+//   color :#ff4949
+// }
+
+//   // 带有expend
+//   .table-opaction{
+//     border-right-color:transparent;
+   
+//   }
+
+// .el-checkbox {
+//   width: 14px;
+//   height: 14px;
+//   margin-left: 9px;
+
+// }
+// .checkboxs{
+//   .el-checkbox {
+//     width: 12px;
+//     margin-left: 0px;
+  
+//   }
+// }
+
+// .el-checkbox__inner {
+//   background: #FFFFFF;
+//   border-radius: 1px;
+//   border: 1px solid #DCDFE6;
+// }
+
+// }
+// .el-table th.gutter{
+//   display: table-cell!important;
+// }
+
+// .el-table--scrollable-y 
+// {
+//   .el-table__header{
+//     width: 101.2% !important;
+//   }
+//   .el-table__body{
+//     width: 100% !important;
+//   }
+//     .el-table__body-wrapper{
+//     @include scrollBar;
+//     &::-webkit-scrollbar {
+//       width: 10px;
+//     }
+//     &::-webkit-scrollbar-track-piece{
+//       width: 10px;
+//     }
+//   }
+// }
+// .hideside .el-table--scrollable-y {
+//   .el-table__header{
+//     width: 100.77% !important;
+//   }
+// }
+//  .is-fullscreen .el-table--scrollable-y 
+// {
+//   .el-table__header{
+//     width: 100.52% !important;
+//   }
+// }
+// .is-fullscreen .hideside .el-table--scrollable-y {
+//   .el-table__header{
+//     width: 100.4% !important;
+//   }
+// }
+// .el-table .single-row {
+
+//   background: rgba(221, 227, 230, 0.4);
+// }
+// .el-table .even-row{
+//   background: #FFFFFF;
+// }
+
+// .el-table__body tr.current-row > td {
+//   background-color: #e8f4ff !important;
+// }
+// .el-table .el-table-column {
+//   height: 32px;
+//   line-height: 32px;
+
+// }
+
+// /* 分页的样式 */
+
+// .el-pagination {
+//   padding: 12px 0px;
+//   float: right;
+//   height: 54px;
+//   line-height: 54px;
+//   span:not([class*=suffix]){
+//     display: inline-block;
+//     font-size: 14px;
+//     font-style: normal;
+//     font-weight: 400;
+//     text-align: center;
+//     min-width: 24px;
+//     height: 24px;
+//     line-height: 24px;
+//     border-radius: 3px;
+//     box-sizing: border-box;
+//     }
+//     .current-page-number{
+//       background: #b6b9c1;
+//       color:#FFFFFF;
+
+//     }
+//     .el-pager{
+//       li{
+//         height: 24px;
+//         line-height: 24px;
+//         padding:0;
+//         font-weight:normal;
+//       }
+     
+//     }
+
+//     button{
+//       height: 24px;
+//       line-height: 24px;
+//     }
+
+
+//   .el-pagination__total {
+//     height: 24px;
+//     margin-right: 8px;
+//   }
+
+//   .el-pagination__sizes {
+//     // height: 28px !important;
+//     // line-height: 28px !important;
+//     .el-input .el-input__inner {
+//       font-size: 14px;
+//       height: 24px;
+//       line-height: 24px;
+//     }
+//     .el-input__suffix{
+//       height: 102%;
+//     }
+//   }
+//   .el-pagination__jump{
+//     height: 24px;
+//     line-height: 24px;
+//     .el-input .el-input__inner {
+//       font-size: 14px;
+//       height: 24px;
+//       line-height: 24px;
+//     }
+//  }
+ 
+// }
+// .el-pagination.is-background .btn-prev,.el-pagination.is-background .btn-next, .el-pagination.is-background .el-pager li {
+//   min-height: 24px;
+//   min-width: 24px;
+//   line-height: 24px;
+//   background: #eff1f1;
+//   text-align: center;
+//   font-size: 14px;
+//   margin:0 4px;
+
+// }
+// .el-pagination.is-background .el-pager li:not(.disabled).active {
+//   background-color: #62b4ff;
+//   color: #FFFFFF;
+// }
+
+
+// // 
+
+
+// .table-popper.el-popper[x-placement^=top]{
+//   margin-bottom: 2px;
+// }
+
+// .el-table--striped .el-table__body tr.el-table__row--striped td{
+//   background: rgba(221, 227, 230, 0.4);
+
+// }
+
+// .el-table.popover-table
+// {
+//   background: #fff6b1;
+//   .el-table__column-resize-proxy{
+//     border-left: none;
+//   }
+//   &::before{
+//     height: 0px;
+//   }
+
+// }
+// .popover-item .more{
+//   padding-left: 0px;
+//   font-size: 12px;
+//   height: 14px;
+//   line-height: 14px;
+//   .el-link {
+//        transform:scale(0.83)
+//     }
+// }
+// .el-table.popover-table tr,.el-table.popover-table .el-table__header tr th{
+//   background: #fff6b1;
+//   font-size: 13px;
+//   height: 13px;
+//   line-height: 13px;
+// }
+// .el-table.popover-table .el-table__header tr th{
+//   font-weight: 600;
+// }
+
+// .el-table.popover-table  th.is-leaf, .el-table.popover-table  td{
+//     border:none;
+// }
+// .el-table.popover-table th > .cell{
+//   padding:0 1px;
+//   background: #fff6b1;
+
+// }
+// .el-table.popover-table .cell{
+//   font-size: 12px;
+//   height: 12px;
+//   line-height: 12px;
+//   padding:0 1px;
+// }
+// .popover-item{
+//      background: rgb(255,249,201);
+//      padding: 4px;
+//      border-color: #b8d3e8;
+// }
+// .el-popper.popover-item[x-placement^=bottom] .popper__arrow::after{
+//   border-bottom-color:rgb(255,249,201);
+// }
+// .popover-table.el-table--enable-row-hover .el-table__body tr:hover > td {
+//   background-color: #fff6b1;
+// }

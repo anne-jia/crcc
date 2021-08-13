@@ -1,0 +1,46 @@
+.el-tree > .el-tree-node > .el-tree-node__content {
+  padding-right: 12px;
+  color: #004098;
+  font-size: 14px;
+  font-weight: 600;
+  height: 35px;
+  line-height: 35px;
+  background: rgba(239, 243, 250, 0.8);
+  text-align: center;
+  position: relative;
+}
+.PMainLeft,.mat-aside-content{
+background: #ffffff;
+.el-tree > .el-tree-node > .el-tree-node__content {
+  background: #fff;
+  color:#606266;
+  padding-right: 12px;
+  font-size: 14px;
+  -moz-font-weight: 400; 
+  font-weight: 400;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  position: relative;
+  .svg-icon {
+    display: none;
+  }
+}
+.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
+  background-color: #edf6ff;
+}
+}
+
+.el-tree {
+  font-size: 14px;
+  font-weight: 400;
+  display: inline-block;
+  width: 100%;
+}
+.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
+background-color: #edf6ff;
+}
+.custom-tree-node{
+overflow: hidden;
+text-overflow: ellipsis;
+}

@@ -1,0 +1,306 @@
+// el-button style Start
+@import url("./elementUI/element-ui-button.scss");
+// el-button style End
+// el-popover style Start
+@import url("./elementUI/elemenu-ui-popover.scss");
+// el-popover style End
+// el-table style Start
+@import url("./elementUI/element-ui-table.scss");
+// el-table style End
+// el-upload style Start
+@import url("./elementUI/element-ui-upload.scss");
+// el-upload style End
+// el-tabs style Start
+@import url("./elementUI/element-ui-tabs.scss");
+// el-tabs style End
+// el-dialog style Start
+@import url("./elementUI/element-ui-dialog.scss");
+// el-dialog style End
+// el-tree style Start
+@import url("./elementUI/element-ui-tree.scss");
+// el-tree style End
+// cover some element-ui styles
+.el-icon-remove {
+  color: #ff4949;
+}
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a {
+  font-weight: 400 !important;
+}
+
+.el-upload {
+  input[type="file"] {
+    display: none !important;
+  }
+}
+
+.el-upload__input {
+  display: none;
+}
+
+.cell {
+  .el-tag {
+    margin-right: 0px;
+  }
+}
+
+.small-padding {
+  .cell {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+// .fixed-width {
+//   .el-button--mini {
+//     padding: 7px 10px;
+//     min-width: 60px;
+//   }
+// }
+
+.status-col {
+  .cell {
+    padding: 0 10px;
+    text-align: center;
+
+    .el-tag {
+      margin-right: 0px;
+    }
+  }
+}
+
+// to fixed https://github.com/ElemeFE/element/issues/2461
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+}
+
+// refine element ui upload
+.upload-container {
+  .el-upload {
+    width: 100%;
+
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+// dropdown
+.el-dropdown-menu {
+  a {
+    display: block;
+  }
+}
+
+// fix date-picker ui bug in filter-item
+.el-range-editor.el-input__inner {
+  display: inline-flex !important;
+}
+
+// to fix el-date-picker css style
+.el-range-separator {
+  box-sizing: content-box;
+}
+
+// form 表单的样式更改
+.el-form-item {
+  .el-form-item__content {
+    line-height: 27px;
+    vertical-align: middle;
+  }
+  .el-form-item__label {
+    // margin-top: 2px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+  .el-input {
+    font-size: 14px;
+    // line-height: 31px;
+    // height: 26px;
+  }
+  .el-range-input {
+    font-size: 13px !important;
+  }
+  .el-input__inner {
+    font-size: 13px;
+  }
+  .el-select {
+    .el-input__suffix {
+      top: 2px;
+    }
+  }
+}
+.el-scrollbar__wrap {
+  overflow-x: hidden !important;
+}
+.el-select-dropdown__item.selected {
+  color: #489be9;
+  font-weight: normal;
+}
+.el-select-dropdown {
+  .el-scrollbar__wrap {
+    overflow-x: scroll !important;
+  }
+}
+
+.el-input-number__decrease,
+.el-input-number__increase {
+  border: none;
+  background: #efeff1;
+}
+.el-input-number.is-disabled .el-input-number__increase,
+.el-input-number.is-disabled .el-input-number__decrease {
+  color: #717377;
+  font-weight: 900;
+  background: #efeff1;
+}
+.el-input .el-input__count {
+  height: 90%;
+  bottom: 1px;
+  position: relative;
+}
+.el-textarea .el-input__count {
+  bottom: 2px;
+}
+.el-input__suffix-inner .el-input__count .el-input__count-inner {
+  line-height: 19px;
+  // bottom: 2px;
+  // position: relative;
+}
+.el-select-dropdown__empty {
+  padding: 10px 8px;
+}
+.unitFilter .el-select-dropdown__empty,
+.unitFilter .el-select-dropdown__item {
+  font-size: 12px;
+}
+
+.el-autocomplete-suggestion__wrap {
+  padding: 0px;
+  min-height: 48px;
+}
+.el-autocomplete-suggestion__list {
+  margin-bottom: 12px;
+}
+
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
+  content: "";
+  margin-right: 0px;
+}
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:after {
+  content: "*";
+  color: #ff4949;
+  margin-left: 2px;
+}
+.el-form-item--mini .el-form-item__error {
+  padding-top: 5px;
+}
+.el-input.is-disabled .el-input__inner,
+.el-textarea.is-disabled .el-textarea__inner {
+  color: #858585;
+}
+.el-textarea__inner {
+  font-size: 13px;
+}
+
+// 左侧菜单 ,右侧内容
+.el-aside,
+.el-main {
+  padding: 0;
+  background: #ffffff;
+  font-size: 14px;
+}
+.el-aside {
+  height: calc(100vh - 105px);
+}
+
+.el-main {
+  height: calc(100vh - 105px);
+}
+.el-header {
+  background: #fff;
+}
+
+// .el-link.el-link--primary {
+//   color: #004098;
+// }
+
+// .el-message-box {
+//   .el-message-box__btns {
+//     .el-button {
+//       min-width: 38px;
+//     }
+//     .el-button--primary {
+//       background-color: #4486e0;
+//       border-color: #4486e0;
+//     }
+//   }
+// }
+// .el-link.el-link--default {
+//   color: #004098;
+//   &:hover {
+//     color: #2073e9;
+//   }
+// }
+.el-link.el-link--default.is-disabled {
+  &:hover {
+    color: #c0c4cc;
+  }
+}
+$popperBackgrond: rgb(255, 249, 201);
+// .el-tooltip__popper.is-dark {
+//   background: $popperBackgrond;
+//   color: #000;
+// }
+.el-tooltip__popper[x-placement^="top"] .popper__arrow,
+.el-tooltip__popper[x-placement^="top"] .popper__arrow::after,
+.el-popper[x-placement^="top"] .popper__arrow::after,
+.el-tooltip__popper[x-placement^="top"] .popper__arrow {
+  border-top-color: $popperBackgrond;
+}
+.el-tooltip__popper[x-placement^="left"] .popper__arrow,
+.el-tooltip__popper[x-placement^="left"] .popper__arrow::after {
+  border-left-color: $popperBackgrond;
+}
+.el-popper[x-placement^="right"] .popper__arrow::after,
+.el-tooltip__popper[x-placement^="right"] .popper__arrow {
+  border-right-color: $popperBackgrond;
+}
+
+.el-divider--horizontal {
+  margin: 12px 0;
+}
+.check-popver {
+  padding: 4px;
+  background: $popperBackgrond;
+}
+.check-popver[x-placement^="top"] .popper__arrow,
+.check-popver[x-placement^="top"] .popper__arrow::after {
+  border-top-color: $popperBackgrond;
+}
+.popover-word {
+  overflow-wrap: break-word;
+  width: 140px;
+}
+.tag-wrapper {
+  width: 168px;
+  .el-tag {
+    margin-bottom: 4px;
+    margin-right: 4px;
+  }
+}
+
+.file-name {
+  width: 100%;
+  justify-content: start;
+
+  .el-link--inner {
+    flex: 1;
+    word-break: normal;
+  }
+}

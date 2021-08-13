@@ -1,0 +1,7 @@
+$popoverBgColor: #fef8c7;
+$popoverBorderColor: #ffde9f;
+
+.el-popover.table-tip-popover {
+  background-color: $popoverBgColor;
+  border: solid 1px $popoverBorderColor;
+}

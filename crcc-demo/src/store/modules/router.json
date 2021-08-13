@@ -1,0 +1,387 @@
+{
+  "list": [
+    {
+      "path": "/",
+      "component": "Layout",
+      "isHomePage": false,
+      "name": "invoice",
+      "redirect": "/home",
+      "meta": {
+        "title": "待办任务",
+        "icon": "mat-code-audit",
+        "affix": true
+      },
+      "children": [
+        {
+          "path": "/home",
+          "component": "home/index",
+          "name": "home",
+          "meta": {
+            "title": "我的待办",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/test",
+          "component": "test/index",
+          "name": "test",
+          "meta": {
+            "title": "我的消息",
+            "icon": "0",
+            "affix": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/menu02",
+      "component": "Layout",
+      "isHomePage": false,
+      "name": "invoice1",
+      "redirect": "/menu02/home",
+      "meta": {
+        "title": "采购计划",
+        "icon": "mat-code-audit",
+        "affix": true
+      },
+      "children": [
+        {
+          "path": "/menu02/home123",
+          "component": "home/index",
+          "name": "home1",
+          "meta": {
+            "title": "计划征集管理",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test456",
+          "component": "test/index",
+          "name": "InvoiceManage234",
+          "meta": {
+            "title": "计划上报汇总",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test789",
+          "component": "test/index",
+          "name": "InvoiceManage1",
+          "meta": {
+            "title": "计划上报汇总1",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test2",
+          "component": "test/index",
+          "name": "InvoiceManage2",
+          "meta": {
+            "title": "采购计划编制",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test3",
+          "component": "test/index",
+          "name": "InvoiceManage",
+          "meta": {
+            "title": "采购计划处理",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test4",
+          "component": "test/index",
+          "name": "InvoiceManage4",
+          "meta": {
+            "title": "采购计划跟踪",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test5",
+          "component": "test/index",
+          "name": "InvoiceManage5",
+          "meta": {
+            "title": "采购计划监控",
+            "icon": "0",
+            "affix": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/menu021",
+      "component": "Layout",
+      "isHomePage": false,
+      "name": "invoice11f",
+      "redirect": "/menu02/home",
+      "meta": {
+        "title": "采购立项",
+        "icon": "mat-code-audit",
+        "affix": true
+      },
+      "children": [
+        {
+          "path": "/menu02/home",
+          "component": "home/index",
+          "name": "home123",
+          "meta": {
+            "title": "计划征集管理",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test",
+          "component": "test/index11",
+          "name": "aaafdf",
+          "meta": {
+            "title": "采购策划确认",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test1",
+          "component": "test/index22",
+          "name": "InvoiceManage125345",
+          "meta": {
+            "title": "采购立项管理",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test23",
+          "component": "test/index",
+          "name": "InvoiceManage2fsadf",
+          "meta": {
+            "title": "采购项目监控",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test33",
+          "component": "test/index",
+          "name": "InvoiceManage34",
+          "meta": {
+            "title": "采购会务管理",
+            "icon": "0",
+            "affix": true
+          }
+        },
+        {
+          "path": "/menu02/test44",
+          "component": "test/index",
+          "name": "InvoiceManage4fasdf",
+          "meta": {
+            "title": "采购会议邀请",
+            "icon": "0",
+            "affix": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/base-setting",
+      "component": "Layout",
+      "redirect": "base-setting/index",
+      "isHomePage": false,
+      "meta": {
+        "title": "基础设置",
+        "icon": "mat-code-audit"
+      },
+      "children": [
+        {
+          "path": "/base-setting/setting",
+          "component": "base-setting/setting",
+          "name": "biddingSetting",
+          "meta": {
+            "title": "评标体系设置",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota",
+          "component": "base-setting/setting",
+          "name": "biddingQuota",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota1",
+          "component": "base-setting/setting",
+          "name": "biddingQuota1",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别1",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota2",
+          "component": "base-setting/setting",
+          "name": "biddingQuota2",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别2",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota3",
+          "component": "base-setting/setting",
+          "name": "biddingQuota3",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别3",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota4",
+          "component": "base-setting/setting",
+          "name": "biddingQuota4",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别4",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota5",
+          "component": "base-setting/setting",
+          "name": "biddingQuota5",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别5",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota6",
+          "component": "base-setting/setting",
+          "name": "biddingQuota6",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别6",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota7",
+          "component": "base-setting/setting",
+          "name": "biddingQuota7",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别7",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota8",
+          "component": "base-setting/setting",
+          "name": "biddingQuota8",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别8",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota9",
+          "component": "base-setting/setting",
+          "name": "biddingQuota9",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别9",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota10",
+          "component": "base-setting/setting",
+          "name": "biddingQuota10",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别10",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota11",
+          "component": "base-setting/setting",
+          "name": "biddingQuota11",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别11",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota12",
+          "component": "base-setting/setting",
+          "name": "biddingQuota12",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别12",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota13",
+          "component": "base-setting/setting",
+          "name": "biddingQuota13",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别13",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota14",
+          "component": "base-setting/setting",
+          "name": "biddingQuota14",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别14",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota15",
+          "component": "base-setting/setting",
+          "name": "biddingQuota15",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别15",
+            "icon": "0"
+          }
+        },
+        {
+          "path": "/base-setting/Quota16",
+          "component": "base-setting/setting",
+          "name": "biddingQuota16",
+          "hidden": false,
+          "meta": {
+            "title": "评标类别16",
+            "icon": "0"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+$tabsHeader: 36px;
+$tabsColor: #303133;
+$tabsBgColor: #f3f5f7;
+$tabsBorderColor: #2b8cfa;
+$tabsItemActiveColor: #fff;
+$tabsItemActiveBgColor: #2b8cfa;
+
+.el-tabs--card {
+  .el-tabs__nav-wrap {
+    background-color: $tabsBgColor;
+    border-bottom: 1px solid $tabsBorderColor;
+    height: $tabsHeader;
+    .el-tabs__item {
+      height: $tabsHeader;
+      line-height: $tabsHeader;
+      &:hover {
+        color: $tabsColor;
+      }
+    }
+    .el-tabs__item.is-active {
+      color: $tabsItemActiveColor;
+      background-color: $tabsItemActiveBgColor;
+    }
+  }
+  .el-tabs__header .el-tabs__item {
+    border-left: none;
+    transition: none;
+  }
+  .el-tabs__header .el-tabs__nav {
+    border: none;
+  }
+}
